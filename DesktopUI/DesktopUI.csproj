@@ -6,4 +6,50 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Images\arrowKeyDown.jpeg" />
+    <None Remove="Images\arrowKeyLeft.jpeg" />
+    <None Remove="Images\ArrowKeyRight.jpeg" />
+    <None Remove="Images\arrowKeyUp.jpeg" />
+    <None Remove="Images\ButtonDownDefault.png" />
+    <None Remove="Images\ButtonDownUsed.png" />
+    <None Remove="Images\ButtonLeftDefault.png" />
+    <None Remove="Images\ButtonLeftUsed.png" />
+    <None Remove="Images\ButtonRightDefault.png" />
+    <None Remove="Images\ButtonRightUsed.png" />
+    <None Remove="Images\ButtonUpDefault.png" />
+    <None Remove="Images\ButtonUpUsed.png" />
+    <None Remove="Images\carPlaceholder.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\ButtonDownDefault.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ButtonDownUsed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ButtonLeftDefault.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ButtonLeftUsed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ButtonRightDefault.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ButtonRightUsed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ButtonUpDefault.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ButtonUpUsed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\carPlaceholder.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>
