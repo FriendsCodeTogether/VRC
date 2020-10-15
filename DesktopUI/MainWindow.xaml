@@ -15,7 +15,7 @@
         <Image HorizontalAlignment="Left" Height="720" Margin="31,21,0,0" VerticalAlignment="Top" Width="1280" Source="Images/carPlaceholder.jpeg" />
       <Image x:Name="DownButtonImage" HorizontalAlignment="Left" Height="76" Margin="1134,640,0,0" VerticalAlignment="Top" Width="75" Source="{Binding DownButtonStringImage}"/>
       <Image x:Name="UpButtonImage" HorizontalAlignment="Left" Height="75" Margin="1134,495,0,0" VerticalAlignment="Top" Width="75" Source="{Binding UpButtonStringImage}"/>
-        <Image x:Name="LeftButtonImage" HorizontalAlignment="Left" Height="75" Margin="1066,563,0,0" VerticalAlignment="Top" Width="74" Source="Images/ButtonLeftDefault.png"/>
+      <Image x:Name="LeftButtonImage" HorizontalAlignment="Left" Height="75" Margin="1066,563,0,0" VerticalAlignment="Top" Width="74" Source="{Binding LeftButtonStringImage}"/>
         <Image x:Name="RightButtonImage" HorizontalAlignment="Left" Height="75" Margin="1212,563,0,0" VerticalAlignment="Top" Width="76" Source="Images/ButtonRightDefault.png"/>
 
     </Grid>

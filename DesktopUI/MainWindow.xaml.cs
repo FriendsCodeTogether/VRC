@@ -46,6 +46,13 @@ namespace DesktopUI
          set { upButtonStringImage = value; OnPropertyChanged(); }
       }
 
+      private string leftButtonStringImage;
+
+      public string LeftButtonStringImage
+      {
+         get { return leftButtonStringImage; }
+         set { leftButtonStringImage = value; OnPropertyChanged(); }
+      }
 
       protected void OnPropertyChanged([CallerMemberName] string name = null)
       {
@@ -53,60 +60,16 @@ namespace DesktopUI
       }
 
 
-
       public MainWindow()
         {
             InitializeComponent();
          DownButtonStringImage = "Images/ButtonDownDefault.png";
          UpButtonStringImage = "Images/ButtonUpDefault.png";
+         LeftButtonStringImage = "Images/ButtonLeftDefault.png";
          DataContext = this;
 
       }
 
-   
-
-      public void GetKeys()
-      {
-         
-         while (true)
-         {
-            if (Keyboard.IsKeyDown(Key.S))
-            {
-               DownButtonStringImage = "Images/ButtonDownUsed.png";
-               MessageBox.Show("pressed");
-            }
-            else
-            {
-               DownButtonStringImage = "Images/ButtonDownDefault.png";
-               MessageBox.Show("not pressed");
-            }
-            if (Keyboard.IsKeyDown(Key.Up))
-            {
-               // pink one
-            }
-            else
-            {
-               //white one
-            }
-            if (Keyboard.IsKeyDown(Key.Right))
-            {
-               // pink one
-            }
-            else
-            {
-               //white one
-            }
-            if (Keyboard.IsKeyDown(Key.Left))
-            {
-               // pink one
-            }
-            else
-            {
-               //white one
-            }
-            return;
-         }
-      }
 
       private void Window_KeyDown(object sender, KeyEventArgs e)
       {
@@ -120,6 +83,11 @@ namespace DesktopUI
             UpButtonStringImage = "Images/ButtonUpUsed.png";
             
          }
+         else if (e.Key == Key.Left)
+         {
+           LeftButtonStringImage = "Images/ButtonLeftUsed.png";
+
+         }
 
       }
 
@@ -132,6 +100,11 @@ namespace DesktopUI
          else if (e.Key == Key.Up)
          {
             UpButtonStringImage = "Images/ButtonUpDefault.png";
+
+         }
+         else if (e.Key == Key.Left)
+         {
+            LeftButtonStringImage = "Images/ButtonLeftDefault.png";
 
          }
       }
