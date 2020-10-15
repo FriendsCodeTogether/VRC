@@ -54,6 +54,15 @@ namespace DesktopUI
          set { leftButtonStringImage = value; OnPropertyChanged(); }
       }
 
+
+      private string rightButtonStringImage;
+
+      public string RightButtonStringImage
+      {
+         get { return rightButtonStringImage; }
+         set { rightButtonStringImage = value; OnPropertyChanged(); }
+      }
+
       protected void OnPropertyChanged([CallerMemberName] string name = null)
       {
          PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -66,6 +75,7 @@ namespace DesktopUI
          DownButtonStringImage = "Images/ButtonDownDefault.png";
          UpButtonStringImage = "Images/ButtonUpDefault.png";
          LeftButtonStringImage = "Images/ButtonLeftDefault.png";
+         RightButtonStringImage = "Images/ButtonRightDefault.png";
          DataContext = this;
 
       }
@@ -88,6 +98,11 @@ namespace DesktopUI
            LeftButtonStringImage = "Images/ButtonLeftUsed.png";
 
          }
+         else if (e.Key == Key.Right)
+         {
+            RightButtonStringImage = "Images/ButtonRightUsed.png";
+
+         }
 
       }
 
@@ -105,6 +120,11 @@ namespace DesktopUI
          else if (e.Key == Key.Left)
          {
             LeftButtonStringImage = "Images/ButtonLeftDefault.png";
+
+         }
+         else if (e.Key == Key.Right)
+         {
+            RightButtonStringImage = "Images/ButtonRightDefault.png";
 
          }
       }
