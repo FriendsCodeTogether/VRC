@@ -23,30 +23,29 @@ namespace DesktopUI
     /// </summary>
     public partial class MainWindow : Window,INotifyPropertyChanged
     {
-      
+      public event PropertyChangedEventHandler PropertyChanged;
+
+      protected void OnPropertyChanged([CallerMemberName] string name = null)
+      {
+         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+      }
 
       private string downButtonStringImage;
-
-      public event PropertyChangedEventHandler PropertyChanged;
+      private string upButtonStringImage;
+      private string leftButtonStringImage;
+      private string rightButtonStringImage;
 
       public string DownButtonStringImage
       {
          get { return downButtonStringImage; }
-         set {
-            downButtonStringImage = value;
-            OnPropertyChanged();
-
-         } 
+         set { downButtonStringImage = value; OnPropertyChanged(); } 
       }
-      private string upButtonStringImage;
-
+      
       public string UpButtonStringImage
       {
          get { return upButtonStringImage; }
          set { upButtonStringImage = value; OnPropertyChanged(); }
       }
-
-      private string leftButtonStringImage;
 
       public string LeftButtonStringImage
       {
@@ -54,56 +53,40 @@ namespace DesktopUI
          set { leftButtonStringImage = value; OnPropertyChanged(); }
       }
 
-
-      private string rightButtonStringImage;
-
       public string RightButtonStringImage
       {
          get { return rightButtonStringImage; }
          set { rightButtonStringImage = value; OnPropertyChanged(); }
       }
 
-      protected void OnPropertyChanged([CallerMemberName] string name = null)
-      {
-         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-      }
-
-
       public MainWindow()
-        {
+      {
             InitializeComponent();
-         DownButtonStringImage = "Images/ButtonDownDefault.png";
-         UpButtonStringImage = "Images/ButtonUpDefault.png";
-         LeftButtonStringImage = "Images/ButtonLeftDefault.png";
-         RightButtonStringImage = "Images/ButtonRightDefault.png";
-         DataContext = this;
-
+            DownButtonStringImage = "Images/ButtonDownDefault.png";
+            UpButtonStringImage = "Images/ButtonUpDefault.png";
+            LeftButtonStringImage = "Images/ButtonLeftDefault.png";
+            RightButtonStringImage = "Images/ButtonRightDefault.png";
+            DataContext = this;
       }
-
 
       private void Window_KeyDown(object sender, KeyEventArgs e)
       {
          if (e.Key == Key.Down) // The Arrow-Down key
          {
-            DownButtonStringImage = "Images/ButtonDownUsed.png";
-            
+            DownButtonStringImage = "Images/ButtonDownUsed.png"; 
          }
          else if (e.Key == Key.Up)
          {
-            UpButtonStringImage = "Images/ButtonUpUsed.png";
-            
+            UpButtonStringImage = "Images/ButtonUpUsed.png"; 
          }
          else if (e.Key == Key.Left)
          {
            LeftButtonStringImage = "Images/ButtonLeftUsed.png";
-
          }
          else if (e.Key == Key.Right)
          {
             RightButtonStringImage = "Images/ButtonRightUsed.png";
-
          }
-
       }
 
       private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -115,17 +98,14 @@ namespace DesktopUI
          else if (e.Key == Key.Up)
          {
             UpButtonStringImage = "Images/ButtonUpDefault.png";
-
          }
          else if (e.Key == Key.Left)
          {
             LeftButtonStringImage = "Images/ButtonLeftDefault.png";
-
          }
          else if (e.Key == Key.Right)
          {
             RightButtonStringImage = "Images/ButtonRightDefault.png";
-
          }
       }
    }
