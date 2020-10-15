@@ -36,10 +36,16 @@ namespace DesktopUI
             downButtonStringImage = value;
             OnPropertyChanged();
 
-         }
-
-         
+         } 
       }
+      private string upButtonStringImage;
+
+      public string UpButtonStringImage
+      {
+         get { return upButtonStringImage; }
+         set { upButtonStringImage = value; OnPropertyChanged(); }
+      }
+
 
       protected void OnPropertyChanged([CallerMemberName] string name = null)
       {
@@ -52,6 +58,7 @@ namespace DesktopUI
         {
             InitializeComponent();
          DownButtonStringImage = "Images/ButtonDownDefault.png";
+         UpButtonStringImage = "Images/ButtonUpDefault.png";
          DataContext = this;
 
       }
@@ -106,13 +113,13 @@ namespace DesktopUI
          if (e.Key == Key.Down) // The Arrow-Down key
          {
             DownButtonStringImage = "Images/ButtonDownUsed.png";
-            //MessageBox.Show(DownButtonStringImage);
+            
          }
-         //else if (e.Key==Key.Up)
-         //{
-         //   DownButtonStringImage = "Images/ButtonUpUsed.png";
-         //   MessageBox.Show("not pressed");
-         //}
+         else if (e.Key == Key.Up)
+         {
+            UpButtonStringImage = "Images/ButtonUpUsed.png";
+            
+         }
 
       }
 
@@ -121,6 +128,11 @@ namespace DesktopUI
          if (e.Key == Key.Down)
          {
             DownButtonStringImage = "Images/ButtonDownDefault.png";
+         }
+         else if (e.Key == Key.Up)
+         {
+            UpButtonStringImage = "Images/ButtonUpDefault.png";
+
          }
       }
    }
