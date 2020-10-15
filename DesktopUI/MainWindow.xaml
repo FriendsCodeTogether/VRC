@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="777" Width="1332">
+        Title="MainWindow" Height="777" Width="1332"
+        KeyDown="Window_KeyDown"
+        >
     <Grid Margin="0,0,0,14">
 
 
         <Image HorizontalAlignment="Left" Height="720" Margin="31,21,0,0" VerticalAlignment="Top" Width="1280" Source="Images/carPlaceholder.jpeg" />
-        <Image HorizontalAlignment="Left" Height="76" Margin="1134,640,0,0" VerticalAlignment="Top" Width="75" Source="Images/ButtonDownDefault.png"/>
-        <Image HorizontalAlignment="Left" Height="75" Margin="1134,495,0,0" VerticalAlignment="Top" Width="75" Source="Images/ButtonUpDefault.png"/>
-        <Image HorizontalAlignment="Left" Height="75" Margin="1066,563,0,0" VerticalAlignment="Top" Width="74" Source="Images/ButtonLeftDefault.png"/>
-        <Image HorizontalAlignment="Left" Height="75" Margin="1212,563,0,0" VerticalAlignment="Top" Width="76" Source="Images/ButtonRightDefault.png"/>
+      <Image x:Name="DownButtonImage" HorizontalAlignment="Left" Height="76" Margin="1134,640,0,0" VerticalAlignment="Top" Width="75" Source="{Binding DownButtonStringImage}"/>
+        <Image x:Name="UpButtonImage" HorizontalAlignment="Left" Height="75" Margin="1134,495,0,0" VerticalAlignment="Top" Width="75" Source="Images/ButtonUpDefault.png"/>
+        <Image x:Name="LeftButtonImage" HorizontalAlignment="Left" Height="75" Margin="1066,563,0,0" VerticalAlignment="Top" Width="74" Source="Images/ButtonLeftDefault.png"/>
+        <Image x:Name="RightButtonImage" HorizontalAlignment="Left" Height="75" Margin="1212,563,0,0" VerticalAlignment="Top" Width="76" Source="Images/ButtonRightDefault.png"/>
 
     </Grid>
 </Window>
