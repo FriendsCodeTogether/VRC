@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -67,6 +68,7 @@ namespace DesktopUI
             LeftButtonStringImage = "Images/ButtonLeftDefault.png";
             RightButtonStringImage = "Images/ButtonRightDefault.png";
             DataContext = this;
+
       }
 
       private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -107,6 +109,11 @@ namespace DesktopUI
          {
             RightButtonStringImage = "Images/ButtonRightDefault.png";
          }
+      }
+
+      private void mediaPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+      {
+         MessageBox.Show("media failed loading");
       }
    }
 }
