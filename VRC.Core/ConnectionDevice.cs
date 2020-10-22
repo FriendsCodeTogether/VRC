@@ -1,18 +1,17 @@
-﻿using InTheHand.Net.Bluetooth;
-using InTheHand.Net.Sockets;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
+using InTheHand.Net.Bluetooth;
+using InTheHand.Net.Sockets;
 
 namespace Bluetooth_to_car
 {
     public class ConnectionDevice
     {
-        BluetoothClient bluetooth;
-        NetworkStream bluetoothStream;
+        private BluetoothClient bluetooth;
+        private NetworkStream bluetoothStream;
 
         public string DeviceName { get; set; }
         public string DeviceConnectionAdress { get; set; }
