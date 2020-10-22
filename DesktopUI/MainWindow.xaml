@@ -5,14 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="777" Width="1332"
+        Background="gray"
+        Title="MainWindow" Height="1080" Width="1920"
         KeyDown="Window_KeyDown"
         KeyUp="Window_KeyUp">
-   <Grid Margin="0,0,0,14">
-      <Image HorizontalAlignment="Left" Height="720" Margin="31,21,0,0" VerticalAlignment="Top" Width="1280" Source="Images/carPlaceholder.jpeg" />
-      <Image x:Name="DownButtonImage" HorizontalAlignment="Left" Height="76" Margin="1134,640,0,0" VerticalAlignment="Top" Width="75" Source="{Binding DownButtonStringImage}" />
-      <Image x:Name="UpButtonImage" HorizontalAlignment="Left" Height="75" Margin="1134,495,0,0" VerticalAlignment="Top" Width="75" Source="{Binding UpButtonStringImage}" />
-      <Image x:Name="LeftButtonImage" HorizontalAlignment="Left" Height="75" Margin="1066,563,0,0" VerticalAlignment="Top" Width="74" Source="{Binding LeftButtonStringImage}" />
-      <Image x:Name="RightButtonImage" HorizontalAlignment="Left" Height="75" Margin="1212,563,0,0" VerticalAlignment="Top" Width="76" Source="{Binding RightButtonStringImage}" />
+   <Grid Margin="0,0,10,-6">
+      <Grid.RowDefinitions>
+         <RowDefinition Height="301*"/>
+         <RowDefinition Height="5*"/>
+      </Grid.RowDefinitions>
+      <MediaElement Source="http://10.11.51.137:8000/stream.mjpg" Name="mediaPlayer" Stretch="Uniform" HorizontalAlignment="Left" Width="1920" Height="1080" VerticalAlignment="Top" Margin="33,0,0,0" MediaFailed="mediaPlayer_MediaFailed" />
+      <!--<Frame Content="Frame" Source="http://10.11.51.137:8000/stream.mjpg" Width="1920" Height="1080"/>-->
+
+      <Image x:Name="DownButtonImage"  HorizontalAlignment="Left" Height="75" Margin="1734,940,0,0" VerticalAlignment="Top" Width="75" Source="{Binding DownButtonStringImage}" RenderTransformOrigin="-0.08,0.961"/>
+      <Image x:Name="UpButtonImage" HorizontalAlignment="Left" Height="75" Margin="1734,795,0,0" VerticalAlignment="Top" Width="75" Source="{Binding UpButtonStringImage}"/>
+      <Image x:Name="LeftButtonImage" HorizontalAlignment="Left" Height="75" Margin="1666,863,0,0" VerticalAlignment="Top" Width="75" Source="{Binding LeftButtonStringImage}" Grid.RowSpan="2"/>
+      <Image x:Name="RightButtonImage" HorizontalAlignment="Left" Height="75" Margin="1812,863,0,0" VerticalAlignment="Top" Width="75" Source="{Binding RightButtonStringImage}" Grid.RowSpan="2"/>
    </Grid>
 </Window>
