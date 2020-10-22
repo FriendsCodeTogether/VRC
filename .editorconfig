@@ -7,7 +7,7 @@ root = true
 # All files
 [*]
 indent_style = space
-indent_size = 3
+indent_size = 2
 charset = utf-8
 end_of_line = crlf
 insert_final_newline = true
@@ -20,13 +20,19 @@ max_line_length = off
 trim_trailing_whitespace = false
 
 # Code files
-[*.{cs,csx,vb,vbx}]
+[*.{cs,csx,vb,vbx,razor}]
+indent_size = 4
 insert_final_newline = true
 charset = utf-8-bom
 
 # Shell script files
 [*.sh]
 end_of_line = lf
+
+# Json files
+[*.json]
+indent_style = space
+indent_size = 2
 
 ###############################
 # .NET Coding Conventions     #
@@ -80,7 +86,7 @@ dotnet_code_quality_unused_parameters = all:suggestion
 
 # Organize usings
 dotnet_sort_system_directives_first = true
-dotnet_separate_import_directive_groups = true
+dotnet_separate_import_directive_groups = false
 
 
 ###############################
