@@ -2,7 +2,7 @@
  * VRC.Car.c
  *
  * Created: 8/10/2020 12:43:48
- * Author : noah 
+ * Author : Gebruiker
  */ 
 
 #include <avr/io.h>
