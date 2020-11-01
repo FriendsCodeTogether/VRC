@@ -55,7 +55,7 @@ namespace WebUI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-               endpoints.MapHub<MessagingHub>("/messaginghub");
+                endpoints.MapHub<MessagingHub>("/messaginghub");
             });
         }
     }
