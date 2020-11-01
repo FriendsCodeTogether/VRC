@@ -1,0 +1,3 @@
+# ignore generated CSS files
+site.css
+site.css.map
