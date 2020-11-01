@@ -1,0 +1,11 @@
+/*
+  Responsiveness
+*/
+
+$desktop-width: 750px;
+
+@mixin Desktop {
+  @media (min-width: $desktop-width) {
+    @content;
+  }
+}

@@ -1,0 +1,18 @@
+@import 'Core/variables';
+
+.home-container {
+  height: 100%;
+  display: grid;
+  grid-template:
+    'main-section' 1fr
+    'bottom-section' 300px
+    / 1fr;
+}
+
+.home-main-section {
+  grid-area: main-section;
+}
+
+.home-bottom-section {
+  grid-area: bottom-section;
+}
