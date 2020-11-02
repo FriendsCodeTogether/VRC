@@ -4,4 +4,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <!-- Compile SCSS files into CSS -->
+  <ItemGroup>
+    <!-- extends watching group to include *.scss files -->
+    <Watch Include="**\*.scss" Exclude="node_modules\**\*;wwwroot\**\*;obj\**\*;bin\**\*" />
+  </ItemGroup>
+
+  <Target Name="CompileGlobalSass" BeforeTargets="Compile">
+    <Message Text="Compiling global SCSS file" Importance="high" />
+    <Exec Command="npm run sass -- --style=compressed Styles:wwwroot/css" />
+  </Target>
+
 </Project>

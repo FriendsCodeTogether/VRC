@@ -2,7 +2,32 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-container">
+  <div class="home-main-section">
+    <div class="home-main-card">
+      <div class="home-main-card-column">
+        <div>
+          <h1 class="home-title">Welcome to VRC-Racing</h1>
+          <h2 class="home-sub-title">This is a project made by the last years students of electronics and ICT.</h2>
+        </div>
+        <span class="flex-spacer"></span>
+        <a class="home-continue-btn" href="">Continue</a>
+        <p class="home-login-text">To continue as admin <a href="">click here.</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="home-bottom-section">
+    <img class="home-race-preview" src="/images/carPlaceholder.jpeg" alt="Image of the race track">
+    <a class="home-participate-btn" href="">Continue</a>
+    <div class="home-racer-selector">
+      <div class="home-racer-selector-text">
+        <span>Racer:</span><i class="material-icons home-racer-selector-icon">arrow_drop_down</i>
+      </div>
+      <div class="home-racer-selector-dropdown">
+        <a href="#">Racer 1</a>
+        <a href="#">Racer 2</a>
+        <a href="#">Racer 3</a>
+      </div>
+    </div>
+  </div>
 </div>
