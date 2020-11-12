@@ -3,12 +3,12 @@
 */
 
 $ucll-primary: #e00049;
-$card-background: rgb(255, 255, 255, 0.65);
+$card-background-light: rgb(255, 255, 255, 0.65);
+$card-background-dark: rgb(25, 25, 25, 0.35);
 
 /*
   Responsiveness
 */
-
 $desktop-width: 750px;
 
 @mixin desktop {

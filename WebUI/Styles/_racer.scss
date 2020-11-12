@@ -1,0 +1,81 @@
+@import 'Core/variables';
+
+.racer-view-container {
+  background-image: url('/images/carPlaceholder.jpeg');
+  background-size: cover;
+  height: 100%;
+
+  .dashboard-card {
+    position:absolute;
+    top:0px;
+    right:0px;
+    display: grid;
+    grid-template: 'dashboard-top-left dashboard-top-right' 1fr 'dashboard-bottom-left dashboard-bottom-right' 1fr;
+    background-color: $card-background-dark;
+    width: 200px;
+    height: 100px;
+    
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+
+    .dashboard-player-label {
+      grid-area: dashboard-top-left;
+      margin: auto 10px;
+    }
+
+    .dashboard-player-number {
+      grid-area: dashboard-top-right;
+      margin: auto;
+      margin-right: 10px;
+    }
+
+    .dashboard-lap-label {
+      grid-area: dashboard-bottom-left;
+      margin: auto 10px;
+    }
+
+    .dashboard-lap-counter {
+      grid-area: dashboard-bottom-right;
+      margin: auto;
+      margin-right: 10px;
+    }
+  }
+
+  .control-panel {
+    position:absolute;
+    bottom:0px;
+    right:0px;
+    display: grid;
+    grid-template: 'top-left top-mid top-right' 1fr 'mid-left mid-mid mid-right' 1fr 'bottom-left bottom-mid bottom-right' 1fr;
+    width: 300px;
+    height: 300px;
+
+    .control-panel-up {
+      grid-area: top-mid;
+    }
+
+    .control-panel-right {
+      grid-area: mid-right;
+    }
+
+    .control-panel-down {
+      grid-area: bottom-mid;
+    }
+
+    .control-panel-left {
+      grid-area: mid-left;
+    }
+
+    img {
+      height: 100px;
+      width: 100px;
+    }
+  }
+
+  .racer-race-preview {
+    position: absolute;
+    bottom: 0px;
+    left:0px;
+    height: 200px;
+  }
+}

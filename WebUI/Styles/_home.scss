@@ -13,7 +13,7 @@
   grid-area: main-section;
   background-image: url('/images/carPlaceholder.jpeg');
   background-size: cover;
-  display:grid;
+  display: grid;
   place-items: center;
 
   .home-main-card {
@@ -21,7 +21,7 @@
     width: 90%;
     height: 90%;
     padding: 1rem;
-    background-color: $card-background;
+    background-color: $card-background-light;
 
     .home-main-card-column {
       height: 100%;
