@@ -1,17 +1,17 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="home-container">
   <div class="home-main-section">
-    <div class="home-main-card">
+    <div id="welcomeCard" class="home-main-card">
       <div class="home-main-card-column">
         <div>
           <h1 class="home-title">Welcome to VRC-Racing</h1>
           <h2 class="home-sub-title">This is a project made by the last years students of electronics and ICT.</h2>
         </div>
         <span class="flex-spacer"></span>
-        <a class="home-continue-btn" href="">Continue</a>
+        <button id="continueBtn" class="home-continue-btn" onclick="OnClickContinueBtn()">Continue</button>
         <p class="home-login-text">To continue as admin <a href="">click here.</a></p>
       </div>
     </div>
