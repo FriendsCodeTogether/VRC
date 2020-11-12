@@ -10,89 +10,16 @@ from threading import Condition
 from http import server
 
 PAGE = """\
-<html>
-    <head>
-        <title>Stream</title>
-    </head>
-    <style>
-            /* Container needed to position the button. Adjust the width as needed */
-        .container {
-        position: relative;
-        width: 50%;
-        }
- /* Make the image responsive */
-        .container img {
-        width: 100%;
-        height: auto;
-        }
-
-        /* Style the button and place it in the middle of the container/image */
-        .container #btnLeft {
-        position: absolute;
-        top: 80%;
-        left: 70%;
-        transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        background-color: #555;
-        color: white;
-        font-size: 16px;
-        padding: 12px 24px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        }
-                .container #btnRight {
-        position: absolute;
-        top: 80%;
-        left: 90%;
-        transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        background-color: #555;
-        color: white;
-        font-size: 16px;
-        padding: 12px 24px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        }
-                .container #btnUp {
-        position: absolute;
-        top: 70%;
-        left: 80%;
-        transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        background-color: #555;
-        color: white;
-        font-size: 16px;
-        padding: 12px 24px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        }
-                .container #btnDown {
-        position: absolute;
-        top: 80%;
-        left: 80%;
-        transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        background-color: #555;
-        color: white;
-        font-size: 16px;
-        padding: 12px 24px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        }
-
-        .container .btn:hover {
-        background-color: black;
-        }
-    </style>
-    <body>
-            <img src="stream.mpg" width="1280" height="720">
-    </body>
-</html>
-"""
+        <html>
+            <head>
+                <title>Stream</title>
+            </head>   
+            <body>
+                    <h1>Camera View</h1>
+                    <img src="stream.mpg" width="1280" height="720">
+            </body>
+        </html>
+        """
 
 
 class StreamingOutput(object):
