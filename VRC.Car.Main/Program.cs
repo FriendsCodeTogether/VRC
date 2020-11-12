@@ -1,56 +1,33 @@
 ﻿using System;
-using Unosquare.RaspberryIO;
-using Unosquare.RaspberryIO.Camera;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace VRC.Car.Main
 {
-    class Program
+    public class Program
     {
+        private HubConnection hubConnection;
+        private List<string> messages = new List<string>();
+
         static void Main(string[] args)
         {
-            // Setup our working variables
-            var videoByteCount = 0;
-            var videoEventCount = 0;
-            var startTime = DateTime.UtcNow;
+            hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
+            .Build();
 
-            // Configure video settings
-            var videoSettings = new CameraVideoSettings()
+            hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
             {
-                CaptureTimeoutMilliseconds = 0,
-                CaptureFramerate = 30,
-                CaptureDisplayPreview = false,
-                ImageFlipVertically = true,
-                CaptureExposure = CameraExposureMode.Night,
-                CaptureWidth = 1920,
-                CaptureHeight = 1080
-            };
+                var encodedMsg = $"{user}: {message}";
+                messages.Add(encodedMsg);
+                StateHasChanged();
+            });
 
-            try
-            {
-                // Start the video recording
-                Pi.Camera.OpenVideoStream(videoSettings,
-                    onDataCallback: (data) => { videoByteCount += data.Length; videoEventCount++; },
-                    onExitCallback: null);
-
-                // Wait for user interaction
-                startTime = DateTime.UtcNow;
-                Console.WriteLine("Press any key to stop reading the video stream . . .");
-                Console.ReadKey(true);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"{ex.GetType()}: {ex.Message}");
-            }
-            finally
-            {
-                // Always close the video stream to ensure raspivid quits
-                Pi.Camera.CloseVideoStream();
-
-                // Output the stats
-                var megaBytesReceived = (videoByteCount / (1024f * 1024f)).ToString("0.000");
-                var recordedSeconds = DateTime.UtcNow.Subtract(startTime).TotalSeconds.ToString("0.000");
-                Console.WriteLine($"Capture Stopped. Received {megaBytesReceived} Mbytes in {videoEventCount} callbacks in {recordedSeconds} seconds");
-            }
+            await hubConnection.StartAsync();
         }
+
+        Task Send() =>
+        hubConnection.SendAsync("SendMessage", userInput, messageInput);
     }
 }
