@@ -8,26 +8,25 @@ namespace VRC.Car.Main
 {
     public class Program
     {
-        private HubConnection hubConnection;
-        private List<string> messages = new List<string>();
+        private static HubConnection hubConnection;
+        private static List<string> messages = new List<string>();
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
+            .WithUrl("https://localhost:5001/chathub")
             .Build();
 
             hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
             {
                 var encodedMsg = $"{user}: {message}";
                 messages.Add(encodedMsg);
-                StateHasChanged();
             });
 
             await hubConnection.StartAsync();
         }
 
-        Task Send() =>
-        hubConnection.SendAsync("SendMessage", userInput, messageInput);
+        static Task Send() =>
+        hubConnection.SendAsync("SendMessage", "userInput", "messageInput");
     }
 }
