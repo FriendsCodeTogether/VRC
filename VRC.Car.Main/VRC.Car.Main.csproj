@@ -11,4 +11,8 @@
     <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VRC.Shared\VRC.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

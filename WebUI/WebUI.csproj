@@ -9,6 +9,9 @@
     <!-- extends watching group to include *.scss files -->
     <Watch Include="**\*.scss" Exclude="node_modules\**\*;wwwroot\**\*;obj\**\*;bin\**\*" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VRC.Shared\VRC.Shared.csproj" />
+  </ItemGroup>
 
   <Target Name="CompileGlobalSass" BeforeTargets="Compile">
     <Message Text="Compiling global SCSS file" Importance="high" />
