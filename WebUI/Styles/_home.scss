@@ -68,12 +68,6 @@
 
 .home-bottom-section {
   grid-area: bottom-section;
-  /*display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: auto 15px;*/
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 
@@ -83,7 +77,6 @@
   }
 
   .home-participate-btn {
-    /*padding: 1rem 4rem;*/
     display: grid;
     place-items: center;
     max-height: 50px;

@@ -2,7 +2,7 @@
   ViewData["Title"] = "Racer View";
 }
 
-<div class="racer-view-container">
+<div id="racer-view" class="racer-view-container">
   <div class="dashboard-card">
     <h1 class="dashboard-player-label">Player</h1>
     <h1 class="dashboard-player-number">#</h1>
@@ -17,3 +17,47 @@
   </div>
     <img class="racer-race-preview" src="/images/carPlaceholder.jpeg" alt="Image of the race track">
 </div>
+
+<script>
+  document.addEventListener('keydown', function (e) {
+    switch (e.keyCode) {
+      case 37:
+        //left arrow
+        document.getElementById("control-panel-left").src = "/Images/ButtonLeftUsed.png";
+        break;
+      case 38:
+        //up arrow
+        document.getElementById("control-panel-up").src = "/Images/ButtonUpUsed.png";
+        break;
+      case 39:
+        //right arrow
+        document.getElementById("control-panel-right").src = "/Images/ButtonRightUsed.png";
+        break;
+      case 40:
+        //down arrow
+        document.getElementById("control-panel-down").src = "/Images/ButtonDownUsed.png";
+        break;
+    }
+  });
+
+  document.addEventListener('keyup', function (e) {
+    switch (e.keyCode) {
+      case 37:
+        //left arrow
+        document.getElementById("control-panel-left").src = "/Images/ButtonLeftDefault.png";
+        break;
+      case 38:
+        //up arrow
+        document.getElementById("control-panel-up").src = "/Images/ButtonUpDefault.png";
+        break;
+      case 39:
+        //right arrow
+        document.getElementById("control-panel-right").src = "/Images/ButtonRightDefault.png";
+        break;
+      case 40:
+        //down arrow
+        document.getElementById("control-panel-down").src = "/Images/ButtonDownDefault.png";
+        break;
+    }
+  });
+</script>
