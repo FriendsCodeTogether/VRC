@@ -1,13 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5</TargetFramework>
   </PropertyGroup>
 
   <!-- Compile SCSS files into CSS -->
   <ItemGroup>
     <!-- extends watching group to include *.scss files -->
     <Watch Include="**\*.scss" Exclude="node_modules\**\*;wwwroot\**\*;obj\**\*;bin\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VRC.Shared\VRC.Shared.csproj" />
   </ItemGroup>
 
   <Target Name="CompileGlobalSass" BeforeTargets="Compile">

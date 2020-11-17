@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.0" />
+    <PackageReference Include="Unosquare.Raspberry.IO" Version="0.27.1" />
+    <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VRC.Shared\VRC.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
