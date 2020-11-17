@@ -16,13 +16,14 @@ namespace VRC.Car.Main
 
             var command = new CarCommand
             {
-                CarNumber = 1,
+                CarNumber = messagingHandler.CarNumber,
                 Throttle = 1,
                 Direction = -1
             };
             while (true)
             {
-                await messagingHandler.Send("user 1", command);
+                var carNumber = messagingHandler.CarNumber;
+                await messagingHandler.SendCarCommandAsync(carNumber, command);
                 Console.WriteLine("Message sent");
                 await Task.Delay(2000);
             }
