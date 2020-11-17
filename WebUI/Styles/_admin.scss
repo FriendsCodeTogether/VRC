@@ -23,7 +23,6 @@
     }
 
     .admin-racers-table-actions-row {
-
       .amdin-kick-button {
         margin: auto;
         float: left;
@@ -35,6 +34,7 @@
         color: white;
         text-decoration: none;
         background-color: $ucll-primary;
+        cursor: pointer;
       }
 
       .admin-power-button {
@@ -47,10 +47,12 @@
         font-size: 1.6rem;
         text-decoration: none;
         background-color: transparent;
+        cursor: pointer;
       }
     }
 
-    td, th {
+    td,
+    th {
       padding: 10px;
       border: 2px solid grey;
     }
@@ -61,7 +63,6 @@
   grid-area: bottom-section;
   display: grid;
   grid-template-columns: 2fr 1fr;
-
 
   .admin-start-btn {
     display: grid;
@@ -120,7 +121,7 @@
       overflow: hidden;
       box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
       z-index: 1;
-      bottom:100%;
+      bottom: 100%;
 
       a {
         color: black;
