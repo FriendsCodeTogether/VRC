@@ -22,9 +22,6 @@ namespace VRC.Car.Main
             };
             while (true)
             {
-                // var carNumber = messagingHandler.CarNumber;
-                // await messagingHandler.SendCarCommandAsync(carNumber, command);
-                // Console.WriteLine("Message sent");
                 await Task.Delay(2000);
             }
         }

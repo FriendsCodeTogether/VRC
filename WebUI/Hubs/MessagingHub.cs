@@ -11,11 +11,6 @@ namespace WebUI.Hubs
     {
         private static Dictionary<string, int> _CarConnectionIdList = new();
 
-        public override async Task OnConnectedAsync()
-        {
-            await base.OnConnectedAsync();
-        }
-
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             _CarConnectionIdList.Remove(Context.ConnectionId);
