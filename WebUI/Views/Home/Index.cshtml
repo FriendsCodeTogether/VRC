@@ -1,32 +1,32 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="home-container">
   <div class="home-main-section">
-    <div class="home-main-card">
+    <div id="welcomeCard" class="home-main-card">
       <div class="home-main-card-column">
         <div>
           <h1 class="home-title">Welcome to VRC-Racing</h1>
           <h2 class="home-sub-title">This is a project made by the last years students of electronics and ICT.</h2>
         </div>
         <span class="flex-spacer"></span>
-        <a class="home-continue-btn" href="">Continue</a>
-        <p class="home-login-text">To continue as admin <a href="">click here.</a></p>
+        <button id="continueBtn" class="home-continue-btn" onclick="OnClickContinueBtn()">Continue</button>
+        <p class="home-login-text">To continue as admin <a asp-controller="Admin" asp-action="Index">click here.</a></p>
       </div>
     </div>
   </div>
   <div class="home-bottom-section">
     <img class="home-race-preview" src="/images/carPlaceholder.jpeg" alt="Image of the race track">
-    <a class="home-participate-btn" href="">Continue</a>
+    <a class="home-participate-btn" href="/racer/index">Participate</a>
     <div class="home-racer-selector">
       <div class="home-racer-selector-text">
         <span>Racer:</span><i class="material-icons home-racer-selector-icon">arrow_drop_down</i>
       </div>
       <div class="home-racer-selector-dropdown">
-        <a href="#">Racer 1</a>
-        <a href="#">Racer 2</a>
         <a href="#">Racer 3</a>
+        <a href="#">Racer 2</a>
+        <a href="#">Racer 1</a>
       </div>
     </div>
   </div>

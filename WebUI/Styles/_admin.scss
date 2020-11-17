@@ -1,57 +1,34 @@
 @import 'Core/variables';
 
-.home-container {
+.admin-container {
   height: 100%;
   display: grid;
-  grid-template:
-    'main-section' 1fr
-    'bottom-section' 200px
-    / 1fr;
+  grid-template: 'main-section' 1fr 'bottom-section' 200px / 1fr;
 }
 
-.home-main-section {
+.admin-top-section {
   grid-area: main-section;
-  background-image: url('/images/carPlaceholder.jpeg');
   background-size: cover;
   display: grid;
   place-items: center;
 
-  .home-main-card {
-    position: relative;
+  .admin-racers-table {
     width: 90%;
     height: 90%;
-    padding: 1rem;
-    background-color: $card-background-light;
+    font-size: 1.5em;
 
-    .home-main-card-column {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
+    .admin-racers-table-head {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+    }
 
-      .home-title {
-        font-size: 2em;
-        font-weight: 400;
-      }
-
-      .home-sub-title {
-        font-size: 1em;
-        font-weight: 400;
-      }
-
-      @include desktop() {
-        .home-title {
-          font-size: 3em;
-        }
-
-        .home-sub-title {
-          font-size: 2em;
-        }
-      }
-
-      .home-continue-btn {
-        padding: 0.4rem 4rem;
+    .admin-racers-table-actions-row {
+      .amdin-kick-button {
+        margin: auto;
+        float: left;
+        max-width: 40%;
+        min-width: 125px;
+        width: 100%;
         border-radius: 3rem;
         font-size: 1.6rem;
         color: white;
@@ -60,53 +37,61 @@
         cursor: pointer;
       }
 
-      .home-login-text {
+      .admin-power-button {
+        max-width: 40%;
+        min-width: 125px;
         width: 100%;
+        float: right;
+        margin: auto;
+        border-radius: 3rem;
+        font-size: 1.6rem;
+        text-decoration: none;
+        background-color: transparent;
+        cursor: pointer;
       }
+    }
+
+    td,
+    th {
+      padding: 10px;
+      border: 2px solid grey;
     }
   }
 }
 
-.home-bottom-section {
+.admin-bottom-section {
   grid-area: bottom-section;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
 
-  .home-race-preview {
-    max-height: 150px;
-    margin: auto 15px;
-  }
-
-  .home-participate-btn {
+  .admin-start-btn {
     display: grid;
     place-items: center;
-    max-height: 50px;
-    max-width: 200px;
+    /*max-height: 50px;
+    max-width: 100%;*/
     margin: auto;
-    width: 100%;
-    height: 100%;
-    border-radius: 3rem;
-    font-size: 1.6rem;
+    width: 75%;
+    height: 75%;
+    border-radius: 5rem;
+    font-size: 3rem;
     color: white;
     text-decoration: none;
     background-color: $ucll-primary;
-    cursor: pointer;
   }
 
-  .home-racer-selector {
+  .admin-lap-selector {
     display: grid;
     place-items: center;
     max-height: 50px;
     max-width: 115px;
     margin: auto;
-    margin-right: 15px;
     width: 100%;
     height: 100%;
     position: relative;
     display: inline-block;
     cursor: pointer;
 
-    .home-racer-selector-text {
+    .admin-lap-selector-text {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -116,18 +101,18 @@
       border: 1px solid black;
       border-radius: 3rem;
 
-      .material-icons.home-racer-selector-icon {
+      .material-icons.admin-lap-selector-icon {
         margin: -0.3rem 0;
         color: $ucll-primary;
         font-size: 50px;
       }
     }
 
-    &:hover .home-racer-selector-dropdown {
+    &:hover .admin-lap-selector-dropdown {
       display: block;
     }
 
-    .home-racer-selector-dropdown {
+    .admin-lap-selector-dropdown {
       display: none;
       position: absolute;
       background-color: #f9f9f9;

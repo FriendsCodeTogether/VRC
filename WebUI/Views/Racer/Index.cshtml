@@ -1,0 +1,63 @@
+@{
+  ViewData["Title"] = "Racer View";
+}
+
+<div id="racer-view" class="racer-view-container">
+  <div class="dashboard-card">
+    <h1 class="dashboard-player-label">Player</h1>
+    <h1 class="dashboard-player-number">#</h1>
+    <h1 class="dashboard-lap-label">Lap</h1>
+    <h1 class="dashboard-lap-counter">#/#</h1>
+  </div>
+  <div class="control-panel">
+    <img id="control-panel-up" class="control-panel-up" src="~/Images/ButtonUpDefault.png" alt="Up Button" />
+    <img id="control-panel-right" class="control-panel-right" src="~/Images/ButtonRightDefault.png" alt="Right Button" />
+    <img id="control-panel-down" class="control-panel-down" src="~/Images/ButtonDownDefault.png" alt="Down Button" />
+    <img id="control-panel-left" class="control-panel-left" src="~/Images/ButtonLeftDefault.png" alt="Left Button" />
+  </div>
+    <img class="racer-race-preview" src="/images/carPlaceholder.jpeg" alt="Image of the race track">
+</div>
+
+<script>
+  document.addEventListener('keydown', function (e) {
+    switch (e.keyCode) {
+      case 37:
+        //left arrow
+        document.getElementById("control-panel-left").src = "/Images/ButtonLeftUsed.png";
+        break;
+      case 38:
+        //up arrow
+        document.getElementById("control-panel-up").src = "/Images/ButtonUpUsed.png";
+        break;
+      case 39:
+        //right arrow
+        document.getElementById("control-panel-right").src = "/Images/ButtonRightUsed.png";
+        break;
+      case 40:
+        //down arrow
+        document.getElementById("control-panel-down").src = "/Images/ButtonDownUsed.png";
+        break;
+    }
+  });
+
+  document.addEventListener('keyup', function (e) {
+    switch (e.keyCode) {
+      case 37:
+        //left arrow
+        document.getElementById("control-panel-left").src = "/Images/ButtonLeftDefault.png";
+        break;
+      case 38:
+        //up arrow
+        document.getElementById("control-panel-up").src = "/Images/ButtonUpDefault.png";
+        break;
+      case 39:
+        //right arrow
+        document.getElementById("control-panel-right").src = "/Images/ButtonRightDefault.png";
+        break;
+      case 40:
+        //down arrow
+        document.getElementById("control-panel-down").src = "/Images/ButtonDownDefault.png";
+        break;
+    }
+  });
+</script>
