@@ -11,11 +11,6 @@ namespace WebUI.Hubs
     {
         private static Dictionary<string, int> _CarConnectionIdList = new();
 
-        public override async Task OnConnectedAsync()
-        {
-            await base.OnConnectedAsync();
-        }
-
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             _CarConnectionIdList.Remove(Context.ConnectionId);
@@ -27,7 +22,6 @@ namespace WebUI.Hubs
         /// </summary>
         /// <param name="carNumber">The car to send it to</param>
         /// <param name="command">The CarCommand to be sent</param>
-        /// <returns></returns>
         public async Task SendCarCommand(int carNumber, CarCommand command) => await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
 
         /// <summary>
@@ -35,7 +29,6 @@ namespace WebUI.Hubs
         /// </summary>
         /// <param name="connectionId">The connectionId associated with the car</param>
         /// <param name="carNumber">The intended car number</param>
-        /// <returns></returns>
         public async Task AssignCarNumber(string connectionId, int carNumber) => await Clients.Client(connectionId).SendAsync("AssignCarNumber", carNumber);
 
         /// <summary>
