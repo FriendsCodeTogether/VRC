@@ -1,0 +1,58 @@
+@{
+  ViewData["Title"] = "Admin Board";
+}
+@model IEnumerable<String>
+
+@section Bootstrap {
+  <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+}
+
+<div class="admin-container">
+  <div class="admin-top-section">
+    <table class="admin-racers-table">
+      <thead class="admin-racers-table-head">
+        <tr>
+          <th>Cars</th>
+          <th>Status</th>
+          <th>Lap Info</th>
+          <th>Best Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var car in Model)
+        {
+          <tr>
+            <td>@car</td>
+            <td>In Use</td>
+            <td>Lap #/#</td>
+            <td>00:00:000</td>
+            <td class="admin-racers-table-actions-row">
+              <button class="amdin-kick-button">Kick</button>
+              <button class="admin-power-button">ON/OFF</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="admin-bottom-section">
+    <a class="admin-start-btn" href="/racer/index">Start Race</a>
+    <div class="admin-lap-selector">
+      <div class="admin-lap-selector-text">
+        <span>Laps:</span><i class="material-icons admin-lap-selector-icon">arrow_drop_down</i>
+      </div>
+      <div class="admin-lap-selector-dropdown">
+        <a href="#">7</a>
+        <a href="#">6</a>
+        <a href="#">5</a>
+        <a href="#">4</a>
+        <a href="#">3</a>
+        <a href="#">2</a>
+        <a href="#">1</a>
+      </div>
+    </div>
+  </div>
+</div>
