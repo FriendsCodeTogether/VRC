@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using InTheHand.Net.Bluetooth;
 
-namespace Bluetooth_to_car
+namespace VRC.Shared
 {
     public class ConnectionDevice
     {
