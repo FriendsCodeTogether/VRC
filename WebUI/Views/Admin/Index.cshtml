@@ -34,7 +34,9 @@
   </div>
 
   <div class="admin-bottom-section">
-    <a class="admin-start-btn" href="/racer/index">Start Race</a>
+    <div class="admin-start-btn-area">
+      <a class="admin-start-btn" href="/racer/index">Start Race</a>
+    </div>
     <div class="admin-lap-selector">
       <div class="admin-lap-selector-text">
         <span>Laps:</span><i class="material-icons admin-lap-selector-icon">arrow_drop_down</i>
@@ -49,5 +51,8 @@
         <a href="#">1</a>
       </div>
     </div>
+    <form  class="admin-logout" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+      <button  type="submit" class="admin-logout-button">Logout</button>
+    </form>
   </div>
 </div>
