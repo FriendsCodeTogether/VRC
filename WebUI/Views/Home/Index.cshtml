@@ -15,6 +15,21 @@
         <p class="home-login-text">To continue as admin <a asp-controller="Admin" asp-action="Index">click here.</a></p>
       </div>
     </div>
+    <div class="queue-card">
+      <div class="queue-card-top">
+        <h1>The race is ready to begin!</h1>
+      </div>
+      <div class="queue-card-body">
+        <div class="queue-card-body-text">
+          <h2>
+            Please confirm that you're still here. <br />
+            Click the participate button <br />
+            within <span id="queue-countdown-seconds">10</span> second(s).
+          </h2>
+        </div>
+        <a class="queue-participate-btn" href="/racer/index">Participate</a>
+      </div>
+    </div>
   </div>
   <div class="home-bottom-section">
     <img class="home-race-preview" src="/images/carPlaceholder.jpeg" alt="Image of the race track">
@@ -31,3 +46,8 @@
     </div>
   </div>
 </div>
+
+@section Scripts {
+     <script src="~/js/welcome.js" asp-append-version="true"></script>
+}
+

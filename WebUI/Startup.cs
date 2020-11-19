@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebUI.Data;
 using WebUI.Hubs;
+using WebUI.MiddleWare;
 
 namespace WebUI
 {
@@ -59,6 +60,8 @@ namespace WebUI
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<AnonimousIdentifierMiddelware>();
 
             app.UseEndpoints(endpoints =>
             {
