@@ -22,6 +22,9 @@
     <!-- extends watching group to include *.scss files -->
     <Watch Include="**\*.scss" Exclude="node_modules\**\*;wwwroot\**\*;obj\**\*;bin\**\*" />
   </ItemGroup>
+  <ItemGroup>
+    <Watch Remove="Styles\_queue.scss" />
+  </ItemGroup>
 
   <Target Name="CompileGlobalSass" BeforeTargets="Compile">
     <Message Text="Compiling global SCSS file" Importance="high" />
