@@ -10,6 +10,14 @@ var carNumber = 1;
 var direction = 0;
 var throttle = 0;
 
+// User info
+var userId = getCookieValue('AnonymousUserId');
+
+function getCookieValue(a) {
+  var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
+  return b ? b.pop() : '';
+}
+
 function handleUpArrowDown() {
   document.getElementById('control-panel-up').src = '/Images/ButtonUpUsed.png';
   throttle = forward;
