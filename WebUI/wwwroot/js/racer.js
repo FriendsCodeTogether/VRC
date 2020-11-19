@@ -13,9 +13,9 @@ var throttle = 0;
 // User info
 var userId = getCookieValue('AnonymousUserId');
 
-function getCookieValue(a) {
-  var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
-  return b ? b.pop() : '';
+function getCookieValue(cookieName) {
+  var cookie = document.cookie.match('(^|;)\\s*' + cookieName + '\\s*=\\s*([^;]+)');
+  return cookie ? cookie.pop() : '';
 }
 
 function handleUpArrowDown() {
