@@ -1,0 +1,51 @@
+@import 'Core/variables';
+
+.queue-card {
+  border: 1px solid grey;
+  width: 100%;
+  max-width: 450px;
+  background-color: white;
+  display: none;
+
+  .queue-card-top {
+    width: 100%;
+    background-color: #353535;
+    color: white;
+
+    h1 {
+      margin: 0;
+      padding: 1rem;
+      padding-left: 1.5rem;
+      font-weight: 500;
+    }
+  }
+
+  .queue-card-body {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    .queue-card-body-text {
+      height: 100%;
+      width: 95%;
+      line-height: 2.5em;
+
+      #queue-countdown-seconds {
+        font-size: 1.4em;
+      }
+    }
+
+    .queue-participate-btn {
+      padding: 0.3em 2em;
+      margin: 1.5rem auto;
+      border-radius: 3em;
+      font-size: 1.6em;
+      color: white;
+      text-decoration: none;
+      background-color: $ucll-primary;
+      cursor: pointer;
+    }
+  }
+}
