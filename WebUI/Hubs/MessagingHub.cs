@@ -4,16 +4,17 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using VRC.Shared.Messaging;
+using System.Collections.Concurrent;
 
 namespace WebUI.Hubs
 {
     public class MessagingHub : Hub
     {
-        private static Dictionary<string, int> _CarConnectionIdList = new();
+        private static ConcurrentDictionary<string, int> _CarConnectionIdList = new();
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            _CarConnectionIdList.Remove(Context.ConnectionId);
+            _CarConnectionIdList.TryRemove(Context.ConnectionId, out _);
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -48,9 +49,9 @@ namespace WebUI.Hubs
         public async Task ReclaimCarNumber(int carNumber)
         {
             var connectionId = Context.ConnectionId;
-            if (!_CarConnectionIdList.ContainsValue(carNumber))
+            if (!_CarConnectionIdList.Values.Contains(carNumber))
             {
-                _CarConnectionIdList.Add(connectionId, carNumber);
+                _CarConnectionIdList.TryAdd(connectionId, carNumber);
             }
             else
             {
@@ -65,7 +66,7 @@ namespace WebUI.Hubs
         private async Task AssignNewCarNumber(string connectionId)
         {
             var newCarNumber = FindAvailableNumber();
-            _CarConnectionIdList.Add(connectionId, newCarNumber);
+            _CarConnectionIdList.TryAdd(connectionId, newCarNumber);
             await AssignCarNumber(connectionId, _CarConnectionIdList[connectionId]);
         }
 
@@ -77,7 +78,7 @@ namespace WebUI.Hubs
         {
             for (var i = 1; i <= _CarConnectionIdList.Count + 1; i++)
             {
-                if (_CarConnectionIdList.ContainsValue(i))
+                if (_CarConnectionIdList.Values.Contains(i))
                 {
                     continue;
                 }

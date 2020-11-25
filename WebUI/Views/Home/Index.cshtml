@@ -27,13 +27,13 @@
             within <span id="queue-countdown-seconds">10</span> second(s).
           </h2>
         </div>
-        <a class="queue-participate-btn" href="/racer/index">Participate</a>
+        <a href="/racer/index" class="queue-participate-btn">Participate</a>
       </div>
     </div>
   </div>
   <div class="home-bottom-section">
     <img class="home-race-preview" src="/images/carPlaceholder.jpeg" alt="Image of the race track">
-    <a class="home-participate-btn" href="/racer/index">Participate</a>
+    <a id="participate-btn" class="home-participate-btn">Participate</a>
     <div class="home-racer-selector">
       <div class="home-racer-selector-text">
         <span>Racer:</span><i class="material-icons home-racer-selector-icon">arrow_drop_down</i>
@@ -48,6 +48,8 @@
 </div>
 
 @section Scripts {
-     <script src="~/js/welcome.js" asp-append-version="true"></script>
+  <script src="~/lib/microsoft-signalr/signalr.js"></script>
+  <script src="~/js/welcome.js" asp-append-version="true"></script>
+  <script src="~/js/queue.js" asp-append-version="true"></script>
 }
 

@@ -13,11 +13,6 @@ var throttle = 0;
 // User info
 var userId = getCookieValue('AnonymousUserId');
 
-function getCookieValue(cookieName) {
-  var cookie = document.cookie.match('(^|;)\\s*' + cookieName + '\\s*=\\s*([^;]+)');
-  return cookie ? cookie.pop() : '';
-}
-
 function handleUpArrowDown() {
   document.getElementById('control-panel-up').src = '/Images/ButtonUpUsed.png';
   throttle = forward;
