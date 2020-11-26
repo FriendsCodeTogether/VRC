@@ -13,7 +13,7 @@ PAGE = """\
         <html>
             <head>
                 <title>Stream</title>
-            </head>   
+            </head>
             <body>
                     <h1>Camera View</h1>
                     <img src="stream.mpg" width="1280" height="720">
@@ -21,9 +21,6 @@ PAGE = """\
         </html>
         """
 
-
-def cameraView():
-    return "bluh"
 
 
 class StreamingOutput(object):

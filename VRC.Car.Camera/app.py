@@ -1,4 +1,6 @@
 from flask import Flask
+import os
+import sys
 
 app = Flask(__name__)
 
@@ -10,8 +12,10 @@ def index():
 
 @app.route('/music')
 def music():
-    import test
-    return test.cameraView()
+  fifo = open('video_fifo', "rb")
+  fifo.close()
+  return True
+
 
 
 if __name__ == '__main__':
