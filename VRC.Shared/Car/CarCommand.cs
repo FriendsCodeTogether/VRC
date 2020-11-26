@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace VRC.Shared.Messaging
+namespace VRC.Shared.Car
 {
     public class CarCommand
     {

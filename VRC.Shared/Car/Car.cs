@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebUI.Entities
+namespace VRC.Shared.Car
 {
     public class Car
     {

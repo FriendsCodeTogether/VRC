@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
-using VRC.Shared.Messaging;
+using VRC.Shared.Car;
 
 namespace VRC.Car.Main.Messaging
 {

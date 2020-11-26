@@ -74,7 +74,7 @@ namespace WebUI
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-                endpoints.MapHub<MessagingHub>("/messaginghub");
+                endpoints.MapHub<RacingHub>("/racinghub");
                 endpoints.MapHub<QueueHub>("/queueHub");
             });
         }

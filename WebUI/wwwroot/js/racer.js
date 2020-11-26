@@ -5,6 +5,9 @@ const backward = -1;
 const left = -1;
 const right = 1;
 
+// SignalR constants
+const racinghubUrl = '/racinghub';
+
 // Car command properties
 var carNumber = 1;
 var direction = 0;
@@ -116,7 +119,7 @@ document.addEventListener('keyup', function (e) {
 });
 
 const connection = new signalR.HubConnectionBuilder()
-  .withUrl('/messaginghub')
+  .withUrl(racinghubUrl)
   .configureLogging(signalR.LogLevel.Information)
   .build();
 

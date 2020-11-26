@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.SignalR;
-using VRC.Shared.Messaging;
+using VRC.Shared.Car;
 using System.Collections.Concurrent;
+using WebUI.Services;
 
 namespace WebUI.Hubs
 {
-    public class MessagingHub : Hub
+    public class RacingHub : Hub
     {
-        private static ConcurrentDictionary<string, int> _CarConnectionIdList = new();
+        private readonly CarManagerService _carManagerService;
+
+        public RacingHub(CarManagerService carManagerService)
+        {
+            _carManagerService = carManagerService;
+        }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            _CarConnectionIdList.TryRemove(Context.ConnectionId, out _);
+            _carManagerService.CarConnectionIdList.TryRemove(Context.ConnectionId, out _);
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -49,9 +55,9 @@ namespace WebUI.Hubs
         public async Task ReclaimCarNumber(int carNumber)
         {
             var connectionId = Context.ConnectionId;
-            if (!_CarConnectionIdList.Values.Contains(carNumber))
+            if (!_carManagerService.CarConnectionIdList.Values.Contains(carNumber))
             {
-                _CarConnectionIdList.TryAdd(connectionId, carNumber);
+                _carManagerService.CarConnectionIdList.TryAdd(connectionId, carNumber);
             }
             else
             {
@@ -66,19 +72,19 @@ namespace WebUI.Hubs
         private async Task AssignNewCarNumber(string connectionId)
         {
             var newCarNumber = FindAvailableNumber();
-            _CarConnectionIdList.TryAdd(connectionId, newCarNumber);
-            await AssignCarNumber(connectionId, _CarConnectionIdList[connectionId]);
+            _carManagerService.CarConnectionIdList.TryAdd(connectionId, newCarNumber);
+            await AssignCarNumber(connectionId, _carManagerService.CarConnectionIdList[connectionId]);
         }
 
         /// <summary>
         /// Selects the first available CarNumber from the list
         /// </summary>
         /// <returns>The first available car number</returns>
-        private static int FindAvailableNumber()
+        private int FindAvailableNumber()
         {
-            for (var i = 1; i <= _CarConnectionIdList.Count + 1; i++)
+            for (var i = 1; i <= _carManagerService.CarConnectionIdList.Count + 1; i++)
             {
-                if (_CarConnectionIdList.Values.Contains(i))
+                if (_carManagerService.CarConnectionIdList.Values.Contains(i))
                 {
                     continue;
                 }
@@ -90,6 +96,6 @@ namespace WebUI.Hubs
         /// <summary>
         /// Returns the connectionId for a given car number
         /// </summary>
-        private static string GetConnectionIdByCarNumber(int carNumber) => _CarConnectionIdList.First(c => c.Value == carNumber).Key;
+        private string GetConnectionIdByCarNumber(int carNumber) => _carManagerService.CarConnectionIdList.First(c => c.Value == carNumber).Key;
     }
 }

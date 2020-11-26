@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using VRC.Car.Main.Messaging;
-using VRC.Shared.Messaging;
+using VRC.Shared.Car;
 
 namespace VRC.Car.Main
 {
