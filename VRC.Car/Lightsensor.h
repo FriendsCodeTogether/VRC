@@ -6,7 +6,7 @@
  */ 
 
 #include <avr/io.h>
-#include "Lightsensor.h"
 
-void LightSensorSetup(void){}
-int GetLightvalue (void){}
+
+void LightSensorSetup(void);
+int GetLightvalue (void);
