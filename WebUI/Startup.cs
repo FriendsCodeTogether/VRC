@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using WebUI.Data;
 using WebUI.Hubs;
 using WebUI.MiddleWare;
+using WebUI.Services;
 
 namespace WebUI
 {
@@ -37,6 +38,10 @@ namespace WebUI
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSingleton<CarManagerService>();
+            services.AddSingleton<QueueManagerService>();
+            services.AddSingleton<RaceManagerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +75,7 @@ namespace WebUI
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
                 endpoints.MapHub<MessagingHub>("/messaginghub");
+                endpoints.MapHub<QueueHub>("/queueHub");
             });
         }
     }
