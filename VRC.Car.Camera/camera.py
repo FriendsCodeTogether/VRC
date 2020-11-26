@@ -22,6 +22,10 @@ PAGE = """\
         """
 
 
+def cameraView():
+    return "bluh"
+
+
 class StreamingOutput(object):
     def __init__(self):
         self.frame = None
