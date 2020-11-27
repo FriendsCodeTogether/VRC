@@ -12,9 +12,9 @@ participateButton.addEventListener("click", () => joinTheQueue());
 connection.on("ReceiveQueuePosition", (position) => displayQueuePosition(position));
 connection.on("RequestQueuePosition", () => requestQueuePosition());
 
-async function registerUserId() {
+async function updateConnectionId() {
   try {
-    await connection.invoke('RegisterUserId', userId);
+    await connection.invoke('UpdateConnectionId', userId);
   } catch (err) {
     console.error(err);
   }
@@ -41,7 +41,7 @@ async function start() {
   try {
     await connection.start();
     console.log('SignalR Connected.');
-    await registerUserId();
+    await updateConnectionId();
   } catch (err) {
     console.log(err);
     setTimeout(start, 5000);
