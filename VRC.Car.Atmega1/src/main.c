@@ -1,5 +1,11 @@
 #include <avr/io.h>
 #include <lights.h>
+#include <debugBoard.h>
+
+void debugMode(void)
+{
+  debugBoardSetup();
+}
 
 void carSetup(void)
 {
@@ -13,8 +19,10 @@ void startup(void)
 
 int main(void)
 {
+  //debugMode();
   carSetup();
   startup();
+
   while (1)
   {
   }
