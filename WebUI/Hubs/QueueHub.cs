@@ -16,6 +16,12 @@ namespace WebUI.Hubs
             _queueManagerService = queueManagerService ?? throw new ArgumentNullException(nameof(queueManagerService));
         }
 
+        public override async Task<Task> OnDisconnectedAsync(Exception exception)
+        {
+            await _queueManagerService.RemoveInnactiveUserAsync(Context.ConnectionId);
+            return base.OnDisconnectedAsync(exception);
+        }
+
         /// <summary>
         /// Allows a user to register his userId with his connectionId
         /// </summary>
@@ -36,7 +42,7 @@ namespace WebUI.Hubs
         /// Send a user his position in the waiting queue
         /// </summary>
         /// <param name="userId"></param>
-        private async Task SendQueuePosition(string userId) => await Clients.Client(_queueManagerService.GetConnectionIdByUserId(userId)).SendAsync("ReceiveQueuePosition", _queueManagerService.GetQueuePosition(userId));
+        public async Task SendQueuePosition(string userId) => await Clients.Client(_queueManagerService.GetConnectionIdByUserId(userId)).SendAsync("ReceiveQueuePosition", _queueManagerService.GetQueuePosition(userId));
 
     }
 }

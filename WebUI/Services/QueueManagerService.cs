@@ -67,5 +67,16 @@ namespace WebUI.Services
                 user.ConnectionId = connectionId;
             }
         }
+
+        public async Task RemoveInnactiveUserAsync(string connectionId)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(10));
+            var innactiveUser = WaitingUsers.ToArray().ToList().FirstOrDefault(u => u.ConnectionId == connectionId);
+            if (innactiveUser == null)
+            {
+                WaitingUsers.Remove(innactiveUser);
+                await SendQueuePositionChangedAsync();
+            }
+        }
     }
 }
