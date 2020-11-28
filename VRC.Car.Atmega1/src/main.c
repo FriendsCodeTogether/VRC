@@ -11,7 +11,7 @@
 
 char buffrx[100];
 int rxpnt = 0;
-int messageReceived;
+int messageReceived = 0;
 int driveSpeed = 100; //in %
 int turnSpeed = 100;  //in %
 int previousThrottle = 1;
@@ -62,7 +62,6 @@ int main(void)
     if (messageReceived == 1)
     {
       lightsClearIndicators();
-
       if (stringCompare("f", buffrx) || stringCompare("F", buffrx)) //forwards
       {
         driveCar(0, 1, driveSpeed, turnSpeed);
@@ -88,7 +87,6 @@ int main(void)
         driveCar(0, 0, 0, 0); //Stop car
         previousThrottle = 0;
       }
-
       messageReceived = 0;
     }
   }
