@@ -6,9 +6,12 @@ const left = -1;
 const right = 1;
 
 // Car command properties
-var carNumber = 0;
+var carNumber = 1;
 var direction = 0;
 var throttle = 0;
+
+// User info
+var userId = getCookieValue('AnonymousUserId');
 
 function handleUpArrowDown() {
   document.getElementById('control-panel-up').src = '/Images/ButtonUpUsed.png';

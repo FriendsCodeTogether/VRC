@@ -4,14 +4,23 @@
     <TargetFramework>net5</TargetFramework>
   </PropertyGroup>
 
-  <!-- Compile SCSS files into CSS -->
   <ItemGroup>
-    <!-- extends watching group to include *.scss files -->
-    <Watch Include="**\*.scss" Exclude="node_modules\**\*;wwwroot\**\*;obj\**\*;bin\**\*" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VRC.Shared\VRC.Shared.csproj" />
+  </ItemGroup>
+
+  <!-- Compile SCSS files into CSS -->
+  <ItemGroup>
+    <!-- extends watching group to include *.scss files -->
+    <Watch Include="**\*.scss" Exclude="node_modules\**\*;wwwroot\**\*;obj\**\*;bin\**\*" />
   </ItemGroup>
 
   <Target Name="CompileGlobalSass" BeforeTargets="Compile">
