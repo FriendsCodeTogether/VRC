@@ -3,8 +3,7 @@
  *
  * Created: 12/11/2020 0:33:37
  *  Author: VRC-Team
- */ 
-
+ */
 
 #ifndef LIGHTS_H_
 #define LIGHTS_H_
@@ -42,5 +41,6 @@ void lightsLeftIndicator(void);
 
 void lightsRightIndicator(void);
 
+void lightsTest(void);
 
 #endif /* LIGHTS_H_ */
