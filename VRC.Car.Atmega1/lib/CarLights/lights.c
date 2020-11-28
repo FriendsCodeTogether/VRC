@@ -81,14 +81,14 @@ void lightsRightIndicator(void)
 
 void lightsTest(void)
 {
-  for (int8_t i = 0; i < 3; i++)
+  for (int8_t i = 0; i < 2; i++)
   {
     lightsPositionLights();
     lightsFrontBar();
     lightsLeftIndicator();
     lightsRightIndicator();
-    _delay_ms(1000);
+    _delay_ms(500);
     lightsClearAllLeds();
-    _delay_ms(1000);
+    _delay_ms(500);
   }
 }
