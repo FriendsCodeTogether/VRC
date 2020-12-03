@@ -74,6 +74,7 @@ namespace VRC.Car.Main.Messaging
             }
         }
 
+        // obsolete, for testing
         public async Task SendCarCommandAsync(int carNumber, CarCommand command) =>
             await _hubConnection.SendAsync("SendCarCommand", carNumber, command);
 

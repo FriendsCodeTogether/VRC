@@ -72,7 +72,7 @@ namespace WebUI.Services
         {
             await Task.Delay(TimeSpan.FromSeconds(10));
             var innactiveUser = WaitingUsers.ToArray().ToList().FirstOrDefault(u => u.ConnectionId == connectionId);
-            if (innactiveUser == null)
+            if (innactiveUser != null)
             {
                 WaitingUsers.Remove(innactiveUser);
                 await SendQueuePositionChangedAsync();
