@@ -34,8 +34,10 @@
   </div>
 
   <div class="admin-bottom-section">
-    <div class="admin-start-btn-area">
-      <a class="admin-start-btn" href="/racer/index">Start Race</a>
+    <div class="admin-btn-area">
+      <button id="prepare-race-btn" class="admin-race-btn" >Prepare Race</button>
+      <button id="start-race-btn" class="admin-race-btn" disabled>Start Race Countdown</button>
+      <button id="stop-race-btn" class="admin-race-btn" disabled>Stop Race</button>
     </div>
     <div class="admin-lap-selector">
       <div class="admin-lap-selector-text">
@@ -56,3 +58,8 @@
     </form>
   </div>
 </div>
+
+@section Scripts {
+  <script src="~/lib/microsoft-signalr/signalr.js"></script>
+  <script src="~/js/admin.js" asp-append-version="true"></script>
+}
