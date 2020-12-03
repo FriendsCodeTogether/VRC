@@ -94,7 +94,6 @@ namespace WebUI.Hubs
                 return i;
             }
             return 0;
-
         }
 
         /// <summary>

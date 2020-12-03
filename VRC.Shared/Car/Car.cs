@@ -8,6 +8,7 @@ namespace VRC.Shared.Car
     public class Car
     {
         public Car() {}
+
         public Car(int carNumber, string connentionId)
         {
             CarNumber = carNumber;
@@ -17,6 +18,10 @@ namespace VRC.Shared.Car
         public int CarNumber { get; set; }
 
         public string ConnectionId { get; set; }
+
+        public TimeSpan BestLap { get; set; }
+
+        public DateTime EndTime { get; set; }
 
     }
 }
