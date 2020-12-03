@@ -10,7 +10,7 @@ namespace WebUI.Services
     public class CarManagerService
     {
         // Singleton
-        ConcurrentBag<Car> Cars = new();
+        public ConcurrentBag<Car> Cars { get; set; } = new();
         public ConcurrentDictionary<string, int> CarConnectionIdList { get; set; } = new();
     }
 }
