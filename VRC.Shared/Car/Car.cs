@@ -7,15 +7,12 @@ namespace VRC.Shared.Car
 {
     public class Car
     {
-        public Car() { CarId = new Guid().ToString(); }
+        public Car() {}
         public Car(int carNumber, string connentionId)
         {
-            CarId = new Guid().ToString();
             CarNumber = carNumber;
             ConnectionId = connentionId;
         }
-
-        public string CarId { get; set; }
 
         public int CarNumber { get; set; }
 

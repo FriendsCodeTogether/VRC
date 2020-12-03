@@ -11,6 +11,5 @@ namespace WebUI.Services
     {
         // Singleton
         public ConcurrentBag<Car> Cars { get; set; } = new();
-        public ConcurrentDictionary<string, int> CarConnectionIdList { get; set; } = new();
     }
 }
