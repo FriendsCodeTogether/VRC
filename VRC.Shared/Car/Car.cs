@@ -11,5 +11,7 @@ namespace VRC.Shared.Car
 
         public int CarNumber { get; set; }
 
+        public string UserId { get; set; }
+
     }
 }
