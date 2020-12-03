@@ -21,7 +21,7 @@ namespace VRC.Shared.Car
 
         public TimeSpan BestLap { get; set; }
 
-        public DateTime EndTime { get; set; }
+        public TimeSpan EndTime { get; set; }
 
     }
 }
