@@ -2,8 +2,6 @@ var userId = getCookieValue('AnonymousUserId');
 var prepareRaceButton = document.getElementById("prepare-race-btn");
 var startRaceButton = document.getElementById("start-race-btn");
 var stopRaceButton = document.getElementById("stop-race-btn");
-const connection = new signalR.HubConnectionBuilder().withUrl('/racinghub').configureLogging(signalR.LogLevel.Information).build();
-
 
 
 prepareRaceButton.addEventListener("click", () => prepareRaceButtonClicked());

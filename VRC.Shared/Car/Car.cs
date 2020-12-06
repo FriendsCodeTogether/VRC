@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace VRC.Shared.Car
 {
@@ -22,6 +23,8 @@ namespace VRC.Shared.Car
         public TimeSpan BestLap { get; set; }
 
         public TimeSpan EndTime { get; set; }
+
+        public Timer lapTimer;
 
     }
 }

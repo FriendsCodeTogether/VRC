@@ -14,6 +14,7 @@ namespace WebUI.Services
         private readonly CarManagerService _carManagerService;
         private readonly QueueManagerService _queueManagerService;
         private Timer raceTimer;
+        private int _lapAmount;
 
         public RaceManagerService(IHubContext<QueueHub> hubContext, CarManagerService carManagerService, QueueManagerService queueManagerService)
         {
@@ -23,25 +24,38 @@ namespace WebUI.Services
             raceTimer = new Timer();
         }
 
-        public void ResetCars()
+       
+
+        public async void PrepareRace(int lapAmount)
         {
-          foreach(var car in _carManagerService.Cars)
-            {
-                car.BestLap = TimeSpan.Zero;
-                car.EndTime = TimeSpan.Zero;
-                //car timer still has to be implemented
-            }
+            //get users from queue 
+            var racerAmount = _carManagerService.Cars.Count;
+            var racers = await _queueManagerService.TakeFromQueueAsync(racerAmount);
+
+            //bericht naar user om te bevestigen of die gaat racen
+
+            //reset stats from the car and assign user to car
+            _carManagerService.ResetCartimes();
+            _carManagerService.ConnectRacersToCar(racers);
+
+            //reset timer
+            raceTimer.Dispose();
+
+            //change amount of laps to selected value on page
+            _lapAmount = lapAmount;
         }
 
-        public void PrepareRace()
-        {
-            var racerAmount = _carManagerService.Cars.Count;
-            var racers = _queueManagerService.TakeFromQueueAsync(racerAmount);
-            ResetCars();
-            //bericht naar user om te bevestigen of die gaat racen
-            raceTimer.Dispose();
-            //change amount of laps to selected value on page
 
+        public void StartRace()
+        {
+            raceTimer.Start();
+        }
+
+
+        public void EndRace()
+        {
+            raceTimer.Stop();
+            _carManagerService.RemoveRacers();
         }
 
     }

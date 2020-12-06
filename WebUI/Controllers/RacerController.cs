@@ -9,9 +9,17 @@ namespace WebUI.Controllers
 {
     public class RacerController : Controller
     {
+        private int countdownCounter = 3;
         public IActionResult Index()
         {
+            ViewData.Add("counter", countdownCounter);
             return View();
+        }
+
+        public int Countdown()
+        {
+            countdownCounter--;
+            return countdownCounter;
         }
     }
 }
