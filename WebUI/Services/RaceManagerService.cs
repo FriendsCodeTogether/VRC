@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.AspNetCore.SignalR;
+using WebUI.Entities;
 using WebUI.Hubs;
 
 namespace WebUI.Services
@@ -15,6 +16,7 @@ namespace WebUI.Services
         private readonly QueueManagerService _queueManagerService;
         private Timer raceTimer;
         private int _lapAmount;
+        private bool _isPrepared;
 
         public RaceManagerService(IHubContext<QueueHub> hubContext, CarManagerService carManagerService, QueueManagerService queueManagerService)
         {
@@ -22,19 +24,26 @@ namespace WebUI.Services
             _carManagerService = carManagerService;
             _queueManagerService = queueManagerService;
             raceTimer = new Timer();
+            _isPrepared = false;
         }
 
-       
 
-        public async void PrepareRace(int lapAmount)
+
+        public async Task PrepareRace(int lapAmount)
         {
-            //get users from queue 
-            var racerAmount = _carManagerService.Cars.Count;
+            //get users from queue
+            //var racerAmount = _carManagerService.Cars.Count;
+            var racerAmount = 1;
             var racers = await _queueManagerService.TakeFromQueueAsync(racerAmount);
+            foreach (var racer in racers.ToList())
+            {
+                await _hubContext.Groups.AddToGroupAsync(racer.ConnectionId, "racers");
+            }
 
             //bericht naar user om te bevestigen of die gaat racen
+            await _hubContext.Clients.Group("racers").SendAsync("ReadyRacers");
 
-            //reset stats from the car and assign user to car
+            /*//reset stats from the car and assign user to car
             _carManagerService.ResetCartimes();
             _carManagerService.ConnectRacersToCar(racers);
 
@@ -43,11 +52,18 @@ namespace WebUI.Services
 
             //change amount of laps to selected value on page
             _lapAmount = lapAmount;
+
+            _isPrepared = true;*/
         }
 
 
         public void StartRace()
         {
+            // if (!_isPrepared)
+            // {
+            //     return;
+            // }
+
             raceTimer.Start();
         }
 

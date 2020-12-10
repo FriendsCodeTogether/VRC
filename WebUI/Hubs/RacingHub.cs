@@ -12,10 +12,12 @@ namespace WebUI.Hubs
     public class RacingHub : Hub
     {
         private readonly CarManagerService _carManagerService;
+        private readonly RaceManagerService _raceManagerService;
 
-        public RacingHub(CarManagerService carManagerService)
+        public RacingHub(CarManagerService carManagerService, RaceManagerService raceManagerService)
         {
             _carManagerService = carManagerService;
+            _raceManagerService = raceManagerService;
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -100,5 +102,17 @@ namespace WebUI.Hubs
         /// Returns the connectionId for a given car number
         /// </summary>
         private string GetConnectionIdByCarNumber(int carNumber) => _carManagerService.Cars.First(c => c.CarNumber == carNumber).ConnectionId;
+
+        /// <summary>
+        /// Prepares the settings for the race
+        /// </summary>
+        /// <returns></returns>
+        public async Task PrepareRaceAsync(int lapAmount) => await _raceManagerService.PrepareRace(lapAmount);
+
+
+        /// <summary>
+        /// Sends user notification to enter race
+        /// </summary>
+        //public async Task ReadyRacers() => await Clients.Group("racers").SendAsync("ReadyRacers");
     }
 }

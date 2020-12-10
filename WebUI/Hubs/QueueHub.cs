@@ -42,7 +42,7 @@ namespace WebUI.Hubs
         /// Send a user his position in the waiting queue
         /// </summary>
         /// <param name="userId"></param>
-        public async Task SendQueuePosition(string userId) => await Clients.Client(_queueManagerService.GetConnectionIdByUserId(userId)).SendAsync("ReceiveQueuePosition", _queueManagerService.GetQueuePosition(userId));
+        public async Task SendQueuePosition(string userId) => await Clients.Caller.SendAsync("ReceiveQueuePosition", _queueManagerService.GetQueuePosition(userId));
 
     }
 }

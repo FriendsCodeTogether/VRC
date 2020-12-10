@@ -21,11 +21,12 @@ namespace WebUI.Services
 
         private ConcurrentQueue<AnonymousUser> WaitingUsers { get; set; } = new();
 
-        public void TryAddToQueue(string userId, string connectionId)
+        public async void TryAddToQueue(string userId, string connectionId)
         {
             if (!WaitingUsers.Any(u => u.UserId == userId))
             {
                 WaitingUsers.Enqueue(new AnonymousUser(userId, connectionId));
+                await _hubContext.Groups.AddToGroupAsync(connectionId, "queue");
             }
         }
 
@@ -38,13 +39,17 @@ namespace WebUI.Services
 
         private async Task SendQueuePositionChangedAsync()
         {
-            await _hubContext.Clients.All.SendAsync("RequestQueuePosition");
+            await _hubContext.Clients.Group("queue").SendAsync("RequestQueuePosition");
         }
 
         public int GetQueuePosition(string userId)
         {
             var waitingUserList = WaitingUsers.ToArray().ToList();
             var user = waitingUserList.FirstOrDefault(u => u.UserId == userId);
+            if (user == null)
+            {
+                return -1;
+            }
             var position = waitingUserList.IndexOf(user);
             return position == -1 ? -1 : position + 1;
         }

@@ -1,5 +1,6 @@
 var userId = getCookieValue('AnonymousUserId');
 var participateButton = document.getElementById("participate-btn");
+var queueCard = document.getElementById("queue-card");
 const connection = new signalR.HubConnectionBuilder().withUrl('/queuehub').configureLogging(signalR.LogLevel.Information).build();
 
 function displayQueuePosition(position) {
@@ -11,6 +12,7 @@ participateButton.addEventListener("click", () => joinTheQueue());
 
 connection.on("ReceiveQueuePosition", (position) => displayQueuePosition(position));
 connection.on("RequestQueuePosition", () => requestQueuePosition());
+connection.on("ReadyRacers", () => readyButton());
 
 async function updateConnectionId() {
   try {
@@ -35,6 +37,18 @@ async function requestQueuePosition() {
   } catch (err) {
     console.error(err);
   }
+}
+
+
+
+function readyButton() {
+  console.log("ready racers");
+  queueCard.style.display = "block";
+
+  participateButton.className = "ready-to-race-btn";
+  participateButton.textContent = "Click to race!";
+
+
 }
 
 async function start() {
