@@ -70,7 +70,7 @@ namespace WebUI.Services
         }
 
         /// <summary>
-        /// get the given amount of users from the queue and sends them the notification to join within 10 seconds
+        /// get the given amount of users from the queue and sends them the notification to join within 30 seconds
         /// </summary>
         /// <param name="racerAmount"></param>
         /// <returns></returns>
