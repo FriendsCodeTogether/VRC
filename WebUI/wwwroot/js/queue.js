@@ -1,6 +1,8 @@
 var userId = getCookieValue('AnonymousUserId');
 var participateButton = document.getElementById("participate-btn");
 var queueCard = document.getElementById("queue-card");
+var confirmBtn = document.getElementById("confirm-racer-btn");
+var queueCountdownSeconds = document.getElementById("queue-countdown-seconds");
 const connection = new signalR.HubConnectionBuilder().withUrl('/queuehub').configureLogging(signalR.LogLevel.Information).build();
 
 function displayQueuePosition(position) {
@@ -9,10 +11,13 @@ function displayQueuePosition(position) {
 }
 
 participateButton.addEventListener("click", () => joinTheQueue());
+confirmBtn.addEventListener("click", () => racerConfirmed());
 
 connection.on("ReceiveQueuePosition", (position) => displayQueuePosition(position));
 connection.on("RequestQueuePosition", () => requestQueuePosition());
-connection.on("ReadyRacers", () => readyButton());
+connection.on("WaitingForConfirm", () => waitingForConfirm());
+connection.on("UpdateConfirmationTime", (seconds) => updateConfirmationTime(seconds));
+connection.on("RemoveConfirm", () => removeConfirm());
 
 async function updateConnectionId() {
   try {
@@ -39,17 +44,34 @@ async function requestQueuePosition() {
   }
 }
 
-
-
-function readyButton() {
-  console.log("ready racers");
+function waitingForConfirm() {
+  console.log("Waiting for user to confirm to race");
   queueCard.style.display = "block";
 
   participateButton.className = "ready-to-race-btn";
   participateButton.textContent = "Click to race!";
-
-
 }
+
+async function racerConfirmed(){
+  console.log("racer confirmed")
+  try {
+    connection.invoke("RacerConfirmedAsync");
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function updateConfirmationTime(seconds) {
+  console.log(seconds);
+  queueCountdownSeconds.innerHTML = seconds;
+}
+
+function removeConfirm() {
+  console.log("user was too late");
+  queueCard.style.display = "none";
+}
+
+
 
 async function start() {
   try {

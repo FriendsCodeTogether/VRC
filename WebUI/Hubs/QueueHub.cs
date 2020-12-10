@@ -44,5 +44,7 @@ namespace WebUI.Hubs
         /// <param name="userId"></param>
         public async Task SendQueuePosition(string userId) => await Clients.Caller.SendAsync("ReceiveQueuePosition", _queueManagerService.GetQueuePosition(userId));
 
+        public async Task RacerConfirmedAsync(string connectionId) => await _queueManagerService.RacerConfirmedAsync(Context.ConnectionId);
+
     }
 }
