@@ -58,7 +58,7 @@ namespace VRC.Car.Main.Messaging
                 try
                 {
                     await _hubConnection.StartAsync();
-                    Console.WriteLine("Connected");
+                    Console.WriteLine("Connected to API");
                     await RequestCarNumberAsync();
                     while (CarNumber == 0)
                     {
@@ -67,8 +67,8 @@ namespace VRC.Car.Main.Messaging
                 }
                 catch (System.Exception)
                 {
-                    Console.WriteLine("Failed to connect...");
-                    Console.WriteLine("Retrying");
+                    Console.WriteLine("Failed to connect to API");
+                    Console.WriteLine("Retrying...");
                     await Task.Delay(2000);
                 }
             }

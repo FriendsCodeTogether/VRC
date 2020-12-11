@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using VRC.Car.Main.Messaging;
+using VRC.Car.Main.Hardware;
 using VRC.Shared.Messaging;
 using System.Device.I2c;
 
@@ -22,14 +23,23 @@ namespace VRC.Car.Main
             //     Direction = -1
             // };
 
-            Console.WriteLine("Hello I2C!");
-            I2cDevice i2c = I2cDevice.Create(new I2cConnectionSettings(1, 0x20));
-            i2c.WriteByte(0x60);
+            // Console.WriteLine("Hello I2C!");
+            // I2cDevice i2c = I2cDevice.Create(new I2cConnectionSettings(1, 0x20));
+            // i2c.WriteByte(0x60);
             //var read = i2c.ReadByte();
             // Console.WriteLine(read);
 
+
+            var HardwareController = new HardwareController();
+            HardwareController.Initialise();
+
+            Console.WriteLine("Connecting to API...");
+            // var messagingHandler = new MessagingHandler();
+            // await messagingHandler.ConnectAsync();
+
             while (true)
             {
+
                 await Task.Delay(2000);
             }
         }
