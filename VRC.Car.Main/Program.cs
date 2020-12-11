@@ -34,11 +34,15 @@ namespace VRC.Car.Main
             HardwareController.Initialise();
 
             Console.WriteLine("Connecting to API...");
-            // var messagingHandler = new MessagingHandler();
-            // await messagingHandler.ConnectAsync();
+            var messagingHandler = new MessagingHandler();
+            await messagingHandler.ConnectAsync();
 
             while (true)
             {
+
+                // read color sensor
+                // read acc sensor
+                // read ultrasoon
 
                 await Task.Delay(2000);
             }
