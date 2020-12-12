@@ -12,6 +12,8 @@ namespace VRC.Car.Main.Messaging
         private readonly string _hubUrl = "https://localhost:5001/messaginghub";
         private HubConnection _hubConnection;
 
+        public event EventHandler<CarCommandEventArgs> CarCommandReceivedEvent;
+
         public int CarNumber { get; set; }
 
         public MessagingHandler()
@@ -31,6 +33,7 @@ namespace VRC.Car.Main.Messaging
             _hubConnection.On<CarCommand>("ReceiveCarCommand", (command) =>
             {
                 Console.WriteLine($"Car number: {command.CarNumber} Car throttle: {command.Throttle} Car direction: {command.Direction}");
+                CarCommandReceivedEvent?.Invoke(this, new CarCommandEventArgs(command));
             });
 
             _hubConnection.On<int>("AssignCarNumber", (carNumber) =>

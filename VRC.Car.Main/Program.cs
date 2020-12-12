@@ -33,9 +33,14 @@ namespace VRC.Car.Main
             var HardwareController = new HardwareController();
             HardwareController.Initialise();
 
-            // Console.WriteLine("Connecting to API...");
-            // var messagingHandler = new MessagingHandler();
-            // await messagingHandler.ConnectAsync();
+            Console.WriteLine("Connecting to API...");
+            var messagingHandler = new MessagingHandler();
+            messagingHandler.CarCommandReceivedEvent += (s, e) =>
+            {
+                HardwareController.SendCarCommand(e.CarCommand);
+            };
+
+            await messagingHandler.ConnectAsync();
 
             while (true)
             {

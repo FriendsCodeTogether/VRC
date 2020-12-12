@@ -51,7 +51,7 @@ namespace VRC.Car.Main.Hardware
 
         public void SendCarCommand(CarCommand carCommand)
         {
-            var writeBuffer = new byte[3] { I2cConstants.Motor, I2cConstants.DirectionLeft, I2cConstants.ThrottleForward};
+            var writeBuffer = new byte[3] { I2cConstants.Motor, (byte)carCommand.Direction, (byte)carCommand.Throttle };
             lock (i2cLock)
             {
                 atmega1.Write(new ReadOnlySpan<byte>(writeBuffer));

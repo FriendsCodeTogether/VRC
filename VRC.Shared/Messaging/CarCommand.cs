@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 
 namespace VRC.Shared.Messaging
 {
     public class CarCommand
     {
-        public int CarNumber { get; set; }
-        public int Throttle { get; set; }
-        public int Direction { get; set; }
+        public char CarNumber { get; set; }
+        public char Throttle { get; set; }
+        public char Direction { get; set; }
     }
 }
