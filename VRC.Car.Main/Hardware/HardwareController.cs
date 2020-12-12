@@ -10,9 +10,6 @@ namespace VRC.Car.Main.Hardware
         private I2cDevice atmega2;
 
         private readonly object i2cLock = new();
-        private readonly byte direction = 0x20;
-        private readonly byte throttle = 0x30;
-        private readonly byte accelerationSensor = 0x40;
 
         public void Initialise()
         {
@@ -30,7 +27,7 @@ namespace VRC.Car.Main.Hardware
                 Console.WriteLine("Testing I2C devices...");
                 try
                 {
-                    atmega1.WriteByte(0x10);
+                    atmega1.WriteByte(32);
                 }
                 catch (System.Exception)
                 {
@@ -40,7 +37,7 @@ namespace VRC.Car.Main.Hardware
 
                 try
                 {
-                    atmega2.WriteByte(0x10);
+                    atmega2.WriteByte(32);
                 }
                 catch (System.Exception)
                 {
@@ -54,18 +51,16 @@ namespace VRC.Car.Main.Hardware
         {
             lock (i2cLock)
             {
-                atmega1.WriteByte(direction);
-                atmega1.Write(BitConverter.GetBytes(carCommand.Direction));
-
-                atmega1.WriteByte(throttle);
-                atmega1.Write(BitConverter.GetBytes(carCommand.Throttle));
+                atmega1.WriteByte(I2cConstants.Motor);
+                atmega1.Write(BitConverter.GetBytes(Convert.ToSByte(carCommand.Direction)));
+                atmega1.Write(BitConverter.GetBytes(Convert.ToSByte(carCommand.Throttle)));
             }
         }
 
         public float ReadAccelerationSensor()
         {
-            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(accelerationSensor));
-            var readresult = new Span<byte>(new byte[50]);
+            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.AccelerationSensor));
+            var readresult = new Span<byte>(new byte[4]);
             lock (i2cLock)
             {
                 atmega1.WriteRead(accelerationSensorSpan, readresult);
@@ -73,6 +68,32 @@ namespace VRC.Car.Main.Hardware
             var acceleration = BitConverter.ToSingle(readresult);
 
             return acceleration;
+        }
+
+        public int ReadColorSensor()
+        {
+            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
+            var readresult = new Span<byte>(new byte[2]);
+            lock (i2cLock)
+            {
+                atmega1.WriteRead(accelerationSensorSpan, readresult);
+            }
+            var color = BitConverter.ToInt16(readresult);
+
+            return color;
+        }
+
+        public int ReadUltrasonicSensor()
+        {
+            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.UltrasonicSensor));
+            var readresult = new Span<byte>(new byte[2]);
+            lock (i2cLock)
+            {
+                atmega1.WriteRead(accelerationSensorSpan, readresult);
+            }
+            var distance = BitConverter.ToInt16(readresult);
+
+            return distance;
         }
     }
 }

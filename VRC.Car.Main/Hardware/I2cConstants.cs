@@ -4,12 +4,12 @@ namespace VRC.Car.Main.Hardware
 {
     public class I2cConstants
     {
-        public readonly char Motor { get; } = 'm';
-        public readonly char AccelerationSensor { get; } = 'a';
-        public readonly char ColorSensor { get; } = 'c';
-        public readonly char LightSensor { get; } = 'l';
-        public readonly char UltrasonicSensor { get; } = 'u';
-        public readonly char Buzzer { get; } = 'b';
-        public readonly char Screen { get; } = 's';
+        public static byte Motor { get; } = Convert.ToByte('m');
+        public static byte AccelerationSensor { get; } = Convert.ToByte('a');
+        public static byte ColorSensor { get; } = Convert.ToByte('c');
+        public static byte LightSensor { get; } = Convert.ToByte('l');
+        public static byte UltrasonicSensor { get; } = Convert.ToByte('u');
+        public static byte Buzzer { get; } = Convert.ToByte('b');
+        public static byte Screen { get; } = Convert.ToByte('s');
     }
 }
