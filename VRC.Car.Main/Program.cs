@@ -37,6 +37,11 @@ namespace VRC.Car.Main
             var messagingHandler = new MessagingHandler();
             await messagingHandler.ConnectAsync();
 
+            Console.WriteLine("Press a key to send the car c");
+            Console.Read();
+
+            HardwareController.SendCarCommand(null);
+
             while (true)
             {
 

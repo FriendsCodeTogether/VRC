@@ -49,25 +49,16 @@ namespace VRC.Car.Main.Hardware
 
         public void SendCarCommand(CarCommand carCommand)
         {
+            var writeBuffer = new byte[3] { I2cConstants.Motor, I2cConstants.DirectionLeft, I2cConstants.ThrottleForward};
             lock (i2cLock)
             {
-                atmega1.WriteByte(I2cConstants.Motor);
-                atmega1.Write(BitConverter.GetBytes(Convert.ToSByte(carCommand.Direction)));
-                atmega1.Write(BitConverter.GetBytes(Convert.ToSByte(carCommand.Throttle)));
+                atmega1.Write(new ReadOnlySpan<byte>(writeBuffer));
             }
         }
 
         public float ReadAccelerationSensor()
         {
-            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.AccelerationSensor));
-            var readresult = new Span<byte>(new byte[4]);
-            lock (i2cLock)
-            {
-                atmega1.WriteRead(accelerationSensorSpan, readresult);
-            }
-            var acceleration = BitConverter.ToSingle(readresult);
-
-            return acceleration;
+            throw new NotImplementedException();
         }
 
         public int ReadColorSensor()
