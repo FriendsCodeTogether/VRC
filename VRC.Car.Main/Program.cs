@@ -26,21 +26,16 @@ namespace VRC.Car.Main
             // Console.WriteLine("Hello I2C!");
             // I2cDevice i2c = I2cDevice.Create(new I2cConnectionSettings(1, 0x20));
             // i2c.WriteByte(0x60);
-            //var read = i2c.ReadByte();
+            // var read = i2c.ReadByte();
             // Console.WriteLine(read);
 
 
             var HardwareController = new HardwareController();
             HardwareController.Initialise();
 
-            Console.WriteLine("Connecting to API...");
-            var messagingHandler = new MessagingHandler();
-            await messagingHandler.ConnectAsync();
-
-            Console.WriteLine("Press a key to send the car c");
-            Console.Read();
-
-            HardwareController.SendCarCommand(null);
+            // Console.WriteLine("Connecting to API...");
+            // var messagingHandler = new MessagingHandler();
+            // await messagingHandler.ConnectAsync();
 
             while (true)
             {
@@ -49,7 +44,12 @@ namespace VRC.Car.Main
                 // read acc sensor
                 // read ultrasoon
 
-                await Task.Delay(2000);
+                Console.WriteLine("Press a key to send the car command");
+                Console.Read();
+
+                HardwareController.SendCarCommand(null);
+
+                // await Task.Delay(2000);
             }
         }
     }

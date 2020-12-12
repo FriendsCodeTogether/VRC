@@ -27,7 +27,8 @@ namespace VRC.Car.Main.Hardware
                 Console.WriteLine("Testing I2C devices...");
                 try
                 {
-                    atmega1.WriteByte(32);
+                    atmega1.WriteByte(0x60);
+                    Console.WriteLine($"{nameof(atmega1)} online");
                 }
                 catch (System.Exception)
                 {
@@ -37,7 +38,8 @@ namespace VRC.Car.Main.Hardware
 
                 try
                 {
-                    atmega2.WriteByte(32);
+                    // atmega2.WriteByte(32);
+                    // Console.WriteLine($"{nameof(atmega2)} online");
                 }
                 catch (System.Exception)
                 {
