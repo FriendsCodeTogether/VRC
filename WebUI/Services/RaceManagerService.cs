@@ -15,10 +15,12 @@ namespace WebUI.Services
         private readonly CarManagerService _carManagerService;
         private readonly QueueManagerService _queueManagerService;
         private Timer raceTimer;
+        private Timer raceStartCountdownTimer;
         private Timer confirmationTimer;
         private int _lapAmount;
         private bool _isPrepared;
         private int confirmationTime;
+        private int raceStartCountdown;
 
         public RaceManagerService(IHubContext<QueueHub> hubContext, CarManagerService carManagerService, QueueManagerService queueManagerService)
         {
@@ -26,12 +28,31 @@ namespace WebUI.Services
             _carManagerService = carManagerService;
             _queueManagerService = queueManagerService;
             raceTimer = new Timer();
-            
+            raceStartCountdownTimer = new Timer();
+            raceStartCountdownTimer.Interval = 1000;
+            raceStartCountdownTimer.Elapsed += RaceStartCountdownTimer_Elapsed;
+
             _isPrepared = false;
 
             confirmationTimer = new Timer();
             confirmationTimer.Interval = 1000;
             confirmationTimer.Elapsed += ConfirmationTimer_Elapsed;
+        }
+
+        private async void RaceStartCountdownTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            raceStartCountdown--;
+            Console.WriteLine(raceStartCountdown);
+            await _hubContext.Clients.Group("racers").SendAsync("UpdateRaceCountdownTime", raceStartCountdown);
+            if (raceStartCountdown == 0)
+            {
+                await _hubContext.Clients.Group("racers").SendAsync("UpdateRaceCountdownTime", "START");
+            }
+            if (raceStartCountdown < 0)
+            {
+                raceStartCountdownTimer.Stop();
+                await _hubContext.Clients.Group("racers").SendAsync("RemoveRaceCountdown");
+            }
         }
 
         /// <summary>
@@ -57,10 +78,11 @@ namespace WebUI.Services
             var racerAmount = 1;
             await AssignRacersAsync(racerAmount);
             ResetConfirmationTimer();
+            Console.WriteLine("test prepare");
 
             //reset stats from the car and assign user to car
             _carManagerService.ResetCartimes();
-            
+
 
             //change amount of laps to selected value on page
             _lapAmount = lapAmount;
@@ -93,16 +115,19 @@ namespace WebUI.Services
             await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", confirmationTime);
         }
 
-        public void StartRace()
+        public async Task StartRace()
         {
             // if (!_isPrepared)
             // {
             //     return;
             // }
-            var racers =(IEnumerable<AnonymousUser>) _hubContext.Clients.Group("racers");
-            _carManagerService.ConnectRacersToCar(racers);
+            await _hubContext.Clients.Group("racers").SendAsync("ConnectRacersToCar");
+            Console.WriteLine("user connected to car");
+            raceStartCountdown = 3;
+            Console.WriteLine(raceStartCountdown);
+            raceStartCountdownTimer.Start();
+            await _hubContext.Clients.Group("racers").SendAsync("showRaceCountdown", raceStartCountdown);
 
-            raceTimer.Start();
         }
 
         public void EndRace()

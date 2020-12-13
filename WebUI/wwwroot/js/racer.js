@@ -122,11 +122,38 @@ const connection = new signalR.HubConnectionBuilder()
   .withUrl(racinghubUrl)
   .configureLogging(signalR.LogLevel.Information)
   .build();
+const queueConnection = new signalR.HubConnectionBuilder().withUrl('/queuehub').configureLogging(signalR.LogLevel.Information).build();
+
+queueConnection.on("showRaceCountdown", () => showRaceCountdown());
+queueConnection.on("UpdateRaceCountdownTime", (seconds) => UpdateRaceCountdownTime(seconds));
+queueConnection.on("RemoveRaceCountdown", () => RemoveRaceCountdown());
+queueConnection.on("ConnectRacersToCar", () => await connection.invoke('ConnectRacersToCar'));
+
+var countdown = document.getElementById("race-start-countdown");
+var countdowntext = document.getElementById("race-start-countdown-text");
+
+function showRaceCountdown() {
+  console.log("start Race coutdown");
+  countdown.style.display = "block";
+}
+
+function UpdateRaceCountdownTime(seconds) {
+  console.log(seconds);
+  countdowntext.innerHTML = seconds;
+}
+
+function RemoveRaceCountdown() {
+  console.log("user was too late");
+  queueCard.style.display = "none";
+  location.reload();
+}
 
 async function start() {
   try {
     await connection.start();
     console.log('SignalR Connected.');
+    await queueConnection.start();
+    console.log('SignalR QueueHub Connected.');
   } catch (err) {
     console.log(err);
     setTimeout(start, 5000);
@@ -137,3 +164,5 @@ connection.onclose(start);
 
 // Start the connection.
 start();
+
+

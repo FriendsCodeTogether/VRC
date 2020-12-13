@@ -23,17 +23,14 @@ namespace WebUI.Services
             }
         }
 
-        public void ConnectRacersToCar(IEnumerable<AnonymousUser> racers)
+        public void ConnectRacersToCar(string connectionId)
         {
-            foreach (var racer in racers)
+            foreach (var car in Cars)
             {
-                foreach (var car in Cars)
+                if (car.ConnectionId == null)
                 {
-                    if (car.ConnectionId == null)
-                    {
-                        car.ConnectionId = racer.ConnectionId;
-                        break;
-                    }
+                    car.ConnectionId = connectionId;
+                    break;
                 }
             }
         }

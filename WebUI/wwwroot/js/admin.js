@@ -24,10 +24,14 @@ async function prepareRaceButtonClicked() {
 
 }
 
-function startRaceButtonClicked() {
+async function startRaceButtonClicked() {
   startRaceButton.setAttribute("disabled", true);
   stopRaceButton.removeAttribute("disabled");
-
+  try {
+    await connection.invoke('StartRaceAsync');
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 function stopRaceButtonClicked() {

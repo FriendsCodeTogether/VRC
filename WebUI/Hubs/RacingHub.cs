@@ -109,10 +109,11 @@ namespace WebUI.Hubs
         /// <returns></returns>
         public async Task PrepareRaceAsync(int lapAmount) => await _raceManagerService.PrepareRace(lapAmount);
 
-
         /// <summary>
-        /// Sends user notification to enter race
+        /// starts the race
         /// </summary>
-        //public async Task ReadyRacers() => await Clients.Group("racers").SendAsync("ReadyRacers");
+        /// <returns></returns>
+        public async Task StartRaceAsync() => await _raceManagerService.StartRace();
+
     }
 }
