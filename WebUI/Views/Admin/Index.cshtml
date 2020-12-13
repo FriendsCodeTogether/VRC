@@ -35,26 +35,40 @@
 
   <div class="admin-bottom-section">
     <div class="admin-btn-area">
-      <button id="prepare-race-btn" class="admin-race-btn" >Prepare Race</button>
+      <button id="prepare-race-btn" class="admin-race-btn">Prepare Race</button>
       <button id="start-race-btn" class="admin-race-btn" disabled>Start Race Countdown</button>
       <button id="stop-race-btn" class="admin-race-btn" disabled>Stop Race</button>
     </div>
+    @*<div class="admin-lap-selector">
+        <div class="admin-lap-selector-text">
+          <span>Laps:</span><i class="material-icons admin-lap-selector-icon">arrow_drop_down</i>
+        </div>
+        <div class="admin-lap-selector-dropdown">
+          <a href="#">7</a>
+          <a href="#">6</a>
+          <a href="#">5</a>
+          <a href="#">4</a>
+          <a href="#">3</a>
+          <a href="#">2</a>
+          <a href="#">1</a>
+        </div>
+      </div>*@
     <div class="admin-lap-selector">
       <div class="admin-lap-selector-text">
-        <span>Laps:</span><i class="material-icons admin-lap-selector-icon">arrow_drop_down</i>
+        <span>Laps:</span>
+        <select name="Laps" id="admin-lap-selector-select" class="admin-lap-selector-select">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
       </div>
-      <div class="admin-lap-selector-dropdown">
-        <a href="#">7</a>
-        <a href="#">6</a>
-        <a href="#">5</a>
-        <a href="#">4</a>
-        <a href="#">3</a>
-        <a href="#">2</a>
-        <a href="#">1</a>
-      </div>
+
     </div>
-    <form  class="admin-logout" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-      <button  type="submit" class="admin-logout-button">Logout</button>
+
+    <form class="admin-logout" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+      <button type="submit" class="admin-logout-button">Logout</button>
     </form>
   </div>
 </div>

@@ -34,6 +34,11 @@ namespace WebUI.Services
             confirmationTimer.Elapsed += ConfirmationTimer_Elapsed;
         }
 
+        /// <summary>
+        /// gives the seconds of the confirmation timer, when countdown reaches 0, the timer stops and the user that didnt asnwer are send to the home page 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ConfirmationTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             confirmationTime--;
@@ -49,24 +54,18 @@ namespace WebUI.Services
         {
             //get users from queue
             //var racerAmount = _carManagerService.Cars.Count;
-            var racerAmount = 2;
+            var racerAmount = 1;
             await AssignRacersAsync(racerAmount);
             ResetConfirmationTimer();
 
-            //bericht naar user om te bevestigen of die gaat racen
-            //await _hubContext.Clients.Group("racers").SendAsync("ReadyRacers");
-
-            /*//reset stats from the car and assign user to car
+            //reset stats from the car and assign user to car
             _carManagerService.ResetCartimes();
-            _carManagerService.ConnectRacersToCar(racers);
-
-            //reset timer
-            raceTimer.Dispose();
+            
 
             //change amount of laps to selected value on page
             _lapAmount = lapAmount;
 
-            _isPrepared = true;*/
+            _isPrepared = true;
         }
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace WebUI.Services
         private async void ResetConfirmationTimer()
         {
             confirmationTimer.Stop();
-            confirmationTime = 30;
+            confirmationTime = 10;
             confirmationTimer.Start();
             await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", confirmationTime);
         }
@@ -100,6 +99,8 @@ namespace WebUI.Services
             // {
             //     return;
             // }
+            var racers =(IEnumerable<AnonymousUser>) _hubContext.Clients.Group("racers");
+            _carManagerService.ConnectRacersToCar(racers);
 
             raceTimer.Start();
         }

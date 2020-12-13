@@ -48,8 +48,7 @@ function waitingForConfirm() {
   console.log("Waiting for user to confirm to race");
   queueCard.style.display = "block";
 
-  participateButton.className = "ready-to-race-btn";
-  participateButton.textContent = "Click to race!";
+  participateButton.disabled = true;
 }
 
 async function racerConfirmed(){
@@ -69,6 +68,7 @@ function updateConfirmationTime(seconds) {
 function removeConfirm() {
   console.log("user was too late");
   queueCard.style.display = "none";
+  location.reload();
 }
 
 
