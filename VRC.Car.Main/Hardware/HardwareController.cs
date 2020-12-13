@@ -106,7 +106,7 @@ namespace VRC.Car.Main.Hardware
             {
                 atmega1.Read(readresult);
             }
-            return readresult;
+            return readresult.ToString();
         }
     }
 }
