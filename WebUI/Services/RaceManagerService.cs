@@ -14,24 +14,24 @@ namespace WebUI.Services
         private readonly IHubContext<QueueHub> _hubContext;
         private readonly CarManagerService _carManagerService;
         private readonly QueueManagerService _queueManagerService;
-        private Timer raceTimer;
-        private Timer confirmationTimer;
+        private Timer _raceTimer;
+        private Timer _confirmationTimer;
         private int _lapAmount;
         private bool _isPrepared;
-        private int confirmationTime;
+        private int _confirmationTime;
 
         public RaceManagerService(IHubContext<QueueHub> hubContext, CarManagerService carManagerService, QueueManagerService queueManagerService)
         {
             _hubContext = hubContext;
             _carManagerService = carManagerService;
             _queueManagerService = queueManagerService;
-            raceTimer = new Timer();
+            _raceTimer = new Timer();
             
             _isPrepared = false;
 
-            confirmationTimer = new Timer();
-            confirmationTimer.Interval = 1000;
-            confirmationTimer.Elapsed += ConfirmationTimer_Elapsed;
+            _confirmationTimer = new Timer();
+            _confirmationTimer.Interval = 1000;
+            _confirmationTimer.Elapsed += ConfirmationTimer_Elapsed;
         }
 
         /// <summary>
@@ -41,11 +41,11 @@ namespace WebUI.Services
         /// <param name="e"></param>
         private async void ConfirmationTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            confirmationTime--;
-            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", confirmationTime);
-            if (confirmationTime < 0)
+            _confirmationTime--;
+            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", _confirmationTime);
+            if (_confirmationTime < 0)
             {
-                confirmationTimer.Stop();
+                _confirmationTimer.Stop();
                 await _hubContext.Clients.Group("waitingForConfirm").SendAsync("RemoveConfirm");
             }
         }
@@ -87,10 +87,10 @@ namespace WebUI.Services
 
         private async void ResetConfirmationTimer()
         {
-            confirmationTimer.Stop();
-            confirmationTime = 10;
-            confirmationTimer.Start();
-            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", confirmationTime);
+            _confirmationTimer.Stop();
+            _confirmationTime = 10;
+            _confirmationTimer.Start();
+            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", _confirmationTime);
         }
 
         public void StartRace()
@@ -102,12 +102,12 @@ namespace WebUI.Services
             var racers =(IEnumerable<AnonymousUser>) _hubContext.Clients.Group("racers");
             _carManagerService.ConnectRacersToCar(racers);
 
-            raceTimer.Start();
+            _raceTimer.Start();
         }
 
         public void EndRace()
         {
-            raceTimer.Stop();
+            _raceTimer.Stop();
             _carManagerService.RemoveRacers();
         }
 
