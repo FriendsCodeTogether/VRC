@@ -27,7 +27,7 @@ namespace VRC.Car.Main.Hardware
                 Console.WriteLine("Testing I2C devices...");
                 try
                 {
-                    atmega1.WriteByte(0x60);
+                    atmega1.WriteByte(32);
                     Console.WriteLine($"{nameof(atmega1)} online");
                 }
                 catch (System.Exception)
@@ -87,6 +87,26 @@ namespace VRC.Car.Main.Hardware
             var distance = BitConverter.ToInt16(readresult);
 
             return distance;
+        }
+
+        public char readCharacter()
+        {
+            byte read;
+            lock (i2cLock)
+            {
+                read = atmega1.ReadByte();
+            }
+            return Convert.ToChar(read);
+        }
+
+        public string readString()
+        {
+            var readresult = new Span<byte>(new byte[2]);
+            lock (i2cLock)
+            {
+                atmega1.Read(readresult);
+            }
+            return readresult;
         }
     }
 }

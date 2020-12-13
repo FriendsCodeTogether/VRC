@@ -13,34 +13,16 @@ namespace VRC.Car.Main
     {
         static async Task Main(string[] args)
         {
-            // var messagingHandler = new MessagingHandler();
-            // await messagingHandler.ConnectAsync();
-
-            // var command = new CarCommand
-            // {
-            //     CarNumber = messagingHandler.CarNumber,
-            //     Throttle = 1,
-            //     Direction = -1
-            // };
-
-            // Console.WriteLine("Hello I2C!");
-            // I2cDevice i2c = I2cDevice.Create(new I2cConnectionSettings(1, 0x20));
-            // i2c.WriteByte(0x60);
-            // var read = i2c.ReadByte();
-            // Console.WriteLine(read);
-
-
             var HardwareController = new HardwareController();
             HardwareController.Initialise();
 
-            Console.WriteLine("Connecting to API...");
-            var messagingHandler = new MessagingHandler();
-            messagingHandler.CarCommandReceivedEvent += (s, e) =>
-            {
-                HardwareController.SendCarCommand(e.CarCommand);
-            };
+            // var messagingHandler = new MessagingHandler();
+            // messagingHandler.CarCommandReceivedEvent += (s, e) =>
+            // {
+            //     HardwareController.SendCarCommand(e.CarCommand);
+            // };
 
-            await messagingHandler.ConnectAsync();
+            // await messagingHandler.ConnectAsync();
 
             while (true)
             {
@@ -49,12 +31,28 @@ namespace VRC.Car.Main
                 // read acc sensor
                 // read ultrasoon
 
-                Console.WriteLine("Press a key to send the car command");
+                Console.WriteLine("Press a key to send the car command forward");
                 Console.Read();
 
-                HardwareController.SendCarCommand(null);
+                HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'L', Throttle = 'F'});
 
-                // await Task.Delay(2000);
+                Console.WriteLine("Press a key to send the car command off");
+                Console.Read();
+
+                HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'N', Throttle = 'N'});
+
+                Console.WriteLine("Press a key to send the car command backwards");
+                Console.Read();
+
+                HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'R', Throttle = 'B'});
+
+                Console.WriteLine("Press a key to read color sensor");
+                Console.Read();
+
+                var read = HardwareController.readCharacter();
+                Console.WriteLine(read);
+
+                await Task.Delay(1000);
             }
         }
     }

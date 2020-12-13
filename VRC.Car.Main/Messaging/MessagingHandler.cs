@@ -56,6 +56,7 @@ namespace VRC.Car.Main.Messaging
 
         public async Task ConnectAsync()
         {
+            Console.WriteLine("Connecting to API...");
             while (!IsConnected)
             {
                 try
