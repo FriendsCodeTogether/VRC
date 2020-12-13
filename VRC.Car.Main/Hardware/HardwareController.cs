@@ -85,7 +85,9 @@ namespace VRC.Car.Main.Hardware
             {
                 atmega1.WriteRead(accelerationSensorSpan, readresult);
             }
-            var color = BitConverter.ToInt32(Array.Reverse(readresult.ToArray()));
+            var bytes = readresult.ToArray();
+            Array.Reverse(bytes);
+            var color = BitConverter.ToInt32(bytes, 0);
 
             return color;
         }
