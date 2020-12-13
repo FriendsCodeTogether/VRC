@@ -84,17 +84,6 @@ namespace WebUI.Services
             }
         }
 
-        /*public async Task NotifyUserToRaceAsync(int racerAmount)
-        {
-            for (int i = 0; i < racerAmount; i++)
-            {
-                var user = WaitingUsers.ElementAt(i);
-                await _hubContext.Groups.AddToGroupAsync(user.ConnectionId, "waitingForConfirm");
-            }
-
-            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("NotifyUserToRace");
-        }*/
-
         public async Task RacerConfirmedAsync(string connectionId)
         {
             await _hubContext.Groups.AddToGroupAsync(connectionId, "racers");
