@@ -22,6 +22,8 @@ namespace WebUI.Services
         private int confirmationTime;
         private int raceStartCountdown;
 
+        public bool IsRacing { get; private set; }
+
         public RaceManagerService(IHubContext<QueueHub> hubContext, CarManagerService carManagerService, QueueManagerService queueManagerService)
         {
             _hubContext = hubContext;
@@ -33,6 +35,7 @@ namespace WebUI.Services
             raceStartCountdownTimer.Elapsed += RaceStartCountdownTimer_Elapsed;
 
             _isPrepared = false;
+            IsRacing = false;
 
             confirmationTimer = new Timer();
             confirmationTimer.Interval = 1000;
@@ -47,6 +50,7 @@ namespace WebUI.Services
             if (raceStartCountdown == 0)
             {
                 await _hubContext.Clients.Group("racers").SendAsync("UpdateRaceCountdownTime", "START");
+                IsRacing = true;
             }
             if (raceStartCountdown < 0)
             {
@@ -133,6 +137,7 @@ namespace WebUI.Services
         public void EndRace()
         {
             raceTimer.Stop();
+            IsRacing = false;
             _carManagerService.RemoveRacers();
         }
 
