@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Device.I2c;
+using System.Text;
 using VRC.Shared.Messaging;
 
 namespace VRC.Car.Main.Hardware
@@ -76,6 +77,19 @@ namespace VRC.Car.Main.Hardware
             return color;
         }
 
+        public int ReadColorSensor2()
+        {
+            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
+            var readresult = new Span<byte>(new byte[4]);
+            lock (i2cLock)
+            {
+                atmega1.WriteRead(accelerationSensorSpan, readresult);
+            }
+            var color = BitConverter.ToInt32(Array.Reverse(readresult.ToArray()));
+
+            return color;
+        }
+
         public int ReadUltrasonicSensor()
         {
             var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.UltrasonicSensor));
@@ -101,12 +115,23 @@ namespace VRC.Car.Main.Hardware
 
         public string readString()
         {
-            var readresult = new Span<byte>(new byte[2]);
+            var readresult = new Span<byte>(new byte[64]);
             lock (i2cLock)
             {
                 atmega1.Read(readresult);
             }
-            return readresult.ToString();
+            return Encoding.ASCII.GetString(readresult.ToArray());
+        }
+
+        public string readSensor()
+        {
+            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
+            var readresult = new Span<byte>(new byte[1]);
+            lock (i2cLock)
+            {
+                atmega1.WriteRead(accelerationSensorSpan, readresult);
+            }
+            return Encoding.ASCII.GetString(readresult.ToArray());
         }
     }
 }
