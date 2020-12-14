@@ -3,7 +3,7 @@
  *
  * Created: 2/11/2020 14:02:08
  *  Author: VRCar-Team
- */ 
+ */
 
 
 #ifndef UART_H_

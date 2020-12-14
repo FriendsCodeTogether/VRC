@@ -1,7 +1,8 @@
 /*
  * I2cConstants.h
  *
- */ 
+ */
+
 
 #ifndef I2C_CONSTANTS_H_
 #define I2C_CONSTANTS_H_

@@ -13,7 +13,7 @@
 
 void setupCar(void);                /* Setup car */
 void setDirection(char direction);	/* set car steering dirtection */
-void setThrottle(char throttle);	/* set car throttle */
-void setBuzzer(uint8_t value);	    /* set car buzzer */			
+void setThrottle(char throttle);	  /* set car throttle */
+void setBuzzer(uint8_t value);	    /* set car buzzer */
 
 #endif /* CAR_H_ */
