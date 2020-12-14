@@ -73,33 +73,48 @@ namespace VRC.Car.Main.Hardware
                 atmega1.WriteRead(colorSensorSpan, readresult);
             }
 
-            var bytes = readresult.ToArray();
-            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
-            if (BitConverter.IsLittleEndian)
-            {
-                Array.Reverse(bytes);
-            }
-            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
-
-            var color = BitConverter.ToInt16(bytes, 0);
+            var color = BitConverter.ToInt16(readresult);
 
             return color;
         }
 
         public int ReadUltrasonicSensor()
         {
-            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.UltrasonicSensor));
+            var ultrasonicSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.UltrasonicSensor));
             var readresult = new Span<byte>(new byte[2]);
             lock (i2cLock)
             {
-                atmega1.WriteRead(accelerationSensorSpan, readresult);
+                atmega1.WriteRead(ultrasonicSensorSpan, readresult);
             }
             var distance = BitConverter.ToInt16(readresult);
 
             return distance;
         }
 
-        public char readCharacter()
+        public bool ReadLightSensor()
+        {
+            var lightSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.LightSensor));
+            var readresult = new Span<byte>(new byte[1]);
+            lock (i2cLock)
+            {
+                atmega1.WriteRead(lightSensorSpan, readresult);
+            }
+
+            var lightSensorValue = BitConverter.ToBoolean(readresult);
+
+            return lightSensorValue;
+        }
+
+        public void SetBuzzer(bool value)
+        {
+            var writeBuffer = new byte[2] { I2cConstants.Buzzer, Convert.ToByte(value) };
+            lock (i2cLock)
+            {
+                atmega1.Write(new ReadOnlySpan<byte>(writeBuffer));
+            }
+        }
+
+        public char ReadCharacter()
         {
             byte read;
             lock (i2cLock)
@@ -109,7 +124,7 @@ namespace VRC.Car.Main.Hardware
             return Convert.ToChar(read);
         }
 
-        public string readString()
+        public string ReadString()
         {
             var readresult = new Span<byte>(new byte[10]);
             lock (i2cLock)
@@ -117,6 +132,22 @@ namespace VRC.Car.Main.Hardware
                 atmega1.Read(readresult);
             }
             return Encoding.ASCII.GetString(readresult.ToArray());
+        }
+
+        public int ReadInt16()
+        {
+            var colorSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
+            var readresult = new Span<byte>(new byte[2]);
+            lock (i2cLock)
+            {
+                atmega1.WriteRead(colorSensorSpan, readresult);
+            }
+
+            var bytes = readresult.ToArray();
+            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
+            var color = BitConverter.ToInt16(bytes, 0);
+
+            return color;
         }
 
         public int ReadInt32()
@@ -128,12 +159,7 @@ namespace VRC.Car.Main.Hardware
                 atmega1.WriteRead(colorSensorSpan, readresult);
             }
             var bytes = readresult.ToArray();
-            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
-            if (BitConverter.IsLittleEndian)
-            {
-                Array.Reverse(bytes);
-            }
-            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
+
             var color = BitConverter.ToInt32(bytes, 0);
 
             return color;
