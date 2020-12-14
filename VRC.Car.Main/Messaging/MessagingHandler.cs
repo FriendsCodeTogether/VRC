@@ -12,6 +12,8 @@ namespace VRC.Car.Main.Messaging
         private readonly string _hubUrl = "https://localhost:5001/messaginghub";
         private HubConnection _hubConnection;
 
+        public event EventHandler<CarCommandEventArgs> CarCommandReceivedEvent;
+
         public int CarNumber { get; set; }
 
         public MessagingHandler()
@@ -31,6 +33,7 @@ namespace VRC.Car.Main.Messaging
             _hubConnection.On<CarCommand>("ReceiveCarCommand", (command) =>
             {
                 Console.WriteLine($"Car number: {command.CarNumber} Car throttle: {command.Throttle} Car direction: {command.Direction}");
+                CarCommandReceivedEvent?.Invoke(this, new CarCommandEventArgs(command));
             });
 
             _hubConnection.On<int>("AssignCarNumber", (carNumber) =>
@@ -53,12 +56,13 @@ namespace VRC.Car.Main.Messaging
 
         public async Task ConnectAsync()
         {
+            Console.WriteLine($"Connecting to API at \"{_hubUrl}\"...");
             while (!IsConnected)
             {
                 try
                 {
                     await _hubConnection.StartAsync();
-                    Console.WriteLine("Connected");
+                    Console.WriteLine("Connected to API");
                     await RequestCarNumberAsync();
                     while (CarNumber == 0)
                     {
@@ -67,8 +71,8 @@ namespace VRC.Car.Main.Messaging
                 }
                 catch (System.Exception)
                 {
-                    Console.WriteLine("Failed to connect...");
-                    Console.WriteLine("Retrying");
+                    Console.WriteLine("Failed to connect to API");
+                    Console.WriteLine("Retrying...");
                     await Task.Delay(2000);
                 }
             }
