@@ -49,7 +49,7 @@ namespace VRC.Car.Main
                 Console.WriteLine("Press a key to read color sensor");
                 Console.Read();
 
-                var read = HardwareController.ReadColorSensor2();
+                var read = HardwareController.ReadColorSensor();
                 Console.WriteLine(read);
 
                 await Task.Delay(1000);

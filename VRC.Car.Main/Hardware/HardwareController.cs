@@ -66,28 +66,22 @@ namespace VRC.Car.Main.Hardware
 
         public int ReadColorSensor()
         {
-            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
+            var colorSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
             var readresult = new Span<byte>(new byte[2]);
             lock (i2cLock)
             {
-                atmega1.WriteRead(accelerationSensorSpan, readresult);
+                atmega1.WriteRead(colorSensorSpan, readresult);
             }
-            var color = BitConverter.ToInt16(readresult);
 
-            return color;
-        }
-
-        public int ReadColorSensor2()
-        {
-            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
-            var readresult = new Span<byte>(new byte[4]);
-            lock (i2cLock)
-            {
-                atmega1.WriteRead(accelerationSensorSpan, readresult);
-            }
             var bytes = readresult.ToArray();
-            Array.Reverse(bytes);
-            var color = BitConverter.ToInt32(bytes, 0);
+            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(bytes);
+            }
+            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
+
+            var color = BitConverter.ToInt16(bytes, 0);
 
             return color;
         }
@@ -117,7 +111,7 @@ namespace VRC.Car.Main.Hardware
 
         public string readString()
         {
-            var readresult = new Span<byte>(new byte[64]);
+            var readresult = new Span<byte>(new byte[10]);
             lock (i2cLock)
             {
                 atmega1.Read(readresult);
@@ -125,15 +119,39 @@ namespace VRC.Car.Main.Hardware
             return Encoding.ASCII.GetString(readresult.ToArray());
         }
 
-        public string readSensor()
+        public int ReadInt32()
         {
-            var accelerationSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
-            var readresult = new Span<byte>(new byte[1]);
+            var colorSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
+            var readresult = new Span<byte>(new byte[4]);
             lock (i2cLock)
             {
-                atmega1.WriteRead(accelerationSensorSpan, readresult);
+                atmega1.WriteRead(colorSensorSpan, readresult);
             }
-            return Encoding.ASCII.GetString(readresult.ToArray());
+            var bytes = readresult.ToArray();
+            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(bytes);
+            }
+            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
+            var color = BitConverter.ToInt32(bytes, 0);
+
+            return color;
+        }
+
+        public float ReadFloat()
+        {
+            var colorSensorSpan = new ReadOnlySpan<byte>(BitConverter.GetBytes(I2cConstants.ColorSensor));
+            var readresult = new Span<byte>(new byte[4]);
+            lock (i2cLock)
+            {
+                atmega1.WriteRead(colorSensorSpan, readresult);
+            }
+            var bytes = readresult.ToArray();
+            Console.WriteLine("byte array: " + BitConverter.ToString(bytes));
+            var color = BitConverter.ToSingle(bytes, 0);
+
+            return color;
         }
     }
 }
