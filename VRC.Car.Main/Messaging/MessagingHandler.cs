@@ -9,7 +9,7 @@ namespace VRC.Car.Main.Messaging
 {
     public class MessagingHandler
     {
-        private readonly string _hubUrl = "https://localhost:5001/messaginghub";
+        private readonly string _hubUrl = "https://192.168.0.201:5001/messaginghub";
         private HubConnection _hubConnection;
 
         public event EventHandler<CarCommandEventArgs> CarCommandReceivedEvent;
@@ -56,7 +56,7 @@ namespace VRC.Car.Main.Messaging
 
         public async Task ConnectAsync()
         {
-            Console.WriteLine("Connecting to API...");
+            Console.WriteLine($"Connecting to API at \"{_hubUrl}\"...");
             while (!IsConnected)
             {
                 try

@@ -16,21 +16,16 @@ namespace VRC.Car.Main
             var HardwareController = new HardwareController();
             HardwareController.Initialise();
 
-            // var messagingHandler = new MessagingHandler();
-            // messagingHandler.CarCommandReceivedEvent += (s, e) =>
-            // {
-            //     HardwareController.SendCarCommand(e.CarCommand);
-            // };
+            var messagingHandler = new MessagingHandler();
+            messagingHandler.CarCommandReceivedEvent += (s, e) =>
+            {
+                HardwareController.SendCarCommand(e.CarCommand);
+            };
 
-            // await messagingHandler.ConnectAsync();
+            await messagingHandler.ConnectAsync();
 
             while (true)
             {
-
-                // read color sensor
-                // read acc sensor
-                // read ultrasoon
-
                 Console.WriteLine("Press a key to send the car command forward");
                 Console.Read();
                 HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'L', Throttle = 'F'});

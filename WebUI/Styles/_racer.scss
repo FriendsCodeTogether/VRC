@@ -1,14 +1,14 @@
 @import 'Core/variables';
 
 .racer-view-container {
-  background-image: url('/images/carPlaceholder.jpeg');
+  background-image: url('/Images/carPlaceholder.jpeg');
   background-size: cover;
   height: 100%;
 
   .dashboard-card {
-    position:absolute;
-    top:0px;
-    right:0px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
     display: grid;
     grid-template: 'dashboard-top-left dashboard-top-right' 1fr 'dashboard-bottom-left dashboard-bottom-right' 1fr;
     background-color: $card-background-dark;
@@ -41,9 +41,9 @@
   }
 
   .control-panel {
-    position:absolute;
-    bottom:0px;
-    right:0px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
     display: grid;
     grid-template: 'top-left top-mid top-right' 1fr 'mid-left mid-mid mid-right' 1fr 'bottom-left bottom-mid bottom-right' 1fr;
     width: 300px;
@@ -74,7 +74,7 @@
   .racer-race-preview {
     position: absolute;
     bottom: 0px;
-    left:0px;
+    left: 0px;
     height: 200px;
   }
 }
