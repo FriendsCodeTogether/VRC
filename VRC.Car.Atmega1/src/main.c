@@ -1,93 +1,80 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include "util/delay.h"
+#include <avr/io.h>				/* Include AVR std. library file */
+#include <util/delay.h>			/* Include inbuilt defined Delay header file */
+#include <stdio.h>				/* Include standard I/O header file */
+#include <string.h>				/* Include string header file */
+#include <I2cSlave.h>			/* Include I2C slave header file */
+#include <I2cConstants.h>		/* Include I2C constants header file */
+#include <ByteConversions.h>	/* Include Byte conversions header file */
+#include <Car.h>				/* Include Car header file */
 
-#include <lights.h>
-#include <debugBoard.h>
-#include <l298hn.h>
-#include <uart.h>
+#define Slave_Address 0x20
 
-/*VARIABLES*/
-
-char buffrx[100];
-int rxpnt = 0;
-int messageReceived = 0;
-int driveSpeed = 100; //in %
-int turnSpeed = 100;  //in %
-int previousThrottle = 1;
-
-/*FUNCTIONS*/
-
-void debugMode(void)
-{
-  debugBoardSetup();
-}
-
-void carSetup(void)
-{
-  lightsSetup();
-  hBridgeSetup();
-  uartSetup();
-  sei();
-}
-
-void startup(void)
-{
-  lightsTest();
-
-  lightsPositionLights();
-}
-
-ISR(USART_RXC_vect)
-{
-  buffrx[rxpnt] = UDR;
-  uartSendByte(buffrx[rxpnt]); //DEBUG CODE
-  if (buffrx[rxpnt] == 36)     // stop when you see a $
-  {
-    messageReceived = 1;
-    buffrx[rxpnt] = 0;
-    rxpnt = 0;
-  }
-  else
-    rxpnt++;
-}
+uint8_t transmitQueue[8];
 
 int main(void)
 {
-  //debugMode();
-  carSetup();
-  startup();
-  while (1)
-  {
-    if (messageReceived == 1)
-    {
-      lightsClearIndicators();
-      if (stringCompare("f", buffrx) || stringCompare("F", buffrx)) //forwards
-      {
-        driveCar(0, 1, driveSpeed, turnSpeed);
-        previousThrottle = 1;
-      }
-      else if (stringCompare("b", buffrx) || stringCompare("B", buffrx)) //backwards
-      {
-        driveCar(0, -1, driveSpeed, turnSpeed);
-        previousThrottle = -1;
-      }
-      else if (stringCompare("l", buffrx) || stringCompare("L", buffrx)) //left
-      {
-        lightsLeftIndicator();
-        driveCar(-1, previousThrottle, driveSpeed, turnSpeed);
-      }
-      else if (stringCompare("r", buffrx) || stringCompare("R", buffrx)) //right
-      {
-        lightsRightIndicator();
-        driveCar(1, previousThrottle, driveSpeed, turnSpeed);
-      }
-      else
-      {
-        driveCar(0, 0, 0, 0); //Stop car
-        previousThrottle = 0;
-      }
-      messageReceived = 0;
-    }
-  }
+	setupCar();
+	I2cSlaveInit(Slave_Address);
+
+	while (1)
+	{
+		switch(I2cSlaveListen())				/* Check for any SLA+W or SLA+R */
+		{
+			case MASTER_WRITES_TO_SLAVE:
+			{
+				char received = 0;
+				do
+				{
+					received = I2cSlaveReceive();
+
+					if (received == MOTOR)
+					{
+						received = I2cSlaveReceive();
+						setDirection(received);
+
+						received = I2cSlaveReceive();
+						setThrottle(received);
+					}
+
+					if (received == COLOR_SENSOR)
+					{
+						int colorValue = 2;
+						intToByteArray(colorValue, transmitQueue);
+					}
+
+					if(received == LIGHT_SENSOR)
+					{
+						uint8_t lightSensorValue = 1;
+						transmitQueue[0] = lightSensorValue;
+					}
+
+					if(received == ULTRASONIC_SENSOR)
+					{
+						int ultrasonicValue = 5;
+						intToByteArray(ultrasonicValue, transmitQueue);
+					}
+
+					if(received == BUZZER)
+					{
+						received = I2cSlaveReceive();
+						setBuzzer(received);
+					}
+				} while (received != STOP_OR_REPEATED_START_RECEIVED);			/* Receive until STOP/REPEATED START received */
+				break;
+			}
+			case MASTER_READS_FROM_SLAVE:
+			{
+				unsigned char* transmitBuffer = transmitQueue;
+				int8_t Ack_status;
+				do
+				{
+					Ack_status = I2cSlaveTransmit(*transmitBuffer);	/* Send data byte */
+					transmitBuffer++;
+				} while (Ack_status == 0);		/* Send until Acknowledgment is received */
+				break;
+			}
+			default:
+				break;
+		}
+	}
 }
