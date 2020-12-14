@@ -1,17 +1,17 @@
 // Driving constants
-const neutral = 0;
-const forward = 1;
-const backward = -1;
-const left = -1;
-const right = 1;
+const neutral = 'N';
+const forward = 'F';
+const backward = 'B';
+const left = 'L';
+const right = 'R';
 
 // SignalR constants
 const racinghubUrl = '/racinghub';
 
 // Car command properties
 var carNumber = 1;
-var direction = 0;
-var throttle = 0;
+var direction = 'N';
+var throttle = 'N';
 
 // User info
 var userId = getCookieValue('AnonymousUserId');
