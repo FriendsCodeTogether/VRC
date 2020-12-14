@@ -1,11 +1,11 @@
 /*
  * ByteConversions.c
  *
- */ 
+ */
 
 #include "ByteConversions.h"
 
-void intToByteArray(int val,uint8_t* bytesArray)
+void intToByteArray(int val, uint8_t* bytesArray)
 {
   // Create union of shared memory space
   union {
@@ -18,7 +18,7 @@ void intToByteArray(int val,uint8_t* bytesArray)
   memcpy(bytesArray, u.tempArray, 2);
 }
 
-void longToByteArray(long val,uint8_t* bytesArray)
+void longToByteArray(long val, uint8_t* bytesArray)
 {
   // Create union of shared memory space
   union {
