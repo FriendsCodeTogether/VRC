@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Device.I2c;
 using System.Text;
-using VRC.Shared.Messaging;
+using VRC.Shared.Car;
 
 namespace VRC.Car.Main.Hardware
 {

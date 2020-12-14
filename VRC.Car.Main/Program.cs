@@ -4,8 +4,8 @@ using System.IO;
 using System.Threading.Tasks;
 using VRC.Car.Main.Messaging;
 using VRC.Car.Main.Hardware;
-using VRC.Shared.Messaging;
 using System.Device.I2c;
+using VRC.Shared.Car;
 
 namespace VRC.Car.Main
 {
