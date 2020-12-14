@@ -1,11 +1,11 @@
-#include <avr/io.h>				/* Include AVR std. library file */
-#include <util/delay.h>			/* Include inbuilt defined Delay header file */
-#include <stdio.h>				/* Include standard I/O header file */
-#include <string.h>				/* Include string header file */
-#include <I2cSlave.h>			/* Include I2C slave header file */
-#include <I2cConstants.h>		/* Include I2C constants header file */
+#include <avr/io.h>				    /* Include AVR std. library file */
+#include <util/delay.h>			  /* Include inbuilt defined Delay header file */
+#include <stdio.h>				    /* Include standard I/O header file */
+#include <string.h>				    /* Include string header file */
+#include <I2cSlave.h>			    /* Include I2C slave header file */
+#include <I2cConstants.h>		  /* Include I2C constants header file */
 #include <ByteConversions.h>	/* Include Byte conversions header file */
-#include <Car.h>				/* Include Car header file */
+#include <Car.h>				      /* Include Car header file */
 
 #define Slave_Address 0x20
 
@@ -18,7 +18,7 @@ int main(void)
 
 	while (1)
 	{
-		switch(I2cSlaveListen())				/* Check for any SLA+W or SLA+R */
+		switch(I2cSlaveListen())	/* Check for any SLA+W or SLA+R */
 		{
 			case MASTER_WRITES_TO_SLAVE:
 			{
@@ -59,7 +59,7 @@ int main(void)
 						received = I2cSlaveReceive();
 						setBuzzer(received);
 					}
-				} while (received != STOP_OR_REPEATED_START_RECEIVED);			/* Receive until STOP/REPEATED START received */
+				} while (received != STOP_OR_REPEATED_START_RECEIVED);	/* Receive until STOP/REPEATED START received */
 				break;
 			}
 			case MASTER_READS_FROM_SLAVE:
@@ -70,7 +70,7 @@ int main(void)
 				{
 					Ack_status = I2cSlaveTransmit(*transmitBuffer);	/* Send data byte */
 					transmitBuffer++;
-				} while (Ack_status == 0);		/* Send until Acknowledgment is received */
+				} while (Ack_status == 0);	/* Send until Acknowledgment is received */
 				break;
 			}
 			default:
