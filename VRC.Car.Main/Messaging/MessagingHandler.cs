@@ -56,7 +56,7 @@ namespace VRC.Car.Main.Messaging
 
             _hubConnection.On<CarCommand>("ReceiveCarCommand", (command) =>
             {
-                Console.WriteLine($"Car number: {command.CarNumber} Car throttle: {command.Throttle} Car direction: {command.Direction}");
+                // Console.WriteLine($"Car number: {command.CarNumber} Car throttle: {command.Throttle} Car direction: {command.Direction}");
                 CarCommandReceivedEvent?.Invoke(this, new CarCommandEventArgs(command));
             });
 
