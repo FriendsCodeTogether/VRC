@@ -26,41 +26,37 @@ namespace VRC.Car.Main
 
             while (true)
             {
-                Console.WriteLine("Press a key to send the car command forward");
-                Console.Read();
-                HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'L', Throttle = 'F'});
+                // Console.WriteLine("Press a key to send the car command forward");
+                // Console.Read();
+                // HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'L', Throttle = 'F'});
 
-                Console.WriteLine("Press a key to send the car command backwards");
-                Console.Read();
-                HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'R', Throttle = 'B'});
+                // Console.WriteLine("Press a key to send the car command backwards");
+                // Console.Read();
+                // HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'R', Throttle = 'B'});
 
-                Console.WriteLine("Press a key to send the car command off");
-                Console.Read();
-                HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'N', Throttle = 'N'});
+                // Console.WriteLine("Press a key to send the car command off");
+                // Console.Read();
+                // HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'N', Throttle = 'N'});
 
-                Console.WriteLine("Press a key to read color sensor");
-                Console.Read();
                 var colorSensorValue = HardwareController.ReadColorSensor();
                 Console.WriteLine(colorSensorValue);
-
-                Console.WriteLine("Press a key to read light sensor");
-                Console.Read();
+                // await Task.Delay(10);
 
                 var lightSensorValue = HardwareController.ReadLightSensor();
                 Console.WriteLine(lightSensorValue);
-                Console.WriteLine("Press a key to read ultrasonic sensor");
-                Console.Read();
+                // await Task.Delay(10);
 
                 var ultrasonicSensorValue = HardwareController.ReadUltrasonicSensor();
                 Console.WriteLine(ultrasonicSensorValue);
+                // await Task.Delay(10);
 
-                Console.WriteLine("Press a key to enable buzzer");
-                Console.Read();
-                HardwareController.SetBuzzer(true);
+                // Console.WriteLine("Press a key to enable buzzer");
+                // Console.Read();
+                // HardwareController.SetBuzzer(true);
 
-                Console.WriteLine("Press a key to disable buzzer");
-                Console.Read();
-                HardwareController.SetBuzzer(false);
+                // Console.WriteLine("Press a key to disable buzzer");
+                // Console.Read();
+                // HardwareController.SetBuzzer(false);
 
                 await Task.Delay(1000);
             }

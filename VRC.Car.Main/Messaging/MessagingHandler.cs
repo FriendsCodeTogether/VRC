@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
+using System.Net.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using VRC.Shared.Car;
@@ -9,7 +11,7 @@ namespace VRC.Car.Main.Messaging
 {
     public class MessagingHandler
     {
-        private readonly string _hubUrl = "https://localhost:5001/messaginghub";
+        private readonly string _hubUrl = "https://localhost:5001/racinghub";
         private HubConnection _hubConnection;
 
         public event EventHandler<CarCommandEventArgs> CarCommandReceivedEvent;
@@ -26,13 +28,35 @@ namespace VRC.Car.Main.Messaging
 
         private void Initialise()
         {
+            // Create a handler that accepts custom (untrusted) certificates
+            var handler = new HttpClientHandler
+            {
+                ClientCertificateOptions = ClientCertificateOption.Manual,
+                ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) => {
+                    // Validate the cert here and return true if it's correct.
+                    // If this is a development app, you could just return true always
+                    // In production you should ALWAYS either use a trusted cert or check the thumbprint of the cert matches one you expect.
+                    return true;
+                }
+            };
             _hubConnection = new HubConnectionBuilder()
-            .WithUrl(_hubUrl)
+            .WithUrl(_hubUrl, options =>
+            {
+                // Register the custom handler above and also configure WebSockets
+                options.HttpMessageHandlerFactory = _ => handler;
+                options.WebSocketConfiguration = sockets =>
+                {
+                    sockets.RemoteCertificateValidationCallback = new RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => {
+                        // You have to repeat your cert validation code here. Feel free to use a helper method!
+                        return true;
+                    });
+                };
+            })
             .Build();
 
             _hubConnection.On<CarCommand>("ReceiveCarCommand", (command) =>
             {
-                Console.WriteLine($"Car number: {command.CarNumber} Car throttle: {command.Throttle} Car direction: {command.Direction}");
+                // Console.WriteLine($"Car number: {command.CarNumber} Car throttle: {command.Throttle} Car direction: {command.Direction}");
                 CarCommandReceivedEvent?.Invoke(this, new CarCommandEventArgs(command));
             });
 
@@ -69,8 +93,10 @@ namespace VRC.Car.Main.Messaging
                         await Task.Delay(50);
                     }
                 }
-                catch (System.Exception)
+                catch (System.Exception e)
                 {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.InnerException?.Message);
                     Console.WriteLine("Failed to connect to API");
                     Console.WriteLine("Retrying...");
                     await Task.Delay(2000);
