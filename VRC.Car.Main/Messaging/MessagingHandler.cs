@@ -69,8 +69,9 @@ namespace VRC.Car.Main.Messaging
                         await Task.Delay(50);
                     }
                 }
-                catch (System.Exception)
+                catch (System.Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     Console.WriteLine("Failed to connect to API");
                     Console.WriteLine("Retrying...");
                     await Task.Delay(2000);
