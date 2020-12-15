@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using VRC.Car.Main.Messaging;
 using VRC.Car.Main.Hardware;
+using VRC.Car.Main.Camera;
 using System.Device.I2c;
 using VRC.Shared.Car;
 
@@ -13,16 +14,20 @@ namespace VRC.Car.Main
     {
         static async Task Main(string[] args)
         {
-            var HardwareController = new HardwareController();
-            HardwareController.Initialise();
+            // var HardwareController = new HardwareController();
+            // HardwareController.Initialise();
 
-            var messagingHandler = new MessagingHandler();
-            messagingHandler.CarCommandReceivedEvent += (s, e) =>
-            {
-                HardwareController.SendCarCommand(e.CarCommand);
-            };
+            // var messagingHandler = new MessagingHandler();
+            // messagingHandler.CarCommandReceivedEvent += (s, e) =>
+            // {
+            //     HardwareController.SendCarCommand(e.CarCommand);
+            // };
 
-            await messagingHandler.ConnectAsync();
+            // await messagingHandler.ConnectAsync();
+
+            var cameraRunner = new CameraRunner();
+            cameraRunner.Start();
+
 
             while (true)
             {
@@ -38,17 +43,14 @@ namespace VRC.Car.Main
                 // Console.Read();
                 // HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'N', Throttle = 'N'});
 
-                var colorSensorValue = HardwareController.ReadColorSensor();
-                Console.WriteLine(colorSensorValue);
-                // await Task.Delay(10);
+                // var colorSensorValue = HardwareController.ReadColorSensor();
+                // Console.WriteLine(colorSensorValue);
 
-                var lightSensorValue = HardwareController.ReadLightSensor();
-                Console.WriteLine(lightSensorValue);
-                // await Task.Delay(10);
+                // var lightSensorValue = HardwareController.ReadLightSensor();
+                // Console.WriteLine(lightSensorValue);
 
-                var ultrasonicSensorValue = HardwareController.ReadUltrasonicSensor();
-                Console.WriteLine(ultrasonicSensorValue);
-                // await Task.Delay(10);
+                // var ultrasonicSensorValue = HardwareController.ReadUltrasonicSensor();
+                // Console.WriteLine(ultrasonicSensorValue);
 
                 // Console.WriteLine("Press a key to enable buzzer");
                 // Console.Read();
