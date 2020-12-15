@@ -1,9 +1,14 @@
 @import 'Core/variables';
 
 .racer-view-container {
-  background-image: url('/Images/carPlaceholder.jpeg');
-  background-size: cover;
   height: 100%;
+
+  .racer-camera-feed {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform: scaleY(-1);
+  }
 
   .dashboard-card {
     position: absolute;
