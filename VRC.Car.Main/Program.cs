@@ -13,13 +13,13 @@ namespace VRC.Car.Main
     {
         static async Task Main(string[] args)
         {
-            // var HardwareController = new HardwareController();
-            // HardwareController.Initialise();
+            var HardwareController = new HardwareController();
+            HardwareController.Initialise();
 
             var messagingHandler = new MessagingHandler();
             messagingHandler.CarCommandReceivedEvent += (s, e) =>
             {
-                // HardwareController.SendCarCommand(e.CarCommand);
+                HardwareController.SendCarCommand(e.CarCommand);
             };
 
             await messagingHandler.ConnectAsync();
