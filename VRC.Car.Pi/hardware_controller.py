@@ -36,7 +36,7 @@ class HardwareController:
     print("Testing I2C completed.")
 
   def send_car_command(self, carCommand):
-    bytesToSend = bytearray([i2c_constants.MOTOR, ord(carCommand.direction), ord(carCommand.throttle)])
+    bytesToSend = bytearray([i2c_constants.MOTOR, ord(carCommand["direction"]), ord(carCommand["throttle"])])
     self._i2c_lock.acquire()
     self._i2c.writeto(self._atmega1, bytesToSend)
     self._i2c_lock.release()

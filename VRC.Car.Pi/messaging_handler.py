@@ -1,5 +1,5 @@
 from signalrcore.hub_connection_builder import HubConnectionBuilder
-from event_hook import EventHook
+from hardware_controller import HardwareController
 
 class MessagingHandler:
   _hubUrl = 'https://localhost:5001/racinghub'
@@ -11,10 +11,10 @@ class MessagingHandler:
             "intervals": [1, 3, 5, 6, 7, 87, 3]
         }).build()
 
-  carNumber = 0
-  carCommandReceivedEvent = EventHook(carCommand = dict)
+  carNumber = 1
 
-  def __init__(self):
+  def __init__(self, hardwareController):
+    self._hardwareController = hardwareController
     self._hubConnection.on_open(self.on_connect)
     self._hubConnection.on_close(lambda: print("connection closed"))
     self._hubConnection.on("ReceiveCarCommand", self.on_receive_car_command)
@@ -30,11 +30,9 @@ class MessagingHandler:
   def on_connect(self):
     print('Connected to API')
     self.request_car_number()
-    self.send_car_command()
 
   def on_receive_car_command(self, carCommand):
-    print(carCommand[0])
-    self.carCommandReceivedEvent(carCommand[0])
+    self._hardwareController.send_car_command(carCommand[0])
 
   def on_receive_car_number(self, carNumber):
     print('Received car number')
@@ -43,14 +41,14 @@ class MessagingHandler:
 
   def request_car_number(self):
     print('Requesting car number...')
-    self._hubConnection.send("RequestCarNumber", [0], lambda m: print(m))
+    self._hubConnection.send("RequestCarNumber", [0])
 
   def send_car_command(self):
-    print('Sending car command...')
+    print('Sending car command to myself for testing...')
     command = {
-      'carNumber': 5,
+      'carNumber': 1,
       'Direction': 'L',
       'Throttle': 'F'
     }
-    self._hubConnection.send("SendCarCommand", [1, command], lambda m: print(m))
+    self._hubConnection.send("SendCarCommand", [self.carNumber, command])
 
