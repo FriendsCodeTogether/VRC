@@ -122,12 +122,10 @@ const connection = new signalR.HubConnectionBuilder()
   .withUrl(racinghubUrl)
   .configureLogging(signalR.LogLevel.Information)
   .build();
-const queueConnection = new signalR.HubConnectionBuilder().withUrl('/queuehub').configureLogging(signalR.LogLevel.Information).build();
 
-queueConnection.on("showRaceCountdown", () => showRaceCountdown());
-queueConnection.on("UpdateRaceCountdownTime", (seconds) => UpdateRaceCountdownTime(seconds));
-queueConnection.on("RemoveRaceCountdown", () => RemoveRaceCountdown());
-queueConnection.on("ConnectRacersToCar", () => await connection.invoke('ConnectRacersToCar'));
+connection.on("showRaceCountdown", () => showRaceCountdown());
+connection.on("UpdateRaceCountdownTime", (seconds) => UpdateRaceCountdownTime(seconds));
+connection.on("RemoveRaceCountdown", () => RemoveRaceCountdown());
 
 var countdown = document.getElementById("race-start-countdown");
 var countdowntext = document.getElementById("race-start-countdown-text");
@@ -143,17 +141,16 @@ function UpdateRaceCountdownTime(seconds) {
 }
 
 function RemoveRaceCountdown() {
-  console.log("user was too late");
-  queueCard.style.display = "none";
-  location.reload();
+  console.log("race started");
+  countdown.style.display = "none";
 }
 
 async function start() {
   try {
     await connection.start();
     console.log('SignalR Connected.');
-    await queueConnection.start();
-    console.log('SignalR QueueHub Connected.');
+    await connection.invoke("ConnectRacerToCar");
+    console.log('User connected to car');
   } catch (err) {
     console.log(err);
     setTimeout(start, 5000);

@@ -117,6 +117,11 @@ namespace WebUI.Hubs
         public async Task PrepareRaceAsync(int lapAmount) => await _raceManagerService.PrepareRace(lapAmount);
 
         /// <summary>
+        /// connecets a racer to a car
+        /// </summary>
+        public void ConnectRacerToCar() => _carManagerService.ConnectRacerToCar(Context.ConnectionId);
+
+        /// <summary>
         /// starts the race
         /// </summary>
         /// <returns></returns>

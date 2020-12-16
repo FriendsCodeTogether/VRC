@@ -23,7 +23,7 @@ namespace WebUI.Services
             }
         }
 
-        public void ConnectRacersToCar(string connectionId)
+        public void ConnectRacerToCar(string connectionId)
         {
             foreach (var car in Cars)
             {
