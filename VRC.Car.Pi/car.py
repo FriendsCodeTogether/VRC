@@ -9,9 +9,9 @@ messagingHandler.connect()
 
 # Main loop
 while True:
-  print(hardwareController.read_color_sensor())
-  print(hardwareController.read_ultrasonic_sensor())
-  print(hardwareController.read_light_sensor())
+  # print(hardwareController.read_color_sensor())
+  # print(hardwareController.read_ultrasonic_sensor())
+  # print(hardwareController.read_light_sensor())
   sleep(1)
   hardwareController.set_buzzer(1)
   sleep(1)

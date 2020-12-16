@@ -20,6 +20,12 @@ namespace WebUI.Hubs
             _raceManagerService = raceManagerService;
         }
 
+        public override async Task OnConnectedAsync()
+        {
+            Console.WriteLine("Car connected");
+            await base.OnConnectedAsync();
+        }
+
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var car = _carManagerService.Cars.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
@@ -32,7 +38,11 @@ namespace WebUI.Hubs
         /// </summary>
         /// <param name="carNumber">The car to send it to</param>
         /// <param name="command">The CarCommand to be sent</param>
-        public async Task SendCarCommand(int carNumber, CarCommand command) => await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
+        public async Task SendCarCommand(int carNumber, CarCommand command)
+        {
+            Console.WriteLine("CarCommand received at hub");
+            await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
+        }
 
         /// <summary>
         /// Assign a new CarNumber to a car
@@ -45,8 +55,9 @@ namespace WebUI.Hubs
         /// Allows a car to request a car number when it connects.
         /// </summary>
         /// <param name="carNumber"></param>
-        public async Task RequestCarNumber()
+        public async Task RequestCarNumber(int unusedParameterThePythonLibNeeds)
         {
+            Console.WriteLine("CarNumber requested");
             await AssignNewCarNumber(Context.ConnectionId);
         }
 
