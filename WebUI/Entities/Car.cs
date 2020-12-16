@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace VRC.Shared.Car
+namespace WebUI.Entities
 {
     public class Car
     {

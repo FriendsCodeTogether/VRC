@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VRC.Shared.Car
+namespace WebUI.Entities
 {
     public class CarCommand
     {

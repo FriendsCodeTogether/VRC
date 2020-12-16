@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.SignalR;
-using VRC.Shared.Car;
+using WebUI.Entities;
 using System.Collections.Concurrent;
 using WebUI.Services;
 

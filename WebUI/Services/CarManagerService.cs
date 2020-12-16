@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VRC.Shared.Car;
+using WebUI.Entities;
 using WebUI.Entities;
 
 namespace WebUI.Services
