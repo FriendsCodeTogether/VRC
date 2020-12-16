@@ -1,0 +1,13 @@
+MOTOR = ord('m')
+COLOR_SENSOR = ord('c')
+LIGHT_SENSOR = ord('l')
+ULTRASONIC_SENSOR = ord('u')
+BUZZER = ord('b')
+
+DIRECTION_LEFT = ord('L')
+DIRECTION_RIGHT = ord('R')
+DIRECTION_NEUTRAL = ord('N')
+
+THROTTLE_FORWARD = ord('F')
+THROTTLE_BACKWARD = ord('B')
+THROTTLE_NEUTRAL = ord('N')
