@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using VRC.Car.Main.Messaging;
+using VRC.Car.Main.Hardware;
+using System.Device.I2c;
 using VRC.Shared.Car;
 
 namespace VRC.Car.Main
@@ -11,18 +13,52 @@ namespace VRC.Car.Main
     {
         static async Task Main(string[] args)
         {
+            var HardwareController = new HardwareController();
+            HardwareController.Initialise();
+
             var messagingHandler = new MessagingHandler();
+            messagingHandler.CarCommandReceivedEvent += (s, e) =>
+            {
+                HardwareController.SendCarCommand(e.CarCommand);
+            };
+
             await messagingHandler.ConnectAsync();
 
-            var command = new CarCommand
-            {
-                CarNumber = messagingHandler.CarNumber,
-                Throttle = 1,
-                Direction = -1
-            };
             while (true)
             {
-                await Task.Delay(2000);
+                // Console.WriteLine("Press a key to send the car command forward");
+                // Console.Read();
+                // HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'L', Throttle = 'F'});
+
+                // Console.WriteLine("Press a key to send the car command backwards");
+                // Console.Read();
+                // HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'R', Throttle = 'B'});
+
+                // Console.WriteLine("Press a key to send the car command off");
+                // Console.Read();
+                // HardwareController.SendCarCommand(new CarCommand { CarNumber = 1, Direction = 'N', Throttle = 'N'});
+
+                var colorSensorValue = HardwareController.ReadColorSensor();
+                Console.WriteLine(colorSensorValue);
+                // await Task.Delay(10);
+
+                var lightSensorValue = HardwareController.ReadLightSensor();
+                Console.WriteLine(lightSensorValue);
+                // await Task.Delay(10);
+
+                var ultrasonicSensorValue = HardwareController.ReadUltrasonicSensor();
+                Console.WriteLine(ultrasonicSensorValue);
+                // await Task.Delay(10);
+
+                // Console.WriteLine("Press a key to enable buzzer");
+                // Console.Read();
+                // HardwareController.SetBuzzer(true);
+
+                // Console.WriteLine("Press a key to disable buzzer");
+                // Console.Read();
+                // HardwareController.SetBuzzer(false);
+
+                await Task.Delay(1000);
             }
         }
     }

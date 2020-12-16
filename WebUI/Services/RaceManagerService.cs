@@ -14,9 +14,10 @@ namespace WebUI.Services
         private readonly IHubContext<QueueHub> _hubContext;
         private readonly CarManagerService _carManagerService;
         private readonly QueueManagerService _queueManagerService;
-        private Timer raceTimer;
-        private Timer raceStartCountdownTimer;
-        private Timer confirmationTimer;
+        private Timer _raceStartCountdownTimer;
+        private Timer _raceTimer;
+        private Timer _confirmationTimer;
+        private int _confirmationTime;
         private int _lapAmount;
         private bool _isPrepared;
         private int confirmationTime;
@@ -29,17 +30,19 @@ namespace WebUI.Services
             _hubContext = hubContext;
             _carManagerService = carManagerService;
             _queueManagerService = queueManagerService;
-            raceTimer = new Timer();
-            raceStartCountdownTimer = new Timer();
-            raceStartCountdownTimer.Interval = 1000;
-            raceStartCountdownTimer.Elapsed += RaceStartCountdownTimer_Elapsed;
+            _raceTimer = new Timer();
+            _raceStartCountdownTimer = new Timer();
+            _raceStartCountdownTimer.Interval = 1000;
+            _raceStartCountdownTimer.Elapsed += RaceStartCountdownTimer_Elapsed;
+
+            _raceTimer = new Timer();
 
             _isPrepared = false;
             IsRacing = false;
 
-            confirmationTimer = new Timer();
-            confirmationTimer.Interval = 1000;
-            confirmationTimer.Elapsed += ConfirmationTimer_Elapsed;
+            _confirmationTimer = new Timer();
+            _confirmationTimer.Interval = 1000;
+            _confirmationTimer.Elapsed += ConfirmationTimer_Elapsed;
         }
 
         private async void RaceStartCountdownTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -54,23 +57,23 @@ namespace WebUI.Services
             }
             if (raceStartCountdown < 0)
             {
-                raceStartCountdownTimer.Stop();
+                _raceStartCountdownTimer.Stop();
                 await _hubContext.Clients.Group("racers").SendAsync("RemoveRaceCountdown");
             }
         }
 
         /// <summary>
-        /// gives the seconds of the confirmation timer, when countdown reaches 0, the timer stops and the user that didnt asnwer are send to the home page 
+        /// gives the seconds of the confirmation timer, when countdown reaches 0, the timer stops and the user that didnt asnwer are send to the home page
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void ConfirmationTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            confirmationTime--;
-            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", confirmationTime);
-            if (confirmationTime < 0)
+            _confirmationTime--;
+            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", _confirmationTime);
+            if (_confirmationTime < 0)
             {
-                confirmationTimer.Stop();
+                _confirmationTimer.Stop();
                 await _hubContext.Clients.Group("waitingForConfirm").SendAsync("RemoveConfirm");
             }
         }
@@ -113,10 +116,10 @@ namespace WebUI.Services
 
         private async void ResetConfirmationTimer()
         {
-            confirmationTimer.Stop();
-            confirmationTime = 10;
-            confirmationTimer.Start();
-            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", confirmationTime);
+            _confirmationTimer.Stop();
+            _confirmationTime = 10;
+            _confirmationTimer.Start();
+            await _hubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", _confirmationTime);
         }
 
         public async Task StartRace()
@@ -129,17 +132,17 @@ namespace WebUI.Services
             Console.WriteLine("user connected to car");
             raceStartCountdown = 3;
             Console.WriteLine(raceStartCountdown);
-            raceStartCountdownTimer.Start();
+            _raceStartCountdownTimer.Start();
             await _hubContext.Clients.Group("racers").SendAsync("showRaceCountdown", raceStartCountdown);
 
+            _raceTimer.Start();
         }
 
-        public void EndRace()
+        public async void EndRace()
         {
-            raceTimer.Stop();
             IsRacing = false;
+            _raceTimer.Stop();
             _carManagerService.RemoveRacers();
         }
-
     }
 }

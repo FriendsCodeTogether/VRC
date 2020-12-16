@@ -38,7 +38,7 @@ namespace WebUI.Hubs
             {
                 await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
             }
-            
+
         }
 
         /// <summary>
