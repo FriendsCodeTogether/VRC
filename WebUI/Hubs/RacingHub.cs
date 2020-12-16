@@ -23,7 +23,8 @@ namespace WebUI.Hubs
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var car = _carManagerService.Cars.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
-            _ = _carManagerService.Cars.TryTake(out car);
+            //_ = _carManagerService.Cars.TryTake(out car);
+            _carManagerService.Cars.Remove(car);
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -64,11 +65,21 @@ namespace WebUI.Hubs
         /// <param name="carNumber"></param>
         public async Task ReclaimCarNumber(int carNumber)
         {
+            
             var connectionId = Context.ConnectionId;
-            if (_carManagerService.Cars.FirstOrDefault(c => c.CarNumber == carNumber) == null)
+            Car existingCar;
+            lock (_carManagerService.CarsLock)
             {
-                Car car = new Car(carNumber, connectionId);
-                _carManagerService.Cars.Add(car);
+                existingCar = _carManagerService.Cars.FirstOrDefault(c => c.CarNumber == carNumber);
+            }
+            if (existingCar == null)
+            {
+                lock (_carManagerService.CarsLock)
+                {
+                    Car car = new Car(carNumber, connectionId);
+                    _carManagerService.Cars.Add(car);
+                }
+                
             }
             else
             {
@@ -84,7 +95,11 @@ namespace WebUI.Hubs
         {
             var newCarNumber = FindAvailableNumber();
             Car car = new Car(newCarNumber, connectionId);
-            _carManagerService.Cars.Add(car);
+            lock (_carManagerService.CarsLock)
+            {
+                _carManagerService.Cars.Add(car);
+            }
+           
             await AssignCarNumber(connectionId, car.CarNumber);
         }
 
@@ -94,15 +109,19 @@ namespace WebUI.Hubs
         /// <returns>The first available car number</returns>
         private int FindAvailableNumber()
         {
-            for (var i = 1; i <= _carManagerService.Cars.Count + 1; i++)
+            lock (_carManagerService.CarsLock)
             {
-                if (_carManagerService.Cars.FirstOrDefault(c => c.CarNumber == i) != null)
+                for (var i = 1; i <= _carManagerService.Cars.Count + 1; i++)
                 {
-                    continue;
+                    if (_carManagerService.Cars.FirstOrDefault(c => c.CarNumber == i) != null)
+                    {
+                        continue;
+                    }
+                    return i;
                 }
-                return i;
+                return 0;
             }
-            return 0;
+            
         }
 
         /// <summary>
@@ -119,7 +138,7 @@ namespace WebUI.Hubs
         /// <summary>
         /// connecets a racer to a car
         /// </summary>
-        public void ConnectRacerToCar() => _carManagerService.ConnectRacerToCar(Context.ConnectionId);
+        public int ConnectRacerToCar(string userId) => _carManagerService.ConnectRacerToCar(userId);
 
         /// <summary>
         /// starts the race

@@ -87,11 +87,9 @@ namespace WebUI.Services
             var racerAmount = 1;
             await AssignRacersAsync(racerAmount);
             ResetConfirmationTimer();
-            Console.WriteLine("test prepare");
 
             //reset stats from the car and assign user to car
             _carManagerService.ResetCartimes();
-
 
             //change amount of laps to selected value on page
             _lapAmount = lapAmount;
