@@ -33,62 +33,10 @@ void lightsToggleLed(int led)
 void lightsClearAllLeds(void)
 {
   PORTA = 0x00;
+  lightsSetLed(PositionLights);
 }
 
-void lightsClearIndicators(void)
+void testLights(void)
 {
-  lightsClearLed(LeftIndicator);
-  lightsClearLed(RightIndicator);
-}
-
-void lightsClearFrontBar(void)
-{
-  lightsClearLed(FrontBarMiddleLeft);
-  lightsClearLed(FrontBarMiddleRight);
-  lightsClearLed(FrontBarRight);
-  lightsClearLed(FrontBarLeft);
-}
-
-void lightsClearPositionLights(void)
-{
-  lightsClearLed(FrontLeft);
-  lightsClearLed(FrontRight);
-}
-
-void lightsFrontBar(void)
-{
-  lightsSetLed(FrontBarMiddleLeft);
-  lightsSetLed(FrontBarMiddleRight);
-  lightsSetLed(FrontBarRight);
-  lightsSetLed(FrontBarLeft);
-}
-
-void lightsPositionLights(void)
-{
-  lightsSetLed(FrontLeft);
-  lightsSetLed(FrontRight);
-}
-
-void lightsLeftIndicator(void)
-{
-  lightsSetLed(LeftIndicator);
-}
-
-void lightsRightIndicator(void)
-{
-  lightsSetLed(RightIndicator);
-}
-
-void lightsTest(void)
-{
-  for (int8_t i = 0; i < 2; i++)
-  {
-    lightsPositionLights();
-    lightsFrontBar();
-    lightsLeftIndicator();
-    lightsRightIndicator();
-    _delay_ms(500);
-    lightsClearAllLeds();
-    _delay_ms(500);
-  }
+  //TODO
 }
