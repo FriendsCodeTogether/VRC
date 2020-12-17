@@ -10,7 +10,8 @@
 #define Slave_Address 0x20
 
 uint8_t transmitQueue[8];
-int speed = 70;
+//BARE MINIMUM SPEED = 65%
+int speed = 65;
 
 int main(void)
 {
