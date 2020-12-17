@@ -143,6 +143,7 @@ namespace WebUI.Services
             {
                 return;
             }
+            _isPrepared = false;
 
             _raceStartCountdown = 3;
             _raceStartCountdownTimer.Start();
@@ -150,13 +151,15 @@ namespace WebUI.Services
             await _racingHubContext.Clients.All.SendAsync("showRaceCountdown", _raceStartCountdown);
 
             _raceTimer.Start();
+            
         }
 
-        public void EndRace()
+        public async Task EndRace()
         {
             IsRacing = false;
             _raceTimer.Stop();
             _carManagerService.RemoveRacers();
+            await _racingHubContext.Clients.All.SendAsync("RemoveRacers");
         }
     }
 }

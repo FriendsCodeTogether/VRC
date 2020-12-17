@@ -34,10 +34,14 @@ async function startRaceButtonClicked() {
   }
 }
 
-function stopRaceButtonClicked() {
+async function stopRaceButtonClicked() {
   stopRaceButton.setAttribute("disabled", true);
   prepareRaceButton.removeAttribute("disabled");
-
+  try {
+    await connection.invoke('StopRaceAsync');
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function start() {

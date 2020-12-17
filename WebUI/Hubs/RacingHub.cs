@@ -147,5 +147,11 @@ namespace WebUI.Hubs
         /// <returns>int lapAmount</returns>
         public int GetLapAmount() => _raceManagerService.LapAmount;
 
+        /// <summary>
+        /// stops the race and removes all racers from their cars and the racing page
+        /// </summary>
+        /// <returns></returns>
+        public async Task StopRaceAsync() => await _raceManagerService.EndRace();
+
     }
 }

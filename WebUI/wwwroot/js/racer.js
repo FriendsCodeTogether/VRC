@@ -9,7 +9,7 @@ const right = 'R';
 const racinghubUrl = '/racinghub';
 
 // Car command properties
-var carNumber = 1;
+var carNumber = 0;
 var direction = 'N';
 var throttle = 'N';
 
@@ -64,7 +64,7 @@ async function sendCarCommand() {
   };
 
   try {
-    await connection.invoke('SendCarCommand', 1, carCommand);
+    await connection.invoke('SendCarCommand', carNumber, carCommand);
   } catch (err) {
     console.error(err);
   }
@@ -126,6 +126,7 @@ const connection = new signalR.HubConnectionBuilder()
 connection.on("showRaceCountdown", () => showRaceCountdown());
 connection.on("UpdateRaceCountdownTime", (seconds) => UpdateRaceCountdownTime(seconds));
 connection.on("RemoveRaceCountdown", () => RemoveRaceCountdown());
+connection.on("RemoveRacers", () => removeRacers());
 
 var countdown = document.getElementById("race-start-countdown");
 var countdowntext = document.getElementById("race-start-countdown-text");
@@ -163,7 +164,10 @@ async function getLapAmount() {
   var getLapAmount = await connection.invoke('GetLapAmount');
   console.log(getLapAmount);
   lapAmount.textContent = getLapAmount;
+}
 
+function removeRacers() {
+  location.replace("/");
 }
 
 async function connectRacerToCar() {
@@ -172,11 +176,11 @@ async function connectRacerToCar() {
   if (carNumber != -1) {
     console.log('User connected to car');
     playerNumber.textContent = carNumber;
+    this.carNumber = carNumber;
   } else {
     console.log("no cars available");
     location.replace("/");
   }
-
 }
 
 connection.onclose(start);
