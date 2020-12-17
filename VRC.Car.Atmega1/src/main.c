@@ -10,7 +10,7 @@
 #define Slave_Address 0x20
 
 uint8_t transmitQueue[8];
-int speed = 90;
+int speed = 70;
 
 int main(void)
 {
