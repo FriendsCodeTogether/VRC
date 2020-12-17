@@ -2,7 +2,7 @@ from signalrcore.hub_connection_builder import HubConnectionBuilder
 from hardware_controller import HardwareController
 
 class MessagingHandler:
-  _hubUrl = 'https://localhost:5001/racinghub'
+  _hubUrl = 'https://192.168.0.100:5001/racinghub'
   _hubConnection = HubConnectionBuilder()\
     .with_url(_hubUrl, options={"verify_ssl": False}) \
     .with_automatic_reconnect({
