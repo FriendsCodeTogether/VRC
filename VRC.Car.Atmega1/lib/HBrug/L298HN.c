@@ -15,40 +15,6 @@ void HBridgeSetup(void)
   pwmSetup();
 }
 
-void driveCar(char direction, char throttle, int speed)
-{
-  pwmSpeed(speed);
-
-  if (throttle == 'N')
-  {
-    stopCar();
-  }
-  else if (direction == 'N' && throttle == 'F')
-  {
-    driveStraightForwards();
-  }
-  else if (direction == 'N' && throttle == 'B')
-  {
-    driveStraightBackwards();
-  }
-  else if (direction == 'L' && throttle == 'F')
-  {
-    driveLeftForwards();
-  }
-  else if (direction == 'L' && throttle == 'B')
-  {
-    driveLeftBackwards();
-  }
-  else if (direction == 'R' && throttle == 'F')
-  {
-    driveRightForwards();
-  }
-  else if (direction == 'R' && throttle == 'B')
-  {
-    driveRightBackwards();
-  }
-}
-
 void stopCar(void)
 {
   PORTB = PORTB & ~(1 << leftWheelsForwards);
