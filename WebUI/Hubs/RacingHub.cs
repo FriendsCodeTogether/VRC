@@ -95,7 +95,6 @@ namespace WebUI.Hubs
             {
                 _carManagerService.Cars.Add(car);
             }
-           
             await AssignCarNumber(connectionId, car.CarNumber);
         }
 
@@ -127,7 +126,6 @@ namespace WebUI.Hubs
         /// <summary>
         /// Prepares the settings for the race
         /// </summary>
-        /// <returns></returns>
         public async Task PrepareRaceAsync(int lapAmount) => await _raceManagerService.PrepareRace(lapAmount);
 
         /// <summary>
@@ -138,7 +136,6 @@ namespace WebUI.Hubs
         /// <summary>
         /// starts the race
         /// </summary>
-        /// <returns></returns>
         public async Task StartRaceAsync() => await _raceManagerService.StartRace();
 
         /// <summary>
@@ -146,6 +143,21 @@ namespace WebUI.Hubs
         /// </summary>
         /// <returns>int lapAmount</returns>
         public int GetLapAmount() => _raceManagerService.LapAmount;
+
+        /// <summary>
+        /// stops the race and removes all racers from their cars and the racing page
+        /// </summary>
+        public async Task StopRaceAsync() => await _raceManagerService.EndRace();
+
+        /// <summary>
+        /// when an admin connects, put them in the admin group to be able to call them specifically
+        /// </summary>
+        public async Task PutAdminInGroupAsync() => await Groups.AddToGroupAsync(Context.ConnectionId, "admins");
+
+        /// <summary>
+        /// when a racer connects, put them in the racer group to be able to call them specifically
+        /// </summary>
+        public async Task PutRacerInGroupAsync() => await Groups.AddToGroupAsync(Context.ConnectionId, "racers");
 
     }
 }
