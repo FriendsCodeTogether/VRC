@@ -11,7 +11,7 @@ namespace WebUI.Services
     public class CarManagerService
     {
         // Singleton
-        public ConcurrentBag<Car> Cars { get; set; } = new();
+        public List<Car> Cars { get; set; } = new();
 
         public void ResetCartimes()
         {
