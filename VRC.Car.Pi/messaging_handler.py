@@ -5,11 +5,8 @@ class MessagingHandler:
   _hubUrl = 'https://192.168.0.100:5001/racinghub'
   _hubConnection = HubConnectionBuilder()\
     .with_url(_hubUrl, options={"verify_ssl": False}) \
-    .with_automatic_reconnect({
-            "type": "interval",
-            "keep_alive_interval": 10,
-            "intervals": [1, 3, 5, 6, 7, 87, 3]
-        }).build()
+    .build()
+  _reconnect = False
 
   carNumber = 1
 
@@ -17,6 +14,7 @@ class MessagingHandler:
     self._hardwareController = hardwareController
     self._hubConnection.on_open(self.on_connect)
     self._hubConnection.on_close(lambda: print("connection closed"))
+    self._hubConnection.on_disconnect(self.on_disconnect)
     self._hubConnection.on("ReceiveCarCommand", self.on_receive_car_command)
     self._hubConnection.on("AssignCarNumber", self.on_receive_car_number)
 
@@ -29,7 +27,15 @@ class MessagingHandler:
 
   def on_connect(self):
     print('Connected to API')
-    self.request_car_number()
+    if not self._reconnect:
+      self.request_car_number()
+    else:
+      self.reclaim_car_number()
+
+  def on_disconnect(self):
+    print("Connection lost")
+    self._reconnect = True
+    self.connect()
 
   def on_receive_car_command(self, carCommand):
     self._hardwareController.send_car_command(carCommand[0])
@@ -42,6 +48,9 @@ class MessagingHandler:
   def request_car_number(self):
     print('Requesting car number...')
     self._hubConnection.send("RequestCarNumber", [0])
+
+  def reclaim_car_number(self):
+    self._hubConnection.send("ReclaimCarNumber", [self.carNumber])
 
   def send_car_command(self):
     print('Sending car command to myself for testing...')
