@@ -98,7 +98,6 @@ namespace WebUI.Services
                 await _queueHubContext.Groups.AddToGroupAsync(racer.ConnectionId, "waitingForConfirm");
                 await _queueHubContext.Groups.RemoveFromGroupAsync(racer.ConnectionId, "queue");
             }
-
             await _queueHubContext.Clients.Group("waitingForConfirm").SendAsync("WaitingForConfirm");
         }
 
@@ -151,7 +150,6 @@ namespace WebUI.Services
             await _racingHubContext.Clients.Group("racers").SendAsync("showRaceCountdown", _raceStartCountdown);
 
             _raceTimer.Start();
-            
         }
 
         public async Task EndRace()

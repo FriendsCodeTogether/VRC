@@ -95,7 +95,6 @@ namespace WebUI.Hubs
             {
                 _carManagerService.Cars.Add(car);
             }
-           
             await AssignCarNumber(connectionId, car.CarNumber);
         }
 
