@@ -40,15 +40,12 @@ namespace VRC.Car.Main
 
                 var colorSensorValue = HardwareController.ReadColorSensor();
                 Console.WriteLine(colorSensorValue);
-                // await Task.Delay(10);
 
                 var lightSensorValue = HardwareController.ReadLightSensor();
                 Console.WriteLine(lightSensorValue);
-                // await Task.Delay(10);
 
                 var ultrasonicSensorValue = HardwareController.ReadUltrasonicSensor();
                 Console.WriteLine(ultrasonicSensorValue);
-                // await Task.Delay(10);
 
                 // Console.WriteLine("Press a key to enable buzzer");
                 // Console.Read();

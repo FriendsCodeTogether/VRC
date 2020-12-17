@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Security;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using VRC.Shared.Car;
@@ -110,5 +112,18 @@ namespace VRC.Car.Main.Messaging
 
         private async Task RequestCarNumberAsync() =>
             await _hubConnection.SendAsync("RequestCarNumber");
+
+        private string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
     }
 }

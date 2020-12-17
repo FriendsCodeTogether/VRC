@@ -10,10 +10,12 @@ namespace WebUI.Hubs
     public class QueueHub : Hub
     {
         private readonly QueueManagerService _queueManagerService;
+        private readonly CarManagerService _carManagerService;
 
-        public QueueHub(QueueManagerService queueManagerService)
+        public QueueHub(QueueManagerService queueManagerService, CarManagerService carManagerService)
         {
             _queueManagerService = queueManagerService ?? throw new ArgumentNullException(nameof(queueManagerService));
+            _carManagerService = carManagerService ?? throw new ArgumentNullException(nameof(carManagerService));
         }
 
         public override async Task<Task> OnDisconnectedAsync(Exception exception)
@@ -43,8 +45,6 @@ namespace WebUI.Hubs
         /// </summary>
         /// <param name="userId"></param>
         public async Task SendQueuePosition(string userId) => await Clients.Caller.SendAsync("ReceiveQueuePosition", _queueManagerService.GetQueuePosition(userId));
-
-        public async Task RacerConfirmedAsync(string connectionId) => await _queueManagerService.RacerConfirmedAsync(Context.ConnectionId);
 
     }
 }

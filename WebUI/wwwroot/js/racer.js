@@ -123,17 +123,65 @@ const connection = new signalR.HubConnectionBuilder()
   .configureLogging(signalR.LogLevel.Information)
   .build();
 
+connection.on("showRaceCountdown", () => showRaceCountdown());
+connection.on("UpdateRaceCountdownTime", (seconds) => UpdateRaceCountdownTime(seconds));
+connection.on("RemoveRaceCountdown", () => RemoveRaceCountdown());
+
+var countdown = document.getElementById("race-start-countdown");
+var countdowntext = document.getElementById("race-start-countdown-text");
+var playerNumber = document.getElementById("player-number");
+var lapAmount = document.getElementById("lap-amount");
+
+function showRaceCountdown() {
+  console.log("start Race coutdown");
+  countdown.style.display = "block";
+}
+
+function UpdateRaceCountdownTime(seconds) {
+  console.log(seconds);
+  countdowntext.innerHTML = seconds;
+}
+
+function RemoveRaceCountdown() {
+  console.log("race started");
+  countdown.style.display = "none";
+}
+
 async function start() {
   try {
     await connection.start();
     console.log('SignalR Connected.');
+    await connectRacerToCar();
+    getLapAmount();
   } catch (err) {
     console.log(err);
     setTimeout(start, 5000);
   }
 }
 
+async function getLapAmount() {
+  var getLapAmount = await connection.invoke('GetLapAmount');
+  console.log(getLapAmount);
+  lapAmount.textContent = getLapAmount;
+
+}
+
+async function connectRacerToCar() {
+  var carNumber = await connection.invoke("ConnectRacerToCar", userId);
+  console.log(carNumber);
+  if (carNumber != -1) {
+    console.log('User connected to car');
+    playerNumber.textContent = carNumber;
+  } else {
+    console.log("no cars available");
+    location.replace("/");
+  }
+
+}
+
 connection.onclose(start);
 
 // Start the connection.
 start();
+
+

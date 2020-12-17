@@ -11,7 +11,6 @@ function displayQueuePosition(position) {
 }
 
 participateButton.addEventListener("click", () => joinTheQueue());
-confirmBtn.addEventListener("click", () => racerConfirmed());
 
 connection.on("ReceiveQueuePosition", (position) => displayQueuePosition(position));
 connection.on("RequestQueuePosition", () => requestQueuePosition());
@@ -49,15 +48,6 @@ function waitingForConfirm() {
   queueCard.style.display = "block";
 
   participateButton.disabled = true;
-}
-
-async function racerConfirmed(){
-  console.log("racer confirmed")
-  try {
-    connection.invoke("RacerConfirmedAsync");
-  } catch (e) {
-    console.error(e);
-  }
 }
 
 function updateConfirmationTime(seconds) {

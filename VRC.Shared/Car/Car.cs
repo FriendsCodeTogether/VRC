@@ -14,11 +14,14 @@ namespace VRC.Shared.Car
         {
             CarNumber = carNumber;
             ConnectionId = connentionId;
+            lapTimer = new Timer();
         }
 
         public int CarNumber { get; set; }
 
         public string ConnectionId { get; set; }
+
+        public string UserId { get; set; }
 
         public TimeSpan BestLap { get; set; }
 
