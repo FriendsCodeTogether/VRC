@@ -130,6 +130,7 @@ connection.on("RemoveRaceCountdown", () => RemoveRaceCountdown());
 var countdown = document.getElementById("race-start-countdown");
 var countdowntext = document.getElementById("race-start-countdown-text");
 var playerNumber = document.getElementById("player-number");
+var lapAmount = document.getElementById("lap-amount");
 
 function showRaceCountdown() {
   console.log("start Race coutdown");
@@ -151,10 +152,18 @@ async function start() {
     await connection.start();
     console.log('SignalR Connected.');
     await connectRacerToCar();
+    getLapAmount();
   } catch (err) {
     console.log(err);
     setTimeout(start, 5000);
   }
+}
+
+async function getLapAmount() {
+  var getLapAmount = await connection.invoke('GetLapAmount');
+  console.log(getLapAmount);
+  lapAmount.textContent = getLapAmount;
+
 }
 
 async function connectRacerToCar() {
@@ -165,12 +174,8 @@ async function connectRacerToCar() {
     playerNumber.textContent = carNumber;
   } else {
     console.log("no cars available");
-    //location.replace("/");
+    location.replace("/");
   }
-
-
-
-
 
 }
 

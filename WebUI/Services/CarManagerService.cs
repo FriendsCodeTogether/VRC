@@ -14,7 +14,7 @@ namespace WebUI.Services
         public List<Car> Cars { get; set; } = new();
         public object CarsLock { get; set; } = new();
 
-        public void ResetCartimes()
+        public void ResetCars()
         {
             lock (CarsLock)
             {

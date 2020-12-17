@@ -146,5 +146,11 @@ namespace WebUI.Hubs
         /// <returns></returns>
         public async Task StartRaceAsync() => await _raceManagerService.StartRace();
 
+        /// <summary>
+        /// gets the amount of laps to display on the racer page
+        /// </summary>
+        /// <returns>int lapAmount</returns>
+        public int GetLapAmount() => _raceManagerService.LapAmount;
+
     }
 }

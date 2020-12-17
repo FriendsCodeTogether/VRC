@@ -19,10 +19,10 @@ namespace WebUI.Services
         private Timer _raceTimer;
         private Timer _confirmationTimer;
         private int _confirmationTime;
-        private int _lapAmount;
         private bool _isPrepared;
         private int _raceStartCountdown;
 
+        public int LapAmount { get; private set; }
         public bool IsRacing { get; private set; }
 
         public RaceManagerService(IHubContext<QueueHub> queueHubContext, IHubContext<RacingHub> racingHubContext, CarManagerService carManagerService, QueueManagerService queueManagerService)
@@ -47,6 +47,11 @@ namespace WebUI.Services
             IsRacing = false;
         }
 
+        /// <summary>
+        /// race countdown timer elapsed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void RaceStartCountdownTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _raceStartCountdown--;
@@ -80,23 +85,6 @@ namespace WebUI.Services
             }
         }
 
-        public async Task PrepareRace(int lapAmount)
-        {
-            //get users from queue
-            //var racerAmount = _carManagerService.Cars.Count;
-            var racerAmount = 1;
-            await AssignRacersAsync(racerAmount);
-            ResetConfirmationTimer();
-
-            //reset stats from the car and assign user to car
-            _carManagerService.ResetCartimes();
-
-            //change amount of laps to selected value on page
-            _lapAmount = lapAmount;
-
-            _isPrepared = true;
-        }
-
         /// <summary>
         /// get the given amount of users from the queue and sends them the notification to join within 30 seconds
         /// </summary>
@@ -114,12 +102,39 @@ namespace WebUI.Services
             await _queueHubContext.Clients.Group("waitingForConfirm").SendAsync("WaitingForConfirm");
         }
 
+        /// <summary>
+        /// resets the confirmation timer
+        /// </summary>
         private async void ResetConfirmationTimer()
         {
             _confirmationTimer.Stop();
             _confirmationTime = 10;
             _confirmationTimer.Start();
             await _queueHubContext.Clients.Group("waitingForConfirm").SendAsync("UpdateConfirmationTime", _confirmationTime);
+        }
+
+        /// <summary>
+        /// gets racers from queue
+        /// resets cars
+        /// sets amount of laps
+        /// </summary>
+        /// <param name="lapAmount"></param>
+        /// <returns></returns>
+        public async Task PrepareRace(int lapAmount)
+        {
+            //get users from queue
+            var racerAmount = _carManagerService.Cars.Count;
+            await AssignRacersAsync(racerAmount);
+            ResetConfirmationTimer();
+
+            //reset stats from the car and assign user to car
+            _carManagerService.ResetCars();
+
+            //change amount of laps to selected value on page
+            LapAmount = lapAmount;
+            Console.WriteLine(LapAmount);
+
+            _isPrepared = true;
         }
 
         public async Task StartRace()
@@ -131,6 +146,7 @@ namespace WebUI.Services
 
             _raceStartCountdown = 3;
             _raceStartCountdownTimer.Start();
+            await _racingHubContext.Clients.All.SendAsync("UpdateRaceCountdownTime", _raceStartCountdown);
             await _racingHubContext.Clients.All.SendAsync("showRaceCountdown", _raceStartCountdown);
 
             _raceTimer.Start();
