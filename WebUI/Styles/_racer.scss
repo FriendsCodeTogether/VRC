@@ -83,3 +83,25 @@
     height: 200px;
   }
 }
+
+.race-start-countdown {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 8rem;
+  min-height: 8rem;
+  margin: 0;
+  display:none;
+
+  .race-start-countdown-text {
+    font-size: 5rem;
+    background: $ucll-primary;
+    border-radius: 5rem;
+    text-align: center;
+    margin: 5px;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+  }
+}
