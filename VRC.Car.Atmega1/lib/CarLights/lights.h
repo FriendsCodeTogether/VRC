@@ -24,7 +24,7 @@ void lightsClearLed(int led);
 
 void lightsToggleLed(int led);
 
-void lightsClearAllLeds(void);
+void lightsClear(void);
 
 void ReadLDR(void);
 

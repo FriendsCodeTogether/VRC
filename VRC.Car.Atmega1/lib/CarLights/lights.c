@@ -32,7 +32,7 @@ void lightsToggleLed(int led)
   PORTA = PORTA ^ (1 << led);
 }
 
-void lightsClearAllLeds(void)
+void lightsClear(void)
 {
   lightsClearLed(LeftIndicator);
   lightsClearLed(RightIndicator);

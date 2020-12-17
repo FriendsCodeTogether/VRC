@@ -14,7 +14,7 @@ void CarSetup(void)
 void driveCar(char direction, char throttle, int speed)
 {
   pwmSpeed(speed);
-  lightsClearAllLeds();
+  lightsClear();
   if (throttle == 'N')
   {
     stopCar();
