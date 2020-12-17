@@ -56,16 +56,16 @@ namespace WebUI.Services
         {
             _raceStartCountdown--;
             Console.WriteLine(_raceStartCountdown);
-            await _racingHubContext.Clients.All.SendAsync("UpdateRaceCountdownTime", _raceStartCountdown);
+            await _racingHubContext.Clients.Group("racers").SendAsync("UpdateRaceCountdownTime", _raceStartCountdown);
             if (_raceStartCountdown == 0)
             {
-                await _racingHubContext.Clients.All.SendAsync("UpdateRaceCountdownTime", "START");
+                await _racingHubContext.Clients.Group("racers").SendAsync("UpdateRaceCountdownTime", "START");
                 IsRacing = true;
             }
             if (_raceStartCountdown < 0)
             {
                 _raceStartCountdownTimer.Stop();
-                await _racingHubContext.Clients.All.SendAsync("RemoveRaceCountdown");
+                await _racingHubContext.Clients.Group("racers").SendAsync("RemoveRaceCountdown");
             }
         }
 
@@ -147,8 +147,8 @@ namespace WebUI.Services
 
             _raceStartCountdown = 3;
             _raceStartCountdownTimer.Start();
-            await _racingHubContext.Clients.All.SendAsync("UpdateRaceCountdownTime", _raceStartCountdown);
-            await _racingHubContext.Clients.All.SendAsync("showRaceCountdown", _raceStartCountdown);
+            await _racingHubContext.Clients.Group("racers").SendAsync("UpdateRaceCountdownTime", _raceStartCountdown);
+            await _racingHubContext.Clients.Group("racers").SendAsync("showRaceCountdown", _raceStartCountdown);
 
             _raceTimer.Start();
             
@@ -159,7 +159,7 @@ namespace WebUI.Services
             IsRacing = false;
             _raceTimer.Stop();
             _carManagerService.RemoveRacers();
-            await _racingHubContext.Clients.All.SendAsync("RemoveRacers");
+            await _racingHubContext.Clients.Group("racers").SendAsync("RemoveRacers");
         }
     }
 }

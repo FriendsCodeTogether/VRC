@@ -153,6 +153,7 @@ async function start() {
     await connection.start();
     console.log('SignalR Connected.');
     await connectRacerToCar();
+    await connection.invoke("PutRacerInGroupAsync");
     getLapAmount();
   } catch (err) {
     console.log(err);

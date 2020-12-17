@@ -47,6 +47,7 @@ async function stopRaceButtonClicked() {
 async function start() {
   try {
     await connection.start();
+    await connection.invoke('PutAdminInGroupAsync');
     console.log('SignalR Connected.');
   } catch (err) {
     console.log(err);
