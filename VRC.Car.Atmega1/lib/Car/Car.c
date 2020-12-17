@@ -5,6 +5,12 @@
 
 #include "Car.h"
 
+void CarSetup(void)
+{
+  HBridgeSetup();
+  lightsSetup();
+}
+
 void driveCar(char direction, char throttle, int speed)
 {
   pwmSpeed(speed);

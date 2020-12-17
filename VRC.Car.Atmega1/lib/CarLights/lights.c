@@ -12,7 +12,9 @@
 void lightsSetup(void)
 {
   DDRA = 0xff;
+  DDRD = DDRD | ~(1 << LDR);
   PORTA = 0x00;
+  PORTD = DDRD | (1 << LDR);
 }
 
 void lightsSetLed(int led)
@@ -32,11 +34,16 @@ void lightsToggleLed(int led)
 
 void lightsClearAllLeds(void)
 {
-  PORTA = 0x00;
-  lightsSetLed(PositionLights);
+  lightsClearLed(LeftIndicator);
+  lightsClearLed(RightIndicator);
+  lightsClearLed(BrakeLights);
+  lightsClearLed(RearLights);
 }
 
-void testLights(void)
+void ReadLDR(void)
 {
-  //TODO
+  if ((PIND & (1 << LDR)) == 0)
+    lightsClearLed(BigLights);
+  else
+    lightsSetLed(BigLights);
 }

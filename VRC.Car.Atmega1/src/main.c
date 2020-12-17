@@ -15,10 +15,10 @@ int speed = 90;
 int main(void)
 {
   I2cSlaveInit(Slave_Address);
-  HBridgeSetup();
-
+  CarSetup();
   while (1)
   {
+    ReadLDR();
     switch (I2cSlaveListen()) /* Check for any SLA+W or SLA+R */
     {
     case MASTER_WRITES_TO_SLAVE:

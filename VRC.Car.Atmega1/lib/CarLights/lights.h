@@ -9,11 +9,12 @@
 #define LIGHTS_H_
 
 #define BigLights 5
-#define RearLights 3
 #define BrakeLights 4
+#define RearLights 3
 #define LeftIndicator 2
 #define RightIndicator 1
 #define PositionLights 0
+#define LDR 2 //PortD
 
 void lightsSetup(void);
 
@@ -25,6 +26,6 @@ void lightsToggleLed(int led);
 
 void lightsClearAllLeds(void);
 
-void testLights(void);
+void ReadLDR(void);
 
 #endif /* LIGHTS_H_ */
