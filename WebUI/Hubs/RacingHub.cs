@@ -23,7 +23,6 @@ namespace WebUI.Hubs
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var car = _carManagerService.Cars.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
-            //_ = _carManagerService.Cars.TryTake(out car);
             _carManagerService.Cars.Remove(car);
             await base.OnDisconnectedAsync(exception);
         }
@@ -39,7 +38,6 @@ namespace WebUI.Hubs
             {
                 await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
             }
-
         }
 
         /// <summary>
@@ -65,7 +63,6 @@ namespace WebUI.Hubs
         /// <param name="carNumber"></param>
         public async Task ReclaimCarNumber(int carNumber)
         {
-            
             var connectionId = Context.ConnectionId;
             Car existingCar;
             lock (_carManagerService.CarsLock)
@@ -78,8 +75,7 @@ namespace WebUI.Hubs
                 {
                     Car car = new Car(carNumber, connectionId);
                     _carManagerService.Cars.Add(car);
-                }
-                
+                } 
             }
             else
             {
@@ -120,8 +116,7 @@ namespace WebUI.Hubs
                     return i;
                 }
                 return 0;
-            }
-            
+            } 
         }
 
         /// <summary>

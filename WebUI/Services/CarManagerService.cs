@@ -29,7 +29,6 @@ namespace WebUI.Services
                     car.lapTimer.Dispose();
                 }
             }
-            
         }
 
         public int ConnectRacerToCar(string userId)
@@ -47,10 +46,8 @@ namespace WebUI.Services
                         return car.CarNumber;
                     }
                 }
-
                 return -1;
             }
-            
         }
 
         public void RemoveRacers()
@@ -61,9 +58,7 @@ namespace WebUI.Services
                 {
                     car.UserId = null;
                 }
-            }
-            
+            } 
         }
-
     }
 }
