@@ -162,7 +162,7 @@ async function connectRacerToCar() {
   console.log(carNumber);
   if (carNumber != -1) {
     console.log('User connected to car');
-    playerNumber.textContent = carNumberg;
+    playerNumber.textContent = carNumber;
   } else {
     console.log("no cars available");
     //location.replace("/");
