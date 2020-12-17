@@ -11,6 +11,7 @@
 #include <I2cConstants.h> /* Include I2C library file */
 #include <L298HN.h>       /* Include HBridge library file */
 #include <pwm.h>          /* Include PWM library file */
+#include <lights.h>       /* Include Lights Library file */
 
 void setupCar(void);                                     /* Setup car */
 void setBuzzer(uint8_t value);                           /* set car buzzer */

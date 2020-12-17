@@ -8,10 +8,11 @@
 void driveCar(char direction, char throttle, int speed)
 {
   pwmSpeed(speed);
-
+  lightsClearAllLeds();
   if (throttle == 'N')
   {
     stopCar();
+    lightsSetLed(BrakeLights);
   }
   else if (direction == 'N' && throttle == 'F')
   {
@@ -20,22 +21,29 @@ void driveCar(char direction, char throttle, int speed)
   else if (direction == 'N' && throttle == 'B')
   {
     driveStraightBackwards();
+    lightsSetLed(RearLights);
   }
   else if (direction == 'L' && throttle == 'F')
   {
     driveLeftForwards();
+    lightsSetLed(LeftIndicator);
   }
   else if (direction == 'L' && throttle == 'B')
   {
     driveLeftBackwards();
+    lightsSetLed(LeftIndicator);
+    lightsSetLed(RearLights);
   }
   else if (direction == 'R' && throttle == 'F')
   {
     driveRightForwards();
+    lightsSetLed(RightIndicator);
   }
   else if (direction == 'R' && throttle == 'B')
   {
     driveRightBackwards();
+    lightsSetLed(RightIndicator);
+    lightsSetLed(RearLights);
   }
 }
 
