@@ -22,7 +22,7 @@ class HardwareController:
     bytesToSend = bytearray([32])
     try:
       self._i2c_lock.acquire()
-      self._i2c.writeto(self._atmega1, bytesToSend)
+      # self._i2c.writeto(self._atmega1, bytesToSend)
       self._i2c_lock.release()
     except:
       sys.exit("Problem connecting to atmega1")
