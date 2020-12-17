@@ -10,16 +10,17 @@ namespace WebUI.Entities
     {
         public Car() {}
 
-        public Car(int carNumber, string connentionId)
+        public Car(int carNumber, string connentionId, string carIpAdress)
         {
             CarNumber = carNumber;
             ConnectionId = connentionId;
+            CarIpAdress = carIpAdress;
         }
 
         public int CarNumber { get; set; }
 
         public string ConnectionId { get; set; }
-
+        public string CarIpAdress { get; set; }
         public TimeSpan BestLap { get; set; }
 
         public TimeSpan EndTime { get; set; }

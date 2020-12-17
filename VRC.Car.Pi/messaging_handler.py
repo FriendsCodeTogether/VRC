@@ -1,5 +1,6 @@
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from hardware_controller import HardwareController
+import netifaces
 
 class MessagingHandler:
   _hubUrl = 'https://192.168.2.100:5001/racinghub'
@@ -47,10 +48,10 @@ class MessagingHandler:
 
   def request_car_number(self):
     print('Requesting car number...')
-    self._hubConnection.send("RequestCarNumber", [0])
+    self._hubConnection.send("RequestCarNumber", [self.get_ip_address])
 
   def reclaim_car_number(self):
-    self._hubConnection.send("ReclaimCarNumber", [self.carNumber])
+    self._hubConnection.send("ReclaimCarNumber", [self.carNumber, self.get_ip_address])
 
   def send_car_command(self):
     print('Sending car command to myself for testing...')
@@ -60,4 +61,7 @@ class MessagingHandler:
       'Throttle': 'F'
     }
     self._hubConnection.send("SendCarCommand", [self.carNumber, command])
+
+  def get_ip_address(self):
+    return netifaces.ifaddresses('wlan0')[2][0]['addr']
 

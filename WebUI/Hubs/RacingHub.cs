@@ -45,10 +45,10 @@ namespace WebUI.Hubs
         /// Allows a car to request a car number when it connects.
         /// </summary>
         /// <param name="carNumber"></param>
-        public async Task RequestCarNumber(int unusedParameterThePythonLibNeeds)
+        public async Task RequestCarNumber(string carIpAdress)
         {
             Console.WriteLine("CarNumber requested");
-            await AssignNewCarNumber(Context.ConnectionId);
+            await AssignNewCarNumber(Context.ConnectionId, carIpAdress);
         }
 
         /// <summary>
@@ -56,17 +56,17 @@ namespace WebUI.Hubs
         /// If the car number has been re-assigned to another car then a new number will be provided.
         /// </summary>
         /// <param name="carNumber"></param>
-        public async Task ReclaimCarNumber(int carNumber)
+        public async Task ReclaimCarNumber(int carNumber, string carIpAdress)
         {
             var connectionId = Context.ConnectionId;
             if (_carManagerService.Cars.FirstOrDefault(c => c.CarNumber == carNumber) == null)
             {
-                Car car = new Car(carNumber, connectionId);
+                Car car = new Car(carNumber, connectionId, carIpAdress);
                 _carManagerService.Cars.Add(car);
             }
             else
             {
-                await AssignNewCarNumber(connectionId);
+                await AssignNewCarNumber(connectionId, carIpAdress);
             }
         }
 
@@ -74,10 +74,10 @@ namespace WebUI.Hubs
         /// Assign a new car number to a car
         /// </summary>
         /// <param name="connectionId">The connectionId of the car to assign to</param>
-        private async Task AssignNewCarNumber(string connectionId)
+        private async Task AssignNewCarNumber(string connectionId, string carIpAdress)
         {
             var newCarNumber = FindAvailableNumber();
-            Car car = new Car(newCarNumber, connectionId);
+            Car car = new Car(newCarNumber, connectionId, carIpAdress);
             _carManagerService.Cars.Add(car);
             await AssignCarNumber(connectionId, car.CarNumber);
         }
