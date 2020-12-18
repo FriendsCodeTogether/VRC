@@ -27,7 +27,7 @@ class MessagingHandler:
       print('Failed to connect to API');
 
   def on_connect(self):
-    print('Connected to API with ip \"{}\"'.format(self.get_ip_address())
+    print('Connected to API with ip \"{}\"'.format(self.get_ip_address()))
     if not self._reconnect:
       self.request_car_number()
     else:
