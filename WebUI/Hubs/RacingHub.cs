@@ -135,6 +135,11 @@ namespace WebUI.Hubs
         public int ConnectRacerToCar(string userId) => _carManagerService.ConnectRacerToCar(userId);
 
         /// <summary>
+        /// Returns the ip address of a car
+        /// </summary>
+        public string GetCarIpAddress(int carNumber) => _carManagerService.GetCarIpAdress(carNumber);
+
+        /// <summary>
         /// starts the race
         /// </summary>
         public async Task StartRaceAsync() => await _raceManagerService.StartRace();

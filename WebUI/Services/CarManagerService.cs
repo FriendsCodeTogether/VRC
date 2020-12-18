@@ -48,6 +48,16 @@ namespace WebUI.Services
             }
         }
 
+        public string GetCarIpAdress(int carNumber)
+        {
+            Car car;
+            lock (CarsLock)
+            {
+                car = Cars.FirstOrDefault(c => c.CarNumber == carNumber);
+            }
+            return car?.CarIpAdress;
+        }
+
         public void RemoveRacers()
         {
             lock (CarsLock)

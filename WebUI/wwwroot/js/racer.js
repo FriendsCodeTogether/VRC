@@ -8,8 +8,9 @@ const right = 'R';
 // SignalR constants
 const racinghubUrl = '/racinghub';
 
-// Car command properties
+// Car properties
 var carNumber = 0;
+var carIpAddress = '';
 var direction = 'N';
 var throttle = 'N';
 
@@ -123,19 +124,20 @@ const connection = new signalR.HubConnectionBuilder()
   .configureLogging(signalR.LogLevel.Information)
   .build();
 
-connection.on("showRaceCountdown", () => showRaceCountdown());
-connection.on("UpdateRaceCountdownTime", (seconds) => UpdateRaceCountdownTime(seconds));
-connection.on("RemoveRaceCountdown", () => RemoveRaceCountdown());
-connection.on("RemoveRacers", () => removeRacers());
+connection.on('showRaceCountdown', () => showRaceCountdown());
+connection.on('UpdateRaceCountdownTime', (seconds) => UpdateRaceCountdownTime(seconds));
+connection.on('RemoveRaceCountdown', () => RemoveRaceCountdown());
+connection.on('RemoveRacers', () => removeRacers());
 
-var countdown = document.getElementById("race-start-countdown");
-var countdowntext = document.getElementById("race-start-countdown-text");
-var playerNumber = document.getElementById("player-number");
-var lapAmount = document.getElementById("lap-amount");
+var countdown = document.getElementById('race-start-countdown');
+var countdowntext = document.getElementById('race-start-countdown-text');
+var playerNumber = document.getElementById('player-number');
+var lapAmount = document.getElementById('lap-amount');
+var cameraFeedDisplay = document.getElementById('racer-camera-feed');
 
 function showRaceCountdown() {
-  console.log("start Race coutdown");
-  countdown.style.display = "block";
+  console.log('start Race coutdown');
+  countdown.style.display = 'block';
 }
 
 function UpdateRaceCountdownTime(seconds) {
@@ -144,8 +146,8 @@ function UpdateRaceCountdownTime(seconds) {
 }
 
 function RemoveRaceCountdown() {
-  console.log("race started");
-  countdown.style.display = "none";
+  console.log('race started');
+  countdown.style.display = 'none';
 }
 
 async function start() {
@@ -153,7 +155,7 @@ async function start() {
     await connection.start();
     console.log('SignalR Connected.');
     await connectRacerToCar();
-    await connection.invoke("PutRacerInGroupAsync");
+    await connection.invoke('PutRacerInGroupAsync');
     getLapAmount();
   } catch (err) {
     console.log(err);
@@ -168,19 +170,24 @@ async function getLapAmount() {
 }
 
 function removeRacers() {
-  location.replace("/");
+  location.replace('/');
+}
+
+function getCarIpAddress() {
+  carIpAddress = await connection.invoke('GetCarIpAddress', carNumber);
+  cameraFeedDisplay.src = `http://${carIpAddress}:8000/stream.mpg`
 }
 
 async function connectRacerToCar() {
-  var carNumber = await connection.invoke("ConnectRacerToCar", userId);
-  console.log(carNumber);
-  if (carNumber != -1) {
+  var receivedCarNumber = await connection.invoke('ConnectRacerToCar', userId);
+  console.log(receivedCarNumber);
+  if (receivedCarNumber != -1) {
     console.log('User connected to car');
-    playerNumber.textContent = carNumber;
-    this.carNumber = carNumber;
+    playerNumber.textContent = receivedCarNumber;
+    carNumber = receivedCarNumber;
   } else {
-    console.log("no cars available");
-    location.replace("/");
+    console.log('no cars available');
+    location.replace('/');
   }
 }
 
@@ -188,5 +195,3 @@ connection.onclose(start);
 
 // Start the connection.
 start();
-
-
