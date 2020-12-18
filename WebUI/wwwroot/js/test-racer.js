@@ -65,7 +65,7 @@ async function sendCarCommand() {
   };
 
   try {
-    await connection.invoke('SendCarCommand', carNumber, carCommand);
+    await connection.invoke('SendTestCarCommand', carNumber, carCommand);
   } catch (err) {
     console.error(err);
   }
