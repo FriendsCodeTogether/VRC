@@ -9,7 +9,6 @@ namespace WebUI.Services
 {
     public class CarManagerService
     {
-        // Singleton
         public List<Car> Cars { get; set; } = new();
         public object CarsLock { get; set; } = new();
 
