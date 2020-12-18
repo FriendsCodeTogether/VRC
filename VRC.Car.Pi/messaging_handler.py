@@ -14,7 +14,7 @@ class MessagingHandler:
   def __init__(self, hardwareController):
     self._hardwareController = hardwareController
     self._hubConnection.on_open(self.on_connect)
-    self._hubConnection.on_close(lambda: print("connection closed"))
+    self._hubConnection.on_close(self.on_close)
     self._hubConnection.on_error(self.on_disconnect)
     self._hubConnection.on("ReceiveCarCommand", self.on_receive_car_command)
     self._hubConnection.on("AssignCarNumber", self.on_receive_car_number)
