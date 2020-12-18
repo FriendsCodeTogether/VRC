@@ -41,6 +41,16 @@ namespace WebUI.Hubs
         }
 
         /// <summary>
+        /// Send a test CarCommand to a car for development purposes
+        /// </summary>
+        /// <param name="carNumber">The car to send it to</param>
+        /// <param name="command">The CarCommand to be sent</param>
+        public async Task SendTestCarCommand(int carNumber, CarCommand command)
+        {
+            await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
+        }
+
+        /// <summary>
         /// Assign a new CarNumber to a car
         /// </summary>
         /// <param name="connectionId">The connectionId associated with the car</param>
