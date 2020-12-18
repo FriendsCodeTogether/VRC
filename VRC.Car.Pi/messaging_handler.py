@@ -27,7 +27,7 @@ class MessagingHandler:
       print('Failed to connect to API');
 
   def on_connect(self):
-    print('Connected to API wit ip {}'.format(self.get_ip_address))
+    print('Connected to API')
     if not self._reconnect:
       self.request_car_number()
     else:
@@ -63,5 +63,6 @@ class MessagingHandler:
     self._hubConnection.send("SendCarCommand", [self.carNumber, command])
 
   def get_ip_address(self):
-    return netifaces.ifaddresses('wlan0')[2][0]['addr']
-
+    ipAddress = netifaces.ifaddresses('wlan0')[2][0]['addr']
+    print(ipAddress)
+    return ipAddress
