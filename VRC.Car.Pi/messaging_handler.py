@@ -35,11 +35,21 @@ class MessagingHandler:
 
   def on_disconnect(self):
     print("Connection lost")
+    self.stop_car()
     self._reconnect = True
     self.connect()
 
   def on_receive_car_command(self, carCommand):
     self._hardwareController.send_car_command(carCommand[0])
+
+  def stop_car(self):
+    print('Stopping car')
+    stopCommand = {
+      'carNumber': self.carNumber,
+      'direction': 'N',
+      'throttle': 'N'
+    }
+    self._hardwareController.send_car_command(stopCommand)
 
   def on_receive_car_number(self, carNumber):
     print('Received car number')
