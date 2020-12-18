@@ -33,6 +33,10 @@ class MessagingHandler:
     else:
       self.reclaim_car_number()
 
+  def on_close(self):
+    print("connection closed")
+    self.stop_car()
+
   def on_disconnect(self):
     print("Connection lost")
     self.stop_car()
