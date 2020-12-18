@@ -174,7 +174,9 @@ function removeRacers() {
 }
 
 async function getCarIpAddress() {
+  console.log('getting car ip');
   carIpAddress = await connection.invoke('GetCarIpAddress', carNumber);
+  console.log('car ip:' + carIpAddress);
   cameraFeedDisplay.src = `http://${carIpAddress}:8000/stream.mpg`;
 }
 
