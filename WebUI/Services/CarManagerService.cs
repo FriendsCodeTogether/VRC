@@ -3,14 +3,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VRC.Shared.Car;
 using WebUI.Entities;
 
 namespace WebUI.Services
 {
     public class CarManagerService
     {
-        // Singleton
         public List<Car> Cars { get; set; } = new();
         public object CarsLock { get; set; } = new();
 
@@ -50,6 +48,16 @@ namespace WebUI.Services
             }
         }
 
+        public string GetCarIpAdress(int carNumber)
+        {
+            Car car;
+            lock (CarsLock)
+            {
+                car = Cars.FirstOrDefault(c => c.CarNumber == carNumber);
+            }
+            return car?.CarIpAdress;
+        }
+
         public void RemoveRacers()
         {
             lock (CarsLock)
@@ -58,7 +66,7 @@ namespace WebUI.Services
                 {
                     car.UserId = null;
                 }
-            } 
+            }
         }
     }
 }

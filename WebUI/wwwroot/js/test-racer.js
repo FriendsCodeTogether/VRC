@@ -65,7 +65,7 @@ async function sendCarCommand() {
   };
 
   try {
-    await connection.invoke('SendCarCommand', carNumber, carCommand);
+    await connection.invoke('SendTestCarCommand', carNumber, carCommand);
   } catch (err) {
     console.error(err);
   }
@@ -155,8 +155,8 @@ async function start() {
     await connection.start();
     console.log('SignalR Connected.');
     await connectRacerToCar();
-    await connection.invoke('PutRacerInGroupAsync');
-    getLapAmount();
+    // await connection.invoke('PutRacerInGroupAsync');
+    // getLapAmount();
   } catch (err) {
     console.log(err);
     setTimeout(start, 5000);
@@ -174,12 +174,14 @@ function removeRacers() {
 }
 
 async function getCarIpAddress() {
+  console.log('getting car ip');
   carIpAddress = await connection.invoke('GetCarIpAddress', carNumber);
+  console.log('car ip:' + carIpAddress);
   cameraFeedDisplay.src = `http://${carIpAddress}:8000/stream.mpg`;
 }
 
 async function connectRacerToCar() {
-  var receivedCarNumber = await connection.invoke('ConnectRacerToCar', userId);
+  var receivedCarNumber = 1;
   console.log(receivedCarNumber);
   if (receivedCarNumber != -1) {
     console.log('User connected to car');

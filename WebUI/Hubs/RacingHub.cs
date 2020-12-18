@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.SignalR;
-using VRC.Shared.Car;
+using WebUI.Entities;
 using System.Collections.Concurrent;
 using WebUI.Services;
 
@@ -41,6 +41,16 @@ namespace WebUI.Hubs
         }
 
         /// <summary>
+        /// Send a test CarCommand to a car for development purposes
+        /// </summary>
+        /// <param name="carNumber">The car to send it to</param>
+        /// <param name="command">The CarCommand to be sent</param>
+        public async Task SendTestCarCommand(int carNumber, CarCommand command)
+        {
+            await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
+        }
+
+        /// <summary>
         /// Assign a new CarNumber to a car
         /// </summary>
         /// <param name="connectionId">The connectionId associated with the car</param>
@@ -51,9 +61,10 @@ namespace WebUI.Hubs
         /// Allows a car to request a car number when it connects.
         /// </summary>
         /// <param name="carNumber"></param>
-        public async Task RequestCarNumber()
+        public async Task RequestCarNumber(string carIpAdress)
         {
-            await AssignNewCarNumber(Context.ConnectionId);
+            Console.WriteLine("CarNumber requested");
+            await AssignNewCarNumber(Context.ConnectionId, carIpAdress);
         }
 
         /// <summary>
@@ -61,7 +72,7 @@ namespace WebUI.Hubs
         /// If the car number has been re-assigned to another car then a new number will be provided.
         /// </summary>
         /// <param name="carNumber"></param>
-        public async Task ReclaimCarNumber(int carNumber)
+        public async Task ReclaimCarNumber(int carNumber, string carIpAdress)
         {
             var connectionId = Context.ConnectionId;
             Car existingCar;
@@ -73,13 +84,13 @@ namespace WebUI.Hubs
             {
                 lock (_carManagerService.CarsLock)
                 {
-                    Car car = new Car(carNumber, connectionId);
+                    Car car = new Car(carNumber, connectionId, carIpAdress);
                     _carManagerService.Cars.Add(car);
-                } 
+                }
             }
             else
             {
-                await AssignNewCarNumber(connectionId);
+                await AssignNewCarNumber(connectionId, carIpAdress);
             }
         }
 
@@ -87,10 +98,10 @@ namespace WebUI.Hubs
         /// Assign a new car number to a car
         /// </summary>
         /// <param name="connectionId">The connectionId of the car to assign to</param>
-        private async Task AssignNewCarNumber(string connectionId)
+        private async Task AssignNewCarNumber(string connectionId, string carIpAdress)
         {
             var newCarNumber = FindAvailableNumber();
-            Car car = new Car(newCarNumber, connectionId);
+            Car car = new Car(newCarNumber, connectionId, carIpAdress);
             lock (_carManagerService.CarsLock)
             {
                 _carManagerService.Cars.Add(car);
@@ -115,7 +126,7 @@ namespace WebUI.Hubs
                     return i;
                 }
                 return 0;
-            } 
+            }
         }
 
         /// <summary>
@@ -132,6 +143,11 @@ namespace WebUI.Hubs
         /// connecets a racer to a car
         /// </summary>
         public int ConnectRacerToCar(string userId) => _carManagerService.ConnectRacerToCar(userId);
+
+        /// <summary>
+        /// Returns the ip address of a car
+        /// </summary>
+        public string GetCarIpAddress(int carNumber) => _carManagerService.GetCarIpAdress(carNumber);
 
         /// <summary>
         /// starts the race
