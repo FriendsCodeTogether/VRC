@@ -48,10 +48,10 @@ class MessagingHandler:
 
   def request_car_number(self):
     print('Requesting car number...')
-    self._hubConnection.send("RequestCarNumber", [self.get_ip_address])
+    self._hubConnection.send("RequestCarNumber", [self.get_ip_address()])
 
   def reclaim_car_number(self):
-    self._hubConnection.send("ReclaimCarNumber", [self.carNumber, self.get_ip_address])
+    self._hubConnection.send("ReclaimCarNumber", [self.carNumber, self.get_ip_address()])
 
   def send_car_command(self):
     print('Sending car command to myself for testing...')
