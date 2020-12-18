@@ -173,9 +173,9 @@ function removeRacers() {
   location.replace('/');
 }
 
-function getCarIpAddress() {
+async function getCarIpAddress() {
   carIpAddress = await connection.invoke('GetCarIpAddress', carNumber);
-  cameraFeedDisplay.src = `http://${carIpAddress}:8000/stream.mpg`
+  cameraFeedDisplay.src = `http://${carIpAddress}:8000/stream.mpg`;
 }
 
 async function connectRacerToCar() {
@@ -185,6 +185,7 @@ async function connectRacerToCar() {
     console.log('User connected to car');
     playerNumber.textContent = receivedCarNumber;
     carNumber = receivedCarNumber;
+    await getCarIpAddress();
   } else {
     console.log('no cars available');
     location.replace('/');
