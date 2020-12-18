@@ -83,11 +83,5 @@ namespace WebUI.Services
                 await SendQueuePositionChangedAsync();
             }
         }
-
-        public async Task RacerConfirmedAsync(string connectionId)
-        {
-            await _hubContext.Groups.AddToGroupAsync(connectionId, "racers");
-            await _hubContext.Groups.RemoveFromGroupAsync(connectionId, "waitingForConfirm");
-        }
     }
 }

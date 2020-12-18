@@ -6,9 +6,9 @@
   <img src="http://192.168.2.102:8000/stream.mpg" alt="camera-feed" class="racer-camera-feed" />
   <div class="dashboard-card">
     <h1 class="dashboard-player-label">Player</h1>
-    <h1 class="dashboard-player-number">#</h1>
+    <h1 id="player-number" class="dashboard-player-number">#</h1>
     <h1 class="dashboard-lap-label">Lap</h1>
-    <h1 class="dashboard-lap-counter">#/#</h1>
+    <h1 class="dashboard-lap-counter"><span id="lap-counter">#</span> <span>/</span> <span id="lap-amount">#</span></h1>
   </div>
   <div class="control-panel">
     <img id="control-panel-up" class="control-panel-up" src="~/Images/ButtonUpDefault.png" alt="Up Button" />
@@ -16,6 +16,9 @@
     <img id="control-panel-down" class="control-panel-down" src="~/Images/ButtonDownDefault.png" alt="Down Button" />
     <img id="control-panel-left" class="control-panel-left" src="~/Images/ButtonLeftDefault.png" alt="Left Button" />
   </div>
+</div>
+<div id="race-start-countdown" class="race-start-countdown">
+  <p id="race-start-countdown-text" class="race-start-countdown-text">3</p>
 </div>
 
 @section Scripts {

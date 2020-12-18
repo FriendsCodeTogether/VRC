@@ -15,17 +15,15 @@ namespace WebUI.Entities
             CarNumber = carNumber;
             ConnectionId = connentionId;
             CarIpAdress = carIpAdress;
+            lapTimer = new Timer();
         }
 
         public int CarNumber { get; set; }
-
         public string ConnectionId { get; set; }
         public string CarIpAdress { get; set; }
+        public string UserId { get; set; }
         public TimeSpan BestLap { get; set; }
-
         public TimeSpan EndTime { get; set; }
-
         public Timer lapTimer;
-
     }
 }

@@ -5,62 +5,64 @@
 
 #include "Car.h"
 
-void setupCar(void)
+void CarSetup(void)
 {
-    debugBoardSetup();
+  HBridgeSetup();
+  lightsSetup();
 }
 
-void setDirection(char direction)
+void driveCar(char direction, char throttle, int speed)
 {
-	switch (direction)
-	{
-		case DIRECTION_LEFT:
-			debugBoardClearLed(LedGreen);
-			debugBoardSetLed(LedRed);
-			break;
-		case DIRECTION_RIGHT:
-			debugBoardClearLed(LedRed);
-			debugBoardSetLed(LedGreen);
-			break;
-		case DIRECTION_NEUTRAL:
-			debugBoardClearLed(LedRed);
-			debugBoardClearLed(LedGreen);
-			break;
-		default:
-			break;
-	}
-}
-
-void setThrottle(char throttle)
-{
-	switch (throttle)
-	{
-		case THROTTLE_FORWARD:
-			debugBoardClearLed(LedWhite);
-			debugBoardSetLed(LedBlue);
-			break;
-		case THROTTLE_BACKWARD:
-			debugBoardClearLed(LedBlue);
-			// Execute order 66
-			debugBoardSetLed(LedWhite);
-			break;
-		case THROTTLE_NEUTRAL:
-			debugBoardClearLed(LedBlue);
-			debugBoardClearLed(LedWhite);
-			break;
-		default:
-			break;
-	}
+  pwmSpeed(speed);
+  lightsClear();
+  if (throttle == 'N')
+  {
+    stopCar();
+    lightsSetLed(BrakeLights);
+  }
+  else if (direction == 'N' && throttle == 'F')
+  {
+    driveStraightForwards();
+  }
+  else if (direction == 'N' && throttle == 'B')
+  {
+    driveStraightBackwards();
+    lightsSetLed(RearLights);
+  }
+  else if (direction == 'L' && throttle == 'F')
+  {
+    driveLeftForwards();
+    lightsSetLed(LeftIndicator);
+  }
+  else if (direction == 'L' && throttle == 'B')
+  {
+    driveLeftBackwards();
+    lightsSetLed(LeftIndicator);
+    lightsSetLed(RearLights);
+  }
+  else if (direction == 'R' && throttle == 'F')
+  {
+    driveRightForwards();
+    lightsSetLed(RightIndicator);
+  }
+  else if (direction == 'R' && throttle == 'B')
+  {
+    driveRightBackwards();
+    lightsSetLed(RightIndicator);
+    lightsSetLed(RearLights);
+  }
 }
 
 void setBuzzer(uint8_t value)
 {
-	if (value == 0)
-	{
-		// turn off buzzer
-		debugBoardClearLed(LedRed);
-	} else {
-		// turn on buzzer
-		debugBoardSetLed(LedRed);
-	}
+  if (value == 0)
+  {
+    // turn off buzzer
+    debugBoardClearLed(LedRed);
+  }
+  else
+  {
+    // turn on buzzer
+    debugBoardSetLed(LedRed);
+  }
 }

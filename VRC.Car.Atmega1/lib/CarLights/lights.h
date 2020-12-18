@@ -5,18 +5,16 @@
  *  Author: VRC-Team
  */
 
-
 #ifndef LIGHTS_H_
 #define LIGHTS_H_
 
-#define LeftIndicator 0
+#define BigLights 5
+#define BrakeLights 4
+#define RearLights 3
+#define LeftIndicator 2
 #define RightIndicator 1
-#define FrontBarRight 2
-#define FrontBarMiddleRight 3
-#define FrontBarMiddleLeft 4
-#define FrontBarLeft 5
-#define FrontRight 6
-#define FrontLeft 7
+#define PositionLights 0
+#define LDR 2 //PortD
 
 void lightsSetup(void);
 
@@ -26,22 +24,8 @@ void lightsClearLed(int led);
 
 void lightsToggleLed(int led);
 
-void lightsClearAllLeds(void);
+void lightsClear(void);
 
-void lightsClearIndicators(void);
-
-void lightsClearFrontBar(void);
-
-void lightsClearPositionLights(void);
-
-void lightsFrontBar(void);
-
-void lightsPositionLights(void);
-
-void lightsLeftIndicator(void);
-
-void lightsRightIndicator(void);
-
-void lightsTest(void);
+void ReadLDR(void);
 
 #endif /* LIGHTS_H_ */

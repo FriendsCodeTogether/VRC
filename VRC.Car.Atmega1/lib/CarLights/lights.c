@@ -12,7 +12,9 @@
 void lightsSetup(void)
 {
   DDRA = 0xff;
+  DDRD = DDRD | ~(1 << LDR);
   PORTA = 0x00;
+  PORTD = DDRD | (1 << LDR);
 }
 
 void lightsSetLed(int led)
@@ -30,65 +32,18 @@ void lightsToggleLed(int led)
   PORTA = PORTA ^ (1 << led);
 }
 
-void lightsClearAllLeds(void)
-{
-  PORTA = 0x00;
-}
-
-void lightsClearIndicators(void)
+void lightsClear(void)
 {
   lightsClearLed(LeftIndicator);
   lightsClearLed(RightIndicator);
+  lightsClearLed(BrakeLights);
+  lightsClearLed(RearLights);
 }
 
-void lightsClearFrontBar(void)
+void ReadLDR(void)
 {
-  lightsClearLed(FrontBarMiddleLeft);
-  lightsClearLed(FrontBarMiddleRight);
-  lightsClearLed(FrontBarRight);
-  lightsClearLed(FrontBarLeft);
-}
-
-void lightsClearPositionLights(void)
-{
-  lightsClearLed(FrontLeft);
-  lightsClearLed(FrontRight);
-}
-
-void lightsFrontBar(void)
-{
-  lightsSetLed(FrontBarMiddleLeft);
-  lightsSetLed(FrontBarMiddleRight);
-  lightsSetLed(FrontBarRight);
-  lightsSetLed(FrontBarLeft);
-}
-
-void lightsPositionLights(void)
-{
-  lightsSetLed(FrontLeft);
-  lightsSetLed(FrontRight);
-}
-
-void lightsLeftIndicator(void)
-{
-  lightsSetLed(LeftIndicator);
-}
-
-void lightsRightIndicator(void)
-{
-  lightsSetLed(RightIndicator);
-}
-
-void lightsTest(void)
-{
-  for (int8_t i = 0; i < 2; i++)
-  {
-    lightsPositionLights();
-    lightsFrontBar();
-    lightsLeftIndicator();
-    lightsRightIndicator();
-    _delay_ms(500);
-    lightsClearAllLeds();
-    _delay_ms(500);
-  }
+  if ((PIND & (1 << LDR)) == 0)
+    lightsClearLed(BigLights);
+  else
+    lightsSetLed(BigLights);
 }

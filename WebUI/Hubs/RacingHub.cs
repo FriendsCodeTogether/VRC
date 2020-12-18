@@ -23,16 +23,22 @@ namespace WebUI.Hubs
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var car = _carManagerService.Cars.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
-            _ = _carManagerService.Cars.Remove(car);
+            _carManagerService.Cars.Remove(car);
             await base.OnDisconnectedAsync(exception);
         }
 
         /// <summary>
-        /// Send a CarCommand to a car
+        /// Send a CarCommand to a car if a race is in progress
         /// </summary>
         /// <param name="carNumber">The car to send it to</param>
         /// <param name="command">The CarCommand to be sent</param>
-        public async Task SendCarCommand(int carNumber, CarCommand command) => await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
+        public async Task SendCarCommand(int carNumber, CarCommand command)
+        {
+            if (_raceManagerService.IsRacing)
+            {
+                await Clients.Client(GetConnectionIdByCarNumber(carNumber)).SendAsync("ReceiveCarCommand", command);
+            }
+        }
 
         /// <summary>
         /// Assign a new CarNumber to a car
@@ -59,10 +65,18 @@ namespace WebUI.Hubs
         public async Task ReclaimCarNumber(int carNumber, string carIpAdress)
         {
             var connectionId = Context.ConnectionId;
-            if (_carManagerService.Cars.FirstOrDefault(c => c.CarNumber == carNumber) == null)
+            Car existingCar;
+            lock (_carManagerService.CarsLock)
             {
-                Car car = new Car(carNumber, connectionId, carIpAdress);
-                _carManagerService.Cars.Add(car);
+                existingCar = _carManagerService.Cars.FirstOrDefault(c => c.CarNumber == carNumber);
+            }
+            if (existingCar == null)
+            {
+                lock (_carManagerService.CarsLock)
+                {
+                    Car car = new Car(carNumber, connectionId, carIpAdress);
+                    _carManagerService.Cars.Add(car);
+                }
             }
             else
             {
@@ -78,7 +92,10 @@ namespace WebUI.Hubs
         {
             var newCarNumber = FindAvailableNumber();
             Car car = new Car(newCarNumber, connectionId, carIpAdress);
-            _carManagerService.Cars.Add(car);
+            lock (_carManagerService.CarsLock)
+            {
+                _carManagerService.Cars.Add(car);
+            }
             await AssignCarNumber(connectionId, car.CarNumber);
         }
 
@@ -88,15 +105,18 @@ namespace WebUI.Hubs
         /// <returns>The first available car number</returns>
         private int FindAvailableNumber()
         {
-            for (var i = 1; i <= _carManagerService.Cars.Count + 1; i++)
+            lock (_carManagerService.CarsLock)
             {
-                if (_carManagerService.Cars.FirstOrDefault(c => c.CarNumber == i) != null)
+                for (var i = 1; i <= _carManagerService.Cars.Count + 1; i++)
                 {
-                    continue;
+                    if (_carManagerService.Cars.FirstOrDefault(c => c.CarNumber == i) != null)
+                    {
+                        continue;
+                    }
+                    return i;
                 }
-                return i;
+                return 0;
             }
-            return 0;
         }
 
         /// <summary>
@@ -107,7 +127,38 @@ namespace WebUI.Hubs
         /// <summary>
         /// Prepares the settings for the race
         /// </summary>
-        /// <returns></returns>
         public async Task PrepareRaceAsync(int lapAmount) => await _raceManagerService.PrepareRace(lapAmount);
+
+        /// <summary>
+        /// connecets a racer to a car
+        /// </summary>
+        public int ConnectRacerToCar(string userId) => _carManagerService.ConnectRacerToCar(userId);
+
+        /// <summary>
+        /// starts the race
+        /// </summary>
+        public async Task StartRaceAsync() => await _raceManagerService.StartRace();
+
+        /// <summary>
+        /// gets the amount of laps to display on the racer page
+        /// </summary>
+        /// <returns>int lapAmount</returns>
+        public int GetLapAmount() => _raceManagerService.LapAmount;
+
+        /// <summary>
+        /// stops the race and removes all racers from their cars and the racing page
+        /// </summary>
+        public async Task StopRaceAsync() => await _raceManagerService.EndRace();
+
+        /// <summary>
+        /// when an admin connects, put them in the admin group to be able to call them specifically
+        /// </summary>
+        public async Task PutAdminInGroupAsync() => await Groups.AddToGroupAsync(Context.ConnectionId, "admins");
+
+        /// <summary>
+        /// when a racer connects, put them in the racer group to be able to call them specifically
+        /// </summary>
+        public async Task PutRacerInGroupAsync() => await Groups.AddToGroupAsync(Context.ConnectionId, "racers");
+
     }
 }

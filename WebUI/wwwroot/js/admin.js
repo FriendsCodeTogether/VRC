@@ -24,21 +24,30 @@ async function prepareRaceButtonClicked() {
 
 }
 
-function startRaceButtonClicked() {
+async function startRaceButtonClicked() {
   startRaceButton.setAttribute("disabled", true);
   stopRaceButton.removeAttribute("disabled");
-
+  try {
+    await connection.invoke('StartRaceAsync');
+  } catch (e) {
+    console.error(e);
+  }
 }
 
-function stopRaceButtonClicked() {
+async function stopRaceButtonClicked() {
   stopRaceButton.setAttribute("disabled", true);
   prepareRaceButton.removeAttribute("disabled");
-
+  try {
+    await connection.invoke('StopRaceAsync');
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function start() {
   try {
     await connection.start();
+    await connection.invoke('PutAdminInGroupAsync');
     console.log('SignalR Connected.');
   } catch (err) {
     console.log(err);

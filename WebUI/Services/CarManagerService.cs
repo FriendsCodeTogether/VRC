@@ -11,39 +11,53 @@ namespace WebUI.Services
     {
         // Singleton
         public List<Car> Cars { get; set; } = new();
+        public object CarsLock { get; set; } = new();
 
-        public void ResetCartimes()
+        public void ResetCars()
         {
-            foreach (var car in Cars)
-            {
-                car.BestLap = TimeSpan.Zero;
-                car.EndTime = TimeSpan.Zero;
-                car.lapTimer.Dispose();
-            }
-        }
-
-        public void ConnectRacersToCar(IEnumerable<AnonymousUser> racers)
-        {
-            foreach (var racer in racers)
+            lock (CarsLock)
             {
                 foreach (var car in Cars)
                 {
-                    if (car.ConnectionId == null)
+                    Console.WriteLine(car.CarNumber);
+                    Console.WriteLine(car.UserId);
+
+                    car.UserId = null;
+                    car.BestLap = TimeSpan.Zero;
+                    car.EndTime = TimeSpan.Zero;
+                    car.lapTimer.Dispose();
+                }
+            }
+        }
+
+        public int ConnectRacerToCar(string userId)
+        {
+            lock (CarsLock)
+            {
+                foreach (var car in Cars)
+                {
+                    Console.WriteLine(car.CarNumber);
+                    Console.WriteLine(car.UserId);
+
+                    if (car.UserId == null)
                     {
-                        car.ConnectionId = racer.ConnectionId;
-                        break;
+                        car.UserId = userId;
+                        return car.CarNumber;
                     }
                 }
+                return -1;
             }
         }
 
         public void RemoveRacers()
         {
-            foreach (var car in Cars)
+            lock (CarsLock)
             {
-                car.ConnectionId = null;
+                foreach (var car in Cars)
+                {
+                    car.UserId = null;
+                }
             }
         }
-
     }
 }
