@@ -18,7 +18,7 @@ class HardwareController:
   _acceleration_sensor_value = 0
   _battery_percentage = 100
   car_number = 'None'
-  connection_status = 'Disconnected'
+  connection_status = 'Connecting'
 
   def __init__(self):
     print("Initializing devices...")
