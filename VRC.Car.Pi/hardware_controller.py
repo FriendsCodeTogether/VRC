@@ -17,8 +17,8 @@ class HardwareController:
   _acceleration_sensor = 0x53
   _acceleration_sensor_value = 0
   _battery_percentage = 100
-  car_number = 0
-  connection_status = 'disconnected'
+  car_number = 'None'
+  connection_status = 'Disconnected'
 
   def __init__(self):
     print("Initializing devices...")
@@ -35,7 +35,7 @@ class HardwareController:
     except:
       sys.exit("Problem connecting to display")
 
-    self.display_text('Testing I2C devices...')
+    self.display_text('Testing I2C devices')
     sleep(0.5)
 
     bytesToSend = bytearray([32])
@@ -56,7 +56,7 @@ class HardwareController:
       sys.exit("Problem connecting to atmega2")
 
     print("Testing I2C completed.")
-    self.display_text('Testing I2C completed.')
+    self.display_text('Testing I2C completed')
     sleep(0.5)
 
   def send_car_command(self, carCommand):

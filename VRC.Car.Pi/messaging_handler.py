@@ -29,26 +29,26 @@ class MessagingHandler:
     except:
       print('Failed to connect to API')
       self._hardwareController.display_text('Failed to connect')
-      self._hardwareController.connection_status = 'error'
+      self._hardwareController.connection_status = 'Error'
       sleep(0.5)
 
   def on_connect(self):
     print('Connected to API with ip \"{}\"'.format(self.get_ip_address()))
-    self._hardwareController.connection_status = 'connected'
+    self._hardwareController.connection_status = 'Connected'
     if not self._reconnect:
       self.request_car_number()
     else:
       self.reclaim_car_number()
 
   def on_close(self):
-    print("connection closed")
+    print("Connection closed")
     self.stop_car()
-    self._hardwareController.connection_status = 'disconnected'
+    self._hardwareController.connection_status = 'Disconnected'
 
   def on_disconnect(self):
     print("Connection lost")
     self.stop_car()
-    self._hardwareController.connection_status = 'disconnected'
+    self._hardwareController.connection_status = 'Disconnected'
     self._reconnect = True
     self.connect()
 
