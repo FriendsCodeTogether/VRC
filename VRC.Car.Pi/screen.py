@@ -19,4 +19,10 @@ display.pixel(127, 63, 1)
 display.show()
 
 while True:
+  for x in range(127):
+    for y in range(63):
+      display.pixel(x - 1, y - 1, 0)
+      display.pixel(x, y, 1)
+      display.show()
+      sleep(0.2)
   sleep(1)
