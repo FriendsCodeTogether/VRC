@@ -4,6 +4,7 @@ from time import sleep
 from ctypes import c_char
 import board
 import busio
+import adafruit_ssd1306
 import i2c_constants
 
 class HardwareController:
@@ -12,6 +13,12 @@ class HardwareController:
   _i2c = busio.I2C(board.SCL, board.SDA)
   _atmega1 = 0x20
   _atmega2 = 0x30
+  _display = adafruit_ssd1306.SSD1306_I2C(128, 64, _i2c, addr=0x3c)
+  _acceleration_sensor = 0x53
+  _acceleration_sensor_value = 0
+  _battery_percentage = 100
+  car_number = 'None'
+  connection_status = 'Connecting'
 
   def __init__(self):
     print("Initializing devices...")
@@ -19,12 +26,25 @@ class HardwareController:
 
   def test_i2c_devices(self):
     print("Testing I2C devices...")
+
+    try:
+      self._i2c_lock.acquire()
+      self._display.fill(0)
+      self._display.show()
+      self._i2c_lock.release()
+    except:
+      sys.exit("Problem connecting to display")
+
+    self.display_text('Testing I2C devices')
+    sleep(0.5)
+
     bytesToSend = bytearray([32])
     try:
       self._i2c_lock.acquire()
       self._i2c.writeto(self._atmega1, bytesToSend)
       self._i2c_lock.release()
     except:
+      self.display_text('Error: atmega1')
       sys.exit("Problem connecting to atmega1")
 
     try:
@@ -32,8 +52,12 @@ class HardwareController:
       # self._i2c.writeto(self._atmega2, bytesToSend)
       self._i2c_lock.release()
     except:
+      self.display_text('Error: atmega2')
       sys.exit("Problem connecting to atmega2")
+
     print("Testing I2C completed.")
+    self.display_text('Testing I2C completed')
+    sleep(0.5)
 
   def send_car_command(self, carCommand):
     bytesToSend = bytearray([i2c_constants.MOTOR, ord(carCommand["direction"]), ord(carCommand["throttle"])])
@@ -72,4 +96,26 @@ class HardwareController:
     bytesToSend = bytearray([i2c_constants.BUZZER, value])
     self._i2c_lock.acquire()
     self._i2c.writeto(self._atmega1, bytesToSend)
+    self._i2c_lock.release()
+
+  def clear_screen(self):
+    self._i2c_lock.acquire()
+    self._display.fill(0)
+    self._display.show()
+    self._i2c_lock.release()
+
+  def display_status(self):
+    self._i2c_lock.acquire()
+    self._display.fill(0)
+    self._display.text('Car number: {}'.format(self.car_number), 0, 0, 1)
+    self._display.text('API status: {}'.format(self.connection_status), 0, 20, 1)
+    self._display.text('Battery: {}%'.format(self._battery_percentage), 0, 30, 1)
+    self._display.show()
+    self._i2c_lock.release()
+
+  def display_text(self, text):
+    self._i2c_lock.acquire()
+    self._display.fill(0)
+    self._display.text(text, 0, 0, 1)
+    self._display.show()
     self._i2c_lock.release()

@@ -11,6 +11,7 @@ while True:
   print("Color Sensor: " + str(hardwareController.read_color_sensor()))
   print("Ultrasonic Sensor: " + str(hardwareController.read_ultrasonic_sensor()))
   print("Light Sensor: " + str(hardwareController.read_light_sensor()))
+  hardwareController.display_status()
   sleep(5)
   # hardwareController.set_buzzer(1)
   # sleep(1)
