@@ -44,7 +44,7 @@ class HardwareController:
       self._i2c.writeto(self._atmega1, bytesToSend)
       self._i2c_lock.release()
     except:
-      self.display_text('Problem connecting to atmega1')
+      self.display_text('Error: atmega1')
       sys.exit("Problem connecting to atmega1")
 
     try:
@@ -52,7 +52,7 @@ class HardwareController:
       self._i2c.writeto(self._atmega2, bytesToSend)
       self._i2c_lock.release()
     except:
-      self.display_text('Problem connecting to atmega2')
+      self.display_text('Error: atmega2')
       sys.exit("Problem connecting to atmega2")
 
     print("Testing I2C completed.")
