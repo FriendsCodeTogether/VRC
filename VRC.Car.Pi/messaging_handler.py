@@ -24,10 +24,12 @@ class MessagingHandler:
     try:
       self._hubConnection.start()
     except:
-      print('Failed to connect to API');
+      print('Failed to connect to API')
+      self._hardwareController.connection_status = 'error'
 
   def on_connect(self):
     print('Connected to API with ip \"{}\"'.format(self.get_ip_address()))
+    self._hardwareController.connection_status = 'connected'
     if not self._reconnect:
       self.request_car_number()
     else:
@@ -36,10 +38,12 @@ class MessagingHandler:
   def on_close(self):
     print("connection closed")
     self.stop_car()
+    self._hardwareController.connection_status = 'disconnected'
 
   def on_disconnect(self):
     print("Connection lost")
     self.stop_car()
+    self._hardwareController.connection_status = 'disconnected'
     self._reconnect = True
     self.connect()
 
@@ -59,6 +63,7 @@ class MessagingHandler:
     print('Received car number')
     print('Our new car number: {}'.format(carNumber[0]))
     self.carNumber = carNumber[0]
+    self._hardwareController.car_number = carNumber[0]
 
   def request_car_number(self):
     print('Requesting car number...')
