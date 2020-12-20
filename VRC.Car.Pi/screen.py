@@ -11,5 +11,8 @@ display.text('Hello', 0, 0, 1)
 display.text('World', 0, 10, 1)
 display.show()
 
+display.text('Hello', 0, 20, 1)
+display.show()
+
 while True:
   sleep(1)

@@ -4,6 +4,7 @@ from time import sleep
 from ctypes import c_char
 import board
 import busio
+import adafruit_ssd1306
 import i2c_constants
 
 class HardwareController:
@@ -12,6 +13,10 @@ class HardwareController:
   _i2c = busio.I2C(board.SCL, board.SDA)
   _atmega1 = 0x20
   _atmega2 = 0x30
+  _display = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c, addr=0x3c)
+  _acceleration_sensor = 0x53
+  _acceleration_sensor_value = 0
+  _battery_percentage = 100
 
   def __init__(self):
     print("Initializing devices...")
@@ -73,3 +78,14 @@ class HardwareController:
     self._i2c_lock.acquire()
     self._i2c.writeto(self._atmega1, bytesToSend)
     self._i2c_lock.release()
+
+  def clear_screen(self):
+    self._display.fill(0)
+    self._display.show()
+
+  def display_status(self):
+    self.clear_screen()
+    self._display.text('Status: {}'.format('connected'), 0, 0, 1)
+    self._display.text('Battery percentage: {}%'.format(self._battery_percentage), 0, 0, 1)
+    self._display.show()
+
