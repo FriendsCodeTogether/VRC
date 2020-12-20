@@ -13,7 +13,7 @@ class HardwareController:
   _i2c = busio.I2C(board.SCL, board.SDA)
   _atmega1 = 0x20
   _atmega2 = 0x30
-  _display = adafruit_ssd1306.SSD1306_I2C(128, 64, self._i2c, addr=0x3c)
+  _display = adafruit_ssd1306.SSD1306_I2C(128, 64, _i2c, addr=0x3c)
   _acceleration_sensor = 0x53
   _acceleration_sensor_value = 0
   _battery_percentage = 100
