@@ -1,3 +1,4 @@
+from time import sleep
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from hardware_controller import HardwareController
 import netifaces
@@ -21,11 +22,15 @@ class MessagingHandler:
 
   def connect(self):
     print('Connecting to API at \"{}\"...'.format(self._hubUrl))
+    self._hardwareController.display_text('Connecting to API')
+    sleep(0.3)
     try:
       self._hubConnection.start()
     except:
       print('Failed to connect to API')
+      self._hardwareController.display_text('Failed to connect to API')
       self._hardwareController.connection_status = 'error'
+      sleep(0.3)
 
   def on_connect(self):
     print('Connected to API with ip \"{}\"'.format(self.get_ip_address()))

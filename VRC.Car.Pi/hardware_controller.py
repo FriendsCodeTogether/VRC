@@ -26,12 +26,25 @@ class HardwareController:
 
   def test_i2c_devices(self):
     print("Testing I2C devices...")
+
+    try:
+      self._i2c_lock.acquire()
+      self._display.fill(0)
+      self._display.show()
+      self._i2c_lock.release()
+    except:
+      sys.exit("Problem connecting to display")
+
+    self.display_text('Testing I2C devices...')
+    sleep(0.3)
+
     bytesToSend = bytearray([32])
     try:
       self._i2c_lock.acquire()
       self._i2c.writeto(self._atmega1, bytesToSend)
       self._i2c_lock.release()
     except:
+      self.display_text('Problem connecting to atmega1')
       sys.exit("Problem connecting to atmega1")
 
     try:
@@ -39,8 +52,12 @@ class HardwareController:
       # self._i2c.writeto(self._atmega2, bytesToSend)
       self._i2c_lock.release()
     except:
+      self.display_text('Problem connecting to atmega2')
       sys.exit("Problem connecting to atmega2")
+
     print("Testing I2C completed.")
+    self.display_text('Testing I2C completed.')
+    sleep(0.3)
 
   def send_car_command(self, carCommand):
     bytesToSend = bytearray([i2c_constants.MOTOR, ord(carCommand["direction"]), ord(carCommand["throttle"])])
@@ -82,13 +99,23 @@ class HardwareController:
     self._i2c_lock.release()
 
   def clear_screen(self):
+    self._i2c_lock.acquire()
     self._display.fill(0)
     self._display.show()
+    self._i2c_lock.release()
 
   def display_status(self):
-    self.clear_screen()
+    self._i2c_lock.acquire()
+    self._display.fill(0)
     self._display.text('Car number: {}'.format(self.car_number), 0, 0, 1)
-    self._display.text('Status: {}'.format('connected'), 0, 20, 1)
+    self._display.text('Status: {}'.format(self.connection_status), 0, 20, 1)
     self._display.text('Battery percentage: {}%'.format(self._battery_percentage), 0, 30, 1)
     self._display.show()
+    self._i2c_lock.release()
 
+  def display_text(self, text):
+    self._i2c_lock.acquire()
+    self._display.fill(0)
+    self._display.text(text, 0, 0, 1)
+    self._display.show()
+    self._i2c_lock.release()
