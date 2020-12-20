@@ -11,5 +11,7 @@ display.show()
 
 display.pixel(0, 0, 1)
 
+display.show()
+
 while True:
   pass
