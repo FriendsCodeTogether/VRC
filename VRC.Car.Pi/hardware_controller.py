@@ -49,7 +49,7 @@ class HardwareController:
 
     try:
       self._i2c_lock.acquire()
-      # self._i2c.writeto(self._atmega2, bytesToSend)
+      self._i2c.writeto(self._atmega2, bytesToSend)
       self._i2c_lock.release()
     except:
       self.display_text('Problem connecting to atmega2')
