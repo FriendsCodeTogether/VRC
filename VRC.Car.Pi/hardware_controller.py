@@ -36,7 +36,7 @@ class HardwareController:
       sys.exit("Problem connecting to display")
 
     self.display_text('Testing I2C devices...')
-    sleep(0.3)
+    sleep(0.5)
 
     bytesToSend = bytearray([32])
     try:
@@ -57,7 +57,7 @@ class HardwareController:
 
     print("Testing I2C completed.")
     self.display_text('Testing I2C completed.')
-    sleep(0.3)
+    sleep(0.5)
 
   def send_car_command(self, carCommand):
     bytesToSend = bytearray([i2c_constants.MOTOR, ord(carCommand["direction"]), ord(carCommand["throttle"])])
@@ -108,8 +108,8 @@ class HardwareController:
     self._i2c_lock.acquire()
     self._display.fill(0)
     self._display.text('Car number: {}'.format(self.car_number), 0, 0, 1)
-    self._display.text('Status: {}'.format(self.connection_status), 0, 20, 1)
-    self._display.text('Battery percentage: {}%'.format(self._battery_percentage), 0, 30, 1)
+    self._display.text('API status: {}'.format(self.connection_status), 0, 20, 1)
+    self._display.text('Battery: {}%'.format(self._battery_percentage), 0, 30, 1)
     self._display.show()
     self._i2c_lock.release()
 
