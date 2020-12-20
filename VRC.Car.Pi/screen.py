@@ -9,3 +9,7 @@ display.fill(0)
 
 display.show()
 
+display.pixel(0, 0, 1)
+
+while True:
+  pass
