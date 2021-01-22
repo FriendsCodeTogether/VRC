@@ -4,7 +4,7 @@ from hardware_controller import HardwareController
 import netifaces
 
 class MessagingHandler:
-  _hubUrl = 'https://192.168.0.201:5001/racinghub'
+  _hubUrl = 'https://192.168.2.100:5001/racinghub'
   _hubConnection = HubConnectionBuilder()\
     .with_url(_hubUrl, options={"verify_ssl": False}) \
     .build()
